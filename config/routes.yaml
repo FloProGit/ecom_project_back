@@ -6,5 +6,16 @@ controllers:
 
 dashboard:
     path: /
-    # the controller value has the format 'controller_class::method_name'
     controller: App\Controller\DashboardController::index
+
+products_list:
+    path: /products
+    controller: App\Controller\ProductsController::index
+
+categories_list:
+     path: /categories
+     controller: App\Controller\CategoriesController::index
+
+product_edit:
+  path: /product-edit/{id}
+  controller: App\Controller\ProductEditController::index

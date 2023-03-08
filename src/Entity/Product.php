@@ -14,10 +14,15 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ext_id = null;
+
+
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -32,49 +37,49 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $value2 = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column( nullable: true)]
     private ?int $brand = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $feature = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $price = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $pvp_bigbuy = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $pvd = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $iva = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $video = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $ean13 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $width = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $height = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $depth = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $stock = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column(length: 500, nullable: true)]
@@ -101,15 +106,33 @@ class Product
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image8 = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $condition = null;
 
-    #[ORM\Column]
+    #[ORM\Column( nullable: true)]
     private ?int $intrastat = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getExtId(): ?string
+    {
+        return $this->ext_id;
+    }
+
+    /**
+     * @param string|null $ext_id
+     */
+    public function setExtId(?string $ext_id): self
+    {
+        $this->ext_id = $ext_id;
+
+        return $this;
     }
 
     public function getCategory(): ?string

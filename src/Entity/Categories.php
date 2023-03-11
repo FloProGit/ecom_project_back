@@ -28,28 +28,28 @@ class Categories
     #[ORM\Column]
     private ?int $root_category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $meta_title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $meta_keywords = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $meta_description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $url_rewritten = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $image_url = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
     public function getId(): ?int

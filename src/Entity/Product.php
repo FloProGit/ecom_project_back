@@ -14,15 +14,15 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $ext_id = null;
 
 
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $category = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -40,43 +40,43 @@ class Product
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column( nullable: true)]
+    #[ORM\Column]
     private ?int $brand = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $feature = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?float $pvp_bigbuy = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?float $pvd = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $iva = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $video = null;
 
-    #[ORM\Column(length: 255,nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $ean13 = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?float $width = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?float $height = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?float $depth = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
@@ -106,10 +106,10 @@ class Product
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $image8 = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $condition = null;
+    #[ORM\Column(length: 255)]
+    private ?string $condition_state = null;
 
-    #[ORM\Column( nullable: true)]
+    #[ORM\Column]
     private ?int $intrastat = null;
 
     public function getId(): ?int
@@ -483,14 +483,14 @@ class Product
         return $this;
     }
 
-    public function getCondition(): ?string
+    public function getConditionState(): ?string
     {
-        return $this->condition;
+        return $this->condition_state;
     }
 
-    public function setCondition(string $condition): self
+    public function setConditionState(string $condition_state): self
     {
-        $this->condition = $condition;
+        $this->condition_state = $condition_state;
 
         return $this;
     }

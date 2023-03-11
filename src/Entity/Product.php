@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -103,6 +105,17 @@ class Product
 
     #[ORM\Column]
     private ?int $intrastat = null;
+
+    #[ORM\ManyToMany(targetEntity: category::class, inversedBy: 'Products')]
+    private Collection $categories;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?conditionproduct $condition_product_id = null;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -465,6 +478,42 @@ class Product
     public function setIntrastat(int $intrastat): self
     {
         $this->intrastat = $intrastat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(category $category): self
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getConditionProductId(): ?conditionproduct
+    {
+        return $this->condition_product_id;
+    }
+
+    public function setConditionProductId(?conditionproduct $condition_product_id): self
+    {
+        $this->condition_product_id = $condition_product_id;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -52,6 +54,14 @@ class Category
 
     #[ORM\Column]
     private ?int $code = null;
+
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'categories')]
+    private Collection $Products;
+
+    public function __construct()
+    {
+        $this->Products = new ArrayCollection();
+    }
 
 
 
@@ -212,6 +222,33 @@ class Category
     public function setCode(int $code): self
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getCategoriesId(): Collection
+    {
+        return $this->Products;
+    }
+
+    public function addCategoriesId(Product $categoriesId): self
+    {
+        if (!$this->Products->contains($categoriesId)) {
+            $this->Products->add($categoriesId);
+            $categoriesId->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategoriesId(Product $categoriesId): self
+    {
+        if ($this->Products->removeElement($categoriesId)) {
+            $categoriesId->removeCategory($this);
+        }
 
         return $this;
     }

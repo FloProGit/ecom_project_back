@@ -59,7 +59,7 @@ class Product
     private ?string $video = null;
 
     #[ORM\Column]
-    private ?int $earn13 = null;
+    private ?int $ean13 = null;
 
     #[ORM\Column]
     private ?float $width = null;
@@ -106,11 +106,14 @@ class Product
     #[ORM\Column]
     private ?int $intrastat = null;
 
-    #[ORM\ManyToMany(targetEntity: category::class, inversedBy: 'Products')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'Products')]
     private Collection $categories;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    private ?conditionproduct $condition_product_id = null;
+    private ?ConditionProduct $condition_product_id = null;
+
+    #[ORM\Column]
+    private ?int $stock = null;
 
     public function __construct()
     {
@@ -290,14 +293,14 @@ class Product
         return $this;
     }
 
-    public function getEarn13(): ?int
+    public function getEan13(): ?int
     {
-        return $this->earn13;
+        return $this->ean13;
     }
 
-    public function setEarn13(int $earn13): self
+    public function setEan13(int $ean13): self
     {
-        $this->earn13 = $earn13;
+        $this->ean13 = $ean13;
 
         return $this;
     }
@@ -483,25 +486,25 @@ class Product
     }
 
     /**
-     * @return Collection<int, category>
+     * @return Collection<int, Category>
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategory(category $category): self
+    public function addCategory(Category $Category): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
+        if (!$this->categories->contains($Category)) {
+            $this->categories->add($Category);
         }
 
         return $this;
     }
 
-    public function removeCategory(category $category): self
+    public function removeCategory(Category $Category): self
     {
-        $this->categories->removeElement($category);
+        $this->categories->removeElement($Category);
 
         return $this;
     }
@@ -514,6 +517,18 @@ class Product
     public function setConditionProductId(?conditionproduct $condition_product_id): self
     {
         $this->condition_product_id = $condition_product_id;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }

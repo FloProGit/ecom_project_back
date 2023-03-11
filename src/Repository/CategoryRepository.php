@@ -39,6 +39,37 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function getIdByCode(string $code): int
+    {
+       $Intcode = intval($code);
+
+        return $this->createQueryBuilder('c')
+                ->where('c.code = :val')
+                ->setParameter('val',$Intcode)
+                ->getQuery()
+                ->getOneOrNullResult()
+                ->getId();
+
+    }
+
+    public function getArrayIdByArrayCode(array $arrayCode): array
+    {
+        $arrayIntcode = [];
+        foreach ($arrayCode as $code)
+        {
+            $arrayIntcode[]= intval($code);
+        }
+
+
+        return $this->createQueryBuilder('c')
+            ->where('c.code IN(:array)')
+            ->setParameter('array',$arrayIntcode)
+            ->getQuery()
+            ->getResult()
+            ;
+
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */

@@ -58,6 +58,9 @@ class Category
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'categories')]
     private Collection $Products;
 
+    #[ORM\Column(length: 255)]
+    private ?string $url_rewritten = null;
+
     public function __construct()
     {
         $this->Products = new ArrayCollection();
@@ -249,6 +252,18 @@ class Category
         if ($this->Products->removeElement($categoriesId)) {
             $categoriesId->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getUrlRewritten(): ?string
+    {
+        return $this->url_rewritten;
+    }
+
+    public function setUrlRewritten(string $url_rewritten): self
+    {
+        $this->url_rewritten = $url_rewritten;
 
         return $this;
     }

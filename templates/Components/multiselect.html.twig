@@ -1,14 +1,15 @@
-<div x-data="dropdown">
-    <div class="relative" x-init="initValues({{ array }})" >
-        <button type="button" @click="toggle" class="bg-white rounded ring-inset ring-gray-300 ring-1 w-full">
+<div x-data="dropdown" x-init="initValues({{ array }})" >
+    <div class="relative"  >
+        <button type="button" @click="toggle"  class="bg-white rounded ring-inset ring-gray-300 ring-1 w-full">
             patate
         </button>
-        <ul x-cloak x-show="open"
+        <ul  x-show="open" x-ref="ulSelected"
             class="absolute bg-white rounded ring-inset ring-gray-300 ring-1 w-full overflow-auto max-h-60 ">
-            <template x-for="value in values">
-                <li class="cursor-default hover:bg-blue-300">
+            <input type="text"  x-model="textValue"  >
+            <template x-for="(value,index) in getKeyDown({{ array }},$refs.ulSelected)" :key="index">
+                <li  class="cursor-default hover:bg-blue-300">
                     <button>
-                        <span><span x-text="value"></span> </span>
+                        <span><span x-text="value"></span></span>
                     </button>
                 </li>
             </template>

@@ -69,6 +69,17 @@ class CategoryRepository extends ServiceEntityRepository
             ;
 
     }
+    public function getAllNameArray(): array
+    {
+        $resultCategoryRequest = $this->findAll();
+        $arrayName =[];
+        foreach ($resultCategoryRequest as $category)
+        {
+            $arrayName[$category->getCode()]= $category->getName();
+        }
+
+        return $arrayName;
+    }
 
 //    /**
 //     * @return Category[] Returns an array of Category objects

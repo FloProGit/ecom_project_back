@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\CurrentCondition;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -111,6 +112,7 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?ConditionProduct $condition_product_id = null;
+    private ?CurrentCondition $Current_condition = null;
 
     #[ORM\Column]
     private ?int $stock = null;
@@ -520,7 +522,12 @@ class Product
 
         return $this;
     }
-
+    public function getCurrentConditionEnum():string
+    {
+        $condition = $this->condition_product_id->getCurrentCondition();
+        $condition =  CurrentCondition::from($condition);
+        return $condition->value;
+    }
     public function getStock(): ?int
     {
         return $this->stock;

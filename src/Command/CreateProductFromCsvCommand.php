@@ -158,6 +158,25 @@ class CreateProductFromCsvCommand extends Command
                     }
                 }
             }
+            else
+            {
+                $product = $this->productRepository->findOneBy([
+                    'ext_id' => $row['ID']
+                ]);
+
+                $arrayStrCategory = explode(",", $row['CATEGORY']);
+                $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
+                foreach ($arrayCategory as $category) {
+
+                    $product->addCategory($category);
+                }
+
+
+                $Condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);
+                $product->setConditionProductId($Condition);
+
+                $this->entityManager->persist($product);
+            }
         }
         try {
             $this->entityManager->flush();

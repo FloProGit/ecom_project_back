@@ -1,7 +1,7 @@
-<div x-data="dropdown" x-init="initValues({{ array }})" >
+<div x-data="dropdown" x-init="$nextTick(()=>initValues({{ array }}))" >
     <div class="relative"  >
         <button type="button" @click="toggle"  class="bg-white rounded ring-inset ring-gray-300 ring-1 w-full">
-            patate
+            bouton
         </button>
         <ul  x-show="open" x-ref="ulSelected"
             class="absolute bg-white rounded ring-inset ring-gray-300 ring-1 w-full overflow-auto max-h-60 ">
@@ -15,6 +15,5 @@
             </template>
         </ul>
     </div>
-
 </div>
 

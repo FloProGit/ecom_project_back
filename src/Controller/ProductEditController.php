@@ -22,10 +22,19 @@ class ProductEditController extends AbstractController
     public function index() : response
     {
         $resultCategoryRequest =$this->categoryRepository->getAllNameArray();
+        $haystack=[2570,2580];
+        $returnedArray = [];
+        foreach ($resultCategoryRequest as $key=>$value)
+        {
+            $returnedArray[$key] = ['label'=>$value,'selected'=>in_array($key,$haystack)];
+        }
+//        dd($returnedArray);
 
-//        dd($resultCategoryRequest);
-
-        return $this->render('Pages/Product/product_edit.html.twig',['arrayTest'=> json_encode($resultCategoryRequest)]);
+        return $this->render('Pages/Product/product_edit.html.twig',
+            [
+                'arrayTest'=> json_encode($returnedArray),
+                'selectedValues' => json_encode([2570,2580])
+            ]);
     }
 }
 //{

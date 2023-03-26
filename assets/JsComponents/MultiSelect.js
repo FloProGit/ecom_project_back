@@ -6,7 +6,9 @@ document.addEventListener('alpine:init', () => {
         textValue: "",
         values:[],
         valuesFiltered:[],
-        initValues(data){
+        Selected: [],
+        initValues(data,selectedValues){
+            this.Selected = selectedValues
           this.values = data;
         },
         toggle(e) {
@@ -15,19 +17,18 @@ document.addEventListener('alpine:init', () => {
                 this.open = ! this.open
             }
         },
-        clear(el)
+        remove(e)
         {
-            console.log(el)
+          console.log(e)
         },
-        getKeyDown( )
+        OnClickDropDown( )
         {
             this.valuesFiltered = [];
 
             if(this.values !== "" && this.textValue.length >2)
             {
                 this.valuesFiltered =[];
-                this.valuesFiltered = Object.fromEntries(Object.entries(this.values).filter(([key,value]) => value.toLowerCase().includes(this.textValue)));
-                console.log(this.valuesFiltered);
+                this.valuesFiltered = Object.fromEntries(Object.entries(this.values).filter(([key,value]) => value['label'].toLowerCase().includes(this.textValue)));
                 return JSON.parse(JSON.stringify(this.valuesFiltered));
             }
             else{
@@ -35,8 +36,32 @@ document.addEventListener('alpine:init', () => {
                 return JSON.parse(JSON.stringify(this.values));
             }
 
-        }
+        },
+        DrawSelected(){
+            let valuesFiltered = [];
+            valuesFiltered = this.Selected.map((value) => ({ id : value , value : this.values[value].label}));
+            return valuesFiltered;
+        },
+        removeFromSelect(code)
+        {
+            this.values[code]['selected'] = false;
+            this.Selected = this.Selected.filter((value) => (value !== code))
+        },
+        switchSelected(code)
+        {
+            let intCode = parseInt(code);
+            if(this.Selected.includes(intCode))
+            {
+                this.removeFromSelect(intCode);
+            }
+            else
+            {
+                this.values[code]['selected'] = true;
+                this.Selected.push(intCode);
+            }
+            console.log(this.Selected)
 
+        }
 
     }))
 })

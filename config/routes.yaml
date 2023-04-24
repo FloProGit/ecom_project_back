@@ -5,17 +5,34 @@ controllers:
     type: attribute
 
 dashboard:
-    path: /
+    path: /admin
     controller: App\Controller\DashboardController::index
 
 products_list:
-    path: /products
+    path: /admin/products
     controller: App\Controller\ProductsController::index
 
 categories_list:
-     path: /categories
+     path: /admin/categories
      controller: App\Controller\CategoriesController::index
 
 product_edit:
-  path: /product-edit/{id}
+  path: /admin/product-edit/{id}
   controller: App\Controller\ProductEditController::index
+
+default:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+  defaults:
+    path: /admin
+    permanent: true
+
+app_login:
+  path: /login
+  controller: App\Controller\Auth\LoginController::index
+
+app_logout:
+  path: /logout
+  controller: App\Controller\Auth\LogoutController::logout
+
+

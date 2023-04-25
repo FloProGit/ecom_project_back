@@ -18,12 +18,12 @@ class ConditionProduct
     #[ORM\Column(length: 255)]
     private ?string $current_condition = null;
 
-    #[ORM\OneToMany(mappedBy: 'condition_product_id', targetEntity: Product::class)]
-    private Collection $products;
+    #[ORM\OneToMany(mappedBy: 'condition_product', targetEntity: ProductVariation::class)]
+    private Collection $productVariations;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->productVariations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,27 +46,33 @@ class ConditionProduct
     /**
      * @return Collection<int, Product>
      */
-    public function getProducts(): Collection
+
+
+
+    /**
+     * @return Collection<int, ProductVariation>
+     */
+    public function getProductVariations(): Collection
     {
-        return $this->products;
+        return $this->productVariations;
     }
 
-    public function addProduct(Product $product): self
+    public function addProductVariation(ProductVariation $productVariation): self
     {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-            $product->setConditionProductId($this);
+        if (!$this->productVariations->contains($productVariation)) {
+            $this->productVariations->add($productVariation);
+            $productVariation->setConditionProductId($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $product): self
+    public function removeProductVariation(ProductVariation $productVariation): self
     {
-        if ($this->products->removeElement($product)) {
+        if ($this->productVariations->removeElement($productVariation)) {
             // set the owning side to null (unless already changed)
-            if ($product->getConditionProductId() === $this) {
-                $product->setConditionProductId(null);
+            if ($productVariation->getConditionProductId() === $this) {
+                $productVariation->setConditionProductId(null);
             }
         }
 

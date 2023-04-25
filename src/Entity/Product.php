@@ -45,11 +45,23 @@ class Product
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'Products')]
     private Collection $categories;
 
-    #[ORM\OneToMany(mappedBy: 'product_id', targetEntity: ProductVariation::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductVariation::class)]
     private Collection $productVariations;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    private ?TaxRule $tax_rule_id = null;
+    private ?TaxRule $tax_rule = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ext_reference = null;
+
+    #[ORM\Column]
+    private ?bool $has_variation = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $short_description = null;
 
 
 
@@ -217,12 +229,60 @@ class Product
 
     public function getTaxRuleId(): ?TaxRule
     {
-        return $this->tax_rule_id;
+        return $this->tax_rule;
     }
 
-    public function setTaxRuleId(?TaxRule $tax_rule_id): self
+    public function setTaxRuleId(?TaxRule $tax_rule): self
     {
-        $this->tax_rule_id = $tax_rule_id;
+        $this->tax_rule = $tax_rule;
+
+        return $this;
+    }
+
+    public function getExtReference(): ?string
+    {
+        return $this->ext_reference;
+    }
+
+    public function setExtReference(string $ext_reference): self
+    {
+        $this->ext_reference = $ext_reference;
+
+        return $this;
+    }
+
+    public function isHasVariation(): ?bool
+    {
+        return $this->has_variation;
+    }
+
+    public function setHasVariation(bool $has_variation): self
+    {
+        $this->has_variation = $has_variation;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->short_description;
+    }
+
+    public function setShortDescription(string $short_description): self
+    {
+        $this->short_description = $short_description;
 
         return $this;
     }

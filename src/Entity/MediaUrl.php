@@ -29,7 +29,7 @@ class MediaUrl
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'mediaUrls')]
-    private ?ProductVariation $product_variation_id = null;
+    private ?ProductVariation $product_variation = null;
 
     public function getId(): ?int
     {
@@ -98,12 +98,12 @@ class MediaUrl
 
     public function getProductVariationId(): ?ProductVariation
     {
-        return $this->product_variation_id;
+        return $this->product_variation;
     }
 
-    public function setProductVariationId(?ProductVariation $product_variation_id): self
+    public function setProductVariationId(?ProductVariation $product_variation): self
     {
-        $this->product_variation_id = $product_variation_id;
+        $this->product_variation = $product_variation;
 
         return $this;
     }

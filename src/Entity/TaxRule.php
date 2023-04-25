@@ -27,7 +27,7 @@ class TaxRule
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'tax_rule_id', targetEntity: Product::class)]
+    #[ORM\OneToMany(mappedBy: 'tax_rule', targetEntity: Product::class)]
     private Collection $products;
 
     public function __construct()

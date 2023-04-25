@@ -25,8 +25,7 @@ class Attribute
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?productvariation $product_variation_id = null;
+
 
     public function getId(): ?int
     {
@@ -81,15 +80,5 @@ class Attribute
         return $this;
     }
 
-    public function getProductVariationId(): ?productvariation
-    {
-        return $this->product_variation_id;
-    }
 
-    public function setProductVariationId(?productvariation $product_variation_id): self
-    {
-        $this->product_variation_id = $product_variation_id;
-
-        return $this;
-    }
 }

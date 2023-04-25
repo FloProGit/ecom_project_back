@@ -34,8 +34,7 @@ class ProductVariation
     #[ORM\Column]
     private ?bool $on_sale = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+
 
     #[ORM\Column]
     private ?float $price_tax_exclude = null;
@@ -45,16 +44,34 @@ class ProductVariation
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?product $product_id = null;
+    private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
-    private ?manufacter $manufacter_id = null;
+    private ?Manufacter$manufacter = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?discount $discount_id = null;
+    private ?Discount $discount = null;
 
-    #[ORM\OneToMany(mappedBy: 'product_variation_id', targetEntity: MediaUrl::class)]
+    #[ORM\OneToMany(mappedBy: 'product_variation', targetEntity: MediaUrl::class)]
     private Collection $mediaUrls;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ext_reference = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    private ?ConditionProduct $condition_product = null;
+
+    #[ORM\Column]
+    private ?bool $is_main = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Attribute $attribute = null;
 
     public function __construct()
     {
@@ -138,17 +155,6 @@ class ProductVariation
         return $this;
     }
 
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
 
     public function getPriceTaxExclude(): ?float
     {
@@ -176,36 +182,36 @@ class ProductVariation
 
     public function getProductId(): ?product
     {
-        return $this->product_id;
+        return $this->product;
     }
 
-    public function setProductId(?product $product_id): self
+    public function setProductId(?product $product): self
     {
-        $this->product_id = $product_id;
+        $this->product = $product;
 
         return $this;
     }
 
-    public function getManufacterId(): ?manufacter
+    public function getManufacterId(): ?Manufacter
     {
-        return $this->manufacter_id;
+        return $this->manufacter;
     }
 
-    public function setManufacterId(?manufacter $manufacter_id): self
+    public function setManufacterId(?Manufacter$manufacter): self
     {
-        $this->manufacter_id = $manufacter_id;
+        $this->manufacter = $manufacter;
 
         return $this;
     }
 
-    public function getDiscountId(): ?discount
+    public function getDiscountId(): ?Discount
     {
-        return $this->discount_id;
+        return $this->discount;
     }
 
-    public function setDiscountId(?discount $discount_id): self
+    public function setDiscountId(?Discount $discount): self
     {
-        $this->discount_id = $discount_id;
+        $this->discount = $discount;
 
         return $this;
     }
@@ -236,6 +242,78 @@ class ProductVariation
                 $mediaUrl->setProductVariationId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExtReference(): ?string
+    {
+        return $this->ext_reference;
+    }
+
+    public function setExtReference(string $ext_reference): self
+    {
+        $this->ext_reference = $ext_reference;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getConditionProductId(): ?ConditionProduct
+    {
+        return $this->condition_product;
+    }
+
+    public function setConditionProductId(?ConditionProduct $condition_product): self
+    {
+        $this->condition_product = $condition_product;
+
+        return $this;
+    }
+
+    public function isIsMain(): ?bool
+    {
+        return $this->is_main;
+    }
+
+    public function setIsMain(bool $is_main): self
+    {
+        $this->is_main = $is_main;
+
+        return $this;
+    }
+
+    public function getAttribute(): ?Attribute
+    {
+        return $this->attribute;
+    }
+
+    public function setAttribute(?Attribute $attribute): self
+    {
+        $this->attribute = $attribute;
 
         return $this;
     }

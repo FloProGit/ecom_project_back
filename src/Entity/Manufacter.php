@@ -18,11 +18,14 @@ class Manufacter
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'manufacter_id', targetEntity: Product::class)]
+    #[ORM\OneToMany(mappedBy: 'manufacter', targetEntity: Product::class)]
     private Collection $products;
 
-    #[ORM\OneToMany(mappedBy: 'manufacter_id', targetEntity: ProductVariation::class)]
+    #[ORM\OneToMany(mappedBy: 'manufacter', targetEntity: ProductVariation::class)]
     private Collection $productVariations;
+
+    #[ORM\Column]
+    private ?int $ext_id = null;
 
     public function __construct()
     {
@@ -105,6 +108,18 @@ class Manufacter
                 $productVariation->setManufacterId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExtId(): ?int
+    {
+        return $this->ext_id;
+    }
+
+    public function setExtId(int $ext_id): self
+    {
+        $this->ext_id = $ext_id;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductVariationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,6 +42,24 @@ class ProductVariation
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?product $product_id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    private ?manufacter $manufacter_id = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?discount $discount_id = null;
+
+    #[ORM\OneToMany(mappedBy: 'product_variation_id', targetEntity: MediaUrl::class)]
+    private Collection $mediaUrls;
+
+    public function __construct()
+    {
+        $this->mediaUrls = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +170,72 @@ class ProductVariation
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getProductId(): ?product
+    {
+        return $this->product_id;
+    }
+
+    public function setProductId(?product $product_id): self
+    {
+        $this->product_id = $product_id;
+
+        return $this;
+    }
+
+    public function getManufacterId(): ?manufacter
+    {
+        return $this->manufacter_id;
+    }
+
+    public function setManufacterId(?manufacter $manufacter_id): self
+    {
+        $this->manufacter_id = $manufacter_id;
+
+        return $this;
+    }
+
+    public function getDiscountId(): ?discount
+    {
+        return $this->discount_id;
+    }
+
+    public function setDiscountId(?discount $discount_id): self
+    {
+        $this->discount_id = $discount_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MediaUrl>
+     */
+    public function getMediaUrls(): Collection
+    {
+        return $this->mediaUrls;
+    }
+
+    public function addMediaUrl(MediaUrl $mediaUrl): self
+    {
+        if (!$this->mediaUrls->contains($mediaUrl)) {
+            $this->mediaUrls->add($mediaUrl);
+            $mediaUrl->setProductVariationId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaUrl(MediaUrl $mediaUrl): self
+    {
+        if ($this->mediaUrls->removeElement($mediaUrl)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaUrl->getProductVariationId() === $this) {
+                $mediaUrl->setProductVariationId(null);
+            }
+        }
 
         return $this;
     }

@@ -56,7 +56,7 @@ class PopulatePimCommandAndFixture extends Command
         $this->io->section('Start Fixtures');
         $this->executeFixtures($output);
         $this->executeAddCategory($output);
-        $this->executeAddProduct($output);
+//        $this->executeAddProduct($output);
         return Command::SUCCESS;
     }
 

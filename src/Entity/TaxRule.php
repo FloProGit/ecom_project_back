@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TaxRuleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaxRuleRepository::class)]
@@ -24,6 +26,14 @@ class TaxRule
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\OneToMany(mappedBy: 'tax_rule_id', targetEntity: Product::class)]
+    private Collection $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +84,36 @@ class TaxRule
     public function setUpdatedAt(\DateTimeImmutable $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setTaxRuleId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getTaxRuleId() === $this) {
+                $product->setTaxRuleId(null);
+            }
+        }
 
         return $this;
     }

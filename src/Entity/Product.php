@@ -45,9 +45,18 @@ class Product
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'Products')]
     private Collection $categories;
 
+    #[ORM\OneToMany(mappedBy: 'product_id', targetEntity: ProductVariation::class)]
+    private Collection $productVariations;
+
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    private ?TaxRule $tax_rule_id = null;
+
+
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->productVariations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +184,50 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ProductVariation>
+     */
+    public function getProductVariations(): Collection
+    {
+        return $this->productVariations;
+    }
+
+    public function addProductVariation(ProductVariation $productVariation): self
+    {
+        if (!$this->productVariations->contains($productVariation)) {
+            $this->productVariations->add($productVariation);
+            $productVariation->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductVariation(ProductVariation $productVariation): self
+    {
+        if ($this->productVariations->removeElement($productVariation)) {
+            // set the owning side to null (unless already changed)
+            if ($productVariation->getProductId() === $this) {
+                $productVariation->setProductId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTaxRuleId(): ?TaxRule
+    {
+        return $this->tax_rule_id;
+    }
+
+    public function setTaxRuleId(?TaxRule $tax_rule_id): self
+    {
+        $this->tax_rule_id = $tax_rule_id;
+
+        return $this;
+    }
+
+
 
 
 }

@@ -39,6 +39,22 @@ class ProductVariationRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function getVariationForListFromProductID(int $id)
+    {
+        $dql = 'SELECT 
+        pv.ext_reference ,
+        pv.id ,
+        pv.quantity ,
+        p.id as product_id
+         FROM App\Entity\Product p
+         JOIN App\Entity\ProductVariation pv WITH  pv.product = p.id  
+         WHERE p.id = :p_id';
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter("p_id",$id);
+//        dd($query->execute());
+        return  $query->execute();
+    }
 //    /**
 //     * @return ProductVariation[] Returns an array of ProductVariation objects
 //     */

@@ -52,13 +52,14 @@ class ProductRepository extends ServiceEntityRepository
          JOIN pv.product p 
          JOIN App\Entity\Manufacter man WITH pv.manufacter = man.id
          JOIN App\Entity\ConditionProduct cp WITH pv.condition_product = cp.id 
-         WHERE pv.is_main = true AND med.is_main = true ';
+         WHERE pv.is_main = true AND med.is_main = true';
         $query = $this->getEntityManager()->createQuery($dql);
 //        dd($query->execute());
         return  $query->execute();
 
 
     }
+
 
 //    public function findOneBySomeField($value): ?Product
 //    {

@@ -9,10 +9,8 @@ use App\Entity\MediaUrl;
 use App\Entity\Manufacter;
 use App\Entity\ProductVariation;
 use App\Repository\ProductRepository;
-use App\Repository\CategoryRepository;
-use App\Repository\ManufacterRepository;
-use App\Repository\ProductVariationRepository;
-use DateTimeImmutable;
+use App\Services\Factory\ProductFactory;
+use App\Services\Normalizer\Product\ProductNormaliserFromPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -107,72 +105,45 @@ class PrestashopCSVToProduct extends Command
                 ]);
                 if (!$product) {
                     try {
-                        $product = new Product();
-                        $productVariation = new ProductVariation();
-                        $product->setExtId($row["﻿ID"]);
 
+                        //Replace string categories in Row Categories/Entities
                         $arrayStrCategory = explode(",", $row['CATEGORIES']);
                         $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
+                        $newArrayCategories = [];
                         foreach ($arrayCategory as $category) {
-
-                            $product->addCategory($category);
+                            $newArrayCategories[] = $category;
                         }
+                        $row['CATEGORIES'] = $newArrayCategories;
 
-                        $product->setWidth(floatval($row['WIDTH']));
-                        $product->setExtReference(floatval($row['bb_REFERENCE']));
-                        $product->setName($row['NAME']);
-                        $product->setHeight(floatval($row['HEIGHT']));
-                        $product->setDepth(floatval($row['DEPTH']));
-                        $product->setWeight(floatval($row['WEIGHT']));
-                        $product->setCreatedAt(new \DateTimeImmutable('now'));
-                        $product->setUpdatedAt(new \DateTimeImmutable('now'));
-                        $product->setExtReference($row['bb_REFERENCE']);
-                        $product->setDescription($row['DESCRIPTION']);
-                        $product->setShortDescription($row['SHORT_DESCRIPTION']);
+                        //IS_MAIN for firstProductVariant
+                        $row['IS_MAIN'] = true;
 
-                        $product->setHasVariation(false);
-
-                        $productVariation->setExtId($row["﻿ID"]);
-                        $productVariation->setName($row['NAME']);
-                        $productVariation->setQuantity($row['QUANTITY']);
-                        $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
-                        $productVariation->setEan13($row['EAN13']);
-                        $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
-                        $productVariation->setPriceTaxExclude($row['PRICE_TAX_EXCLUDE']);
-                        $productVariation->setOnSale(false);
-                        $productVariation->setWholesalePrice($row['WHOLESALE_PRICE']);
-                        $productVariation->setCreatedAt(new \DateTimeImmutable('now'));
-                        $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
-                        $Condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);
-                        $productVariation->setConditionProductId($Condition);
-                        $productVariation->setExtReference($row['bb_REFERENCE']);
-                        $productVariation->setIsMain(true);
-
+                        $newArrayUrls = [];
                         $imgs = explode(",", $row['IMAGES_URL']);
 
                         $is_main = true;
                         foreach ($imgs as $img) {
-                            if($img != "")
-                            {
+                            if ($img != "") {
+                                $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
 
-                            $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
-                            $newImage = new MediaUrl();
+                                $newImage = new MediaUrl();
+                                $newImage->setMimeType("image/" . $fileExtention);
+                                $newImage->setName("no definition");
+                                $newImage->setUrlLink($img);
+                                $newImage->setCreatedAt(new \DateTimeImmutable('now'));
+                                $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
+                                $newImage->setIsMain($is_main);
 
-                            $newImage->setMimeType("image/".$fileExtention);
-                            $newImage->setName("no definition");
-                            $newImage->setUrlLink($img);
-                            $newImage->setCreatedAt(new \DateTimeImmutable('now'));
-                            $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
-                            $newImage->setIsMain($is_main);
-                            if($is_main)
-                            {
-                                $is_main = false;
-                            }
-                            $productVariation->addMediaUrl($newImage);
-                            $this->entityManager->persist($newImage);
+                                if ($is_main) {
+                                    $is_main = false;
+                                }
+                                $newArrayUrls[] = $newImage;
+                                $this->entityManager->persist($newImage);
                             }
 
                         }
+                        $row['IMAGES_URL'] = $newArrayUrls;
+
 
                         $manufacter = $this->entityManager->getRepository(Manufacter::class)->findOneBy([
                             'ext_id' => intval($row['MANUFACTER'])
@@ -183,12 +154,53 @@ class PrestashopCSVToProduct extends Command
                             $manufacter->setName($this->generateRandomString(10));
                             $this->entityManager->persist($manufacter);
                         }
+                        $row['MANUFACTER'] = $manufacter;
+                        //Create product/entity from prestashop
+                        $product = (new ProductFactory($this->entityManager))->buildProduct(new ProductNormaliserFromPrestaShop($row));
+                        $this->entityManager->persist($product);
+
+//                        $productVariation = new ProductVariation();
 
 
-                        $productVariation->setManufacterId($manufacter);
-                        $this->entityManager->persist($productVariation);
 
-                        $product->addProductVariation($productVariation);
+//                        //Build product
+//                        $product->setWidth(floatval($row['WIDTH']));
+//                        $product->setExtReference(floatval($row['bb_REFERENCE']));
+//                        $product->setName($row['NAME']);
+//                        $product->setHeight(floatval($row['HEIGHT']));
+//                        $product->setDepth(floatval($row['DEPTH']));
+//                        $product->setWeight(floatval($row['WEIGHT']));
+//                        $product->setCreatedAt(new \DateTimeImmutable('now'));
+//                        $product->setUpdatedAt(new \DateTimeImmutable('now'));
+//                        $product->setExtReference($row['bb_REFERENCE']);
+//                        $product->setDescription($row['DESCRIPTION']);
+//                        $product->setShortDescription($row['SHORT_DESCRIPTION']);
+//
+//                        $product->setHasVariation(false);
+//
+//                        // Build product variation
+//                        $productVariation->setExtId($row["﻿ID"]);
+//                        $productVariation->setName($row['NAME']);
+//                        $productVariation->setQuantity($row['QUANTITY']);
+//                        $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
+//                        $productVariation->setEan13($row['EAN13']);
+//                        $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
+//                        $productVariation->setPriceTaxExclude($row['PRICE_TAX_EXCLUDE']);
+//                        $productVariation->setOnSale(false);
+//                        $productVariation->setWholesalePrice($row['WHOLESALE_PRICE']);
+//                        $productVariation->setCreatedAt(new \DateTimeImmutable('now'));
+//                        $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
+//                        $condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);
+//                        $productVariation->setConditionProductId($condition);
+//                        $productVariation->setExtReference($row['bb_REFERENCE']);
+//                        $productVariation->setIsMain(true);
+
+
+
+
+
+
+
 
 
                         $this->entityManager->persist($product);
@@ -229,9 +241,9 @@ class PrestashopCSVToProduct extends Command
     private function getMimeType(string $ext)
     {
 
-        switch(strtolower($ext))
-        {
-            case"jpg":return "image/jpg";
+        switch (strtolower($ext)) {
+            case"jpg":
+                return "image/jpg";
         }
     }
 }

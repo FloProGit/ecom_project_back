@@ -149,7 +149,12 @@ class PrestashopCSVToProduct extends Command
                         $productVariation->setIsMain(true);
 
                         $imgs = explode(",", $row['IMAGES_URL']);
+
+                        $is_main = true;
                         foreach ($imgs as $img) {
+                            if($img != "")
+                            {
+
                             $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
                             $newImage = new MediaUrl();
 
@@ -158,9 +163,15 @@ class PrestashopCSVToProduct extends Command
                             $newImage->setUrlLink($img);
                             $newImage->setCreatedAt(new \DateTimeImmutable('now'));
                             $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
-
+                            $newImage->setIsMain($is_main);
+                            if($is_main)
+                            {
+                                $is_main = false;
+                            }
                             $productVariation->addMediaUrl($newImage);
                             $this->entityManager->persist($newImage);
+                            }
+
                         }
 
                         $manufacter = $this->entityManager->getRepository(Manufacter::class)->findOneBy([

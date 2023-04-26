@@ -141,18 +141,26 @@ class PrestashopCSVToProductVariation extends Command
                             $attribute->setUpdatedAt(new \DateTimeImmutable('now'));
 
                             $imgs = explode(",", $row['IMAGE_URL']);
+                            $is_main = true;
                             foreach ($imgs as $img) {
-                                $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
-                                $newImage = new MediaUrl();
+                                if($img != "") {
 
-                                $newImage->setMimeType("image/".$fileExtention);
-                                $newImage->setName("no definition");
-                                $newImage->setUrlLink($img);
-                                $newImage->setCreatedAt(new \DateTimeImmutable('now'));
-                                $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
+                                    $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
+                                    $newImage = new MediaUrl();
 
-                                $productVariation->addMediaUrl($newImage);
-                                $this->entityManager->persist($newImage);
+                                    $newImage->setMimeType("image/" . $fileExtention);
+                                    $newImage->setName("no definition");
+                                    $newImage->setUrlLink($img);
+                                    $newImage->setCreatedAt(new \DateTimeImmutable('now'));
+                                    $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
+                                    $newImage->setIsMain($is_main);
+                                    if ($is_main) {
+                                        $is_main = false;
+                                    }
+
+                                    $productVariation->addMediaUrl($newImage);
+                                    $this->entityManager->persist($newImage);
+                                }
                             }
 
 

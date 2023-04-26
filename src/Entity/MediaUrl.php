@@ -31,6 +31,9 @@ class MediaUrl
     #[ORM\ManyToOne(inversedBy: 'mediaUrls')]
     private ?ProductVariation $product_variation = null;
 
+    #[ORM\Column]
+    private ?bool $is_main = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +107,18 @@ class MediaUrl
     public function setProductVariationId(?ProductVariation $product_variation): self
     {
         $this->product_variation = $product_variation;
+
+        return $this;
+    }
+
+    public function isIsMain(): ?bool
+    {
+        return $this->is_main;
+    }
+
+    public function setIsMain(bool $is_main): self
+    {
+        $this->is_main = $is_main;
 
         return $this;
     }

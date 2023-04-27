@@ -2,13 +2,12 @@
 
 namespace App\Services\Factory;
 
-use App\Entity\ConditionProduct;
 use App\Entity\Product;
 use App\Entity\ProductVariation;
-use App\Services\Normalizer\Product\ProductNormalizer;
-use App\Services\Normalizer\Product\ProductNormalizerInterface;
+use App\Services\Normalizer\ProductNormalizer;
+use App\Services\Normalizer\ProductNormalizerInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use ProductKeyNormalize;
+use App\Services\Normalizer\ProductKeyNormalize;
 
 final class ProductFactory {
 
@@ -19,7 +18,7 @@ final class ProductFactory {
 
         $productData = (new ProductNormalizer($productDataInterface))->getNormalizeData();
         if(!isset($productVariation)) {
-            $productVariation = (new ProductVariationFactory($this->entityManager))->buildProductVariation($productData);
+            $productVariation = (new ProductVariationFactory($this->entityManager))->buildProduct($productDataInterface);
         }
         $product = (new Product())
             ->setExtId($productData[ProductKeyNormalize::ID])

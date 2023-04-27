@@ -44,7 +44,7 @@ class ProductRepository extends ServiceEntityRepository
 //     */
     public function getProductsForList(): array
     {
-        //PROBLEME AVEC DQL LIMIT ET OFFSET ajout de MediaUrl.is_main pour limité la sortie a 1 image
+        //PROBLEME AVEC DQL LIMIT ET OFFSET ajout de MediaUrl.is_main en bdd pour limité la sortie a 1 image
 
         $dql = 'SELECT pv.id ,p.name , pv.ext_reference , med.url_link , man.ext_id , pv.quantity ,cp.current_condition , pv.is_main
          FROM App\Entity\MediaUrl med 

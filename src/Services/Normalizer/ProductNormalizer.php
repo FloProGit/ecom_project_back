@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace App\Services\Normalizer\Product;
+namespace App\Services\Normalizer;
 
+
+use App\Services\Normalizer\ProductNormalizerInterface;
 
 final class ProductNormalizer {
 

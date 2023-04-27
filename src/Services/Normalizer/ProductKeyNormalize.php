@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 
+namespace App\Services\Normalizer;
 class ProductKeyNormalize
 {
     public const  UNDEFINED_VALUE = 'undefined';
@@ -27,4 +28,7 @@ class ProductKeyNormalize
     public const MEDIA_URL = 'MEDIA_URL';
     public const MANUFACTER = 'MANUFACTER';
     public const IS_MAIN = 'IS_MAIN';
+    public const CONDITION = 'CONDITION';
+    public const ATTRIBUTE = 'ATTRIBUTE';
+    public const PRODUCT = 'PRODUCT';
 }

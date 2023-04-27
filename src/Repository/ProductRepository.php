@@ -42,17 +42,24 @@ class ProductRepository extends ServiceEntityRepository
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getProductsForList(): array
+    {
+        //PROBLEME AVEC DQL LIMIT ET OFFSET ajout de MediaUrl.is_main en bdd pour limité la sortie a 1 image
+
+        $dql = 'SELECT pv.id ,p.name , pv.ext_reference , med.url_link , man.ext_id , pv.quantity ,cp.current_condition , pv.is_main
+         FROM App\Entity\MediaUrl med 
+         JOIN med.product_variation pv
+         JOIN pv.product p 
+         JOIN App\Entity\Manufacter man WITH pv.manufacter = man.id
+         JOIN App\Entity\ConditionProduct cp WITH pv.condition_product = cp.id 
+         WHERE pv.is_main = true AND med.is_main = true';
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        return  $query->execute();
+
+
+    }
+
 
 //    public function findOneBySomeField($value): ?Product
 //    {

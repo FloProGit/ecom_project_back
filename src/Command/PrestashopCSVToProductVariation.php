@@ -1,19 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Category;
-use App\Entity\ConditionProduct;
 use App\Entity\MediaUrl;
 use App\Entity\Product;
 use App\Entity\Attribute;
-use App\Entity\Manufacter;
 use App\Entity\ProductVariation;
-use App\Repository\ProductRepository;
-use App\Repository\CategoryRepository;
-use App\Repository\ManufacterRepository;
 use App\Repository\ProductVariationRepository;
-use DateTimeImmutable;
+use App\Services\Factory\ProductVariationFactory;
+use App\Services\Normalizer\Product\ProductVariationNormaliserFromPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -100,7 +95,7 @@ class PrestashopCSVToProductVariation extends Command
 
         $this->io->section('Creation des Product a partir du fichier');
 
-        $productCreated = 0;
+        $productVariationCreated = 0;
         foreach ($this->getDataFromFile() as $row) {
 //            "﻿PRODUCT_ID" => " PRODUCT_ID" IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (array_key_exists("REFERENCE", $row)) {
@@ -119,87 +114,71 @@ class PrestashopCSVToProductVariation extends Command
                         ]);
                         if ($product) {
 
-                            $productVariation->setExtId($row["﻿PRODUCT_ID"]);
-                            $productVariation->setName($mainProductVariation->getName());
-                            $productVariation->setQuantity($row['QUANTITY']);
-                            $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
-                            $productVariation->setEan13($row['EAN13']);
-                            $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
-                            $productVariation->setPriceTaxExclude($mainProductVariation->getPriceTaxExclude());
-                            $productVariation->setOnSale(false);
-                            $productVariation->setWholesalePrice($row['WHOLESALE_PRICE']);
-                            $productVariation->setCreatedAt(new \DateTimeImmutable('now'));
-                            $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
-                            $productVariation->setConditionProductId($mainProductVariation->getConditionProductId());
-                            $productVariation->setExtReference($row['REFERENCE']);
-                            $productVariation->setIsMain(false);
+                            //MediaUrl Create Entity From String  list of urls
+                            $newArrayUrls = [];
+                            $imgs = explode(",", $row['IMAGE_URL']);
+
+                            $is_main = true;
+                            foreach ($imgs as $img) {
+                                if ($img != "") {
+                                    $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
+
+                                    $newImage = new MediaUrl();
+                                    $newImage->setMimeType("image/" . $fileExtention);
+                                    $newImage->setName("no definition");
+                                    $newImage->setUrlLink($img);
+                                    $newImage->setCreatedAt(new \DateTimeImmutable('now'));
+                                    $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
+                                    $newImage->setIsMain($is_main);
+
+                                    if ($is_main) {
+                                        $is_main = false;
+                                    }
+                                    $newArrayUrls[] = $newImage;
+                                    $this->entityManager->persist($newImage);
+                                }
+
+                            }
+                            $row['IMAGE_URL'] = $newArrayUrls;
 
                             $attribute = new Attribute();
                             $attribute->setName($row['ATTRIBUTE']);
                             $attribute->setValue($row['VALUE']);
                             $attribute->setCreatedAt(new \DateTimeImmutable('now'));
                             $attribute->setUpdatedAt(new \DateTimeImmutable('now'));
+                            $this->entityManager->persist($attribute);
 
-                            $imgs = explode(",", $row['IMAGE_URL']);
-                            foreach ($imgs as $img) {
-                                $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
-                                $newImage = new MediaUrl();
+                            $row['ATTRIBUTE'] = $attribute;
 
-                                $newImage->setMimeType("image/".$fileExtention);
-                                $newImage->setName("no definition");
-                                $newImage->setUrlLink($img);
-                                $newImage->setCreatedAt(new \DateTimeImmutable('now'));
-                                $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
-
-                                $productVariation->addMediaUrl($newImage);
-                                $this->entityManager->persist($newImage);
-                            }
+                            $row['NAME'] = $mainProductVariation->getName();
+                            $row['PRICE_TAX_EXCLUDE'] = $mainProductVariation->getPriceTaxExclude();
+                            $row['CONDITION'] = $mainProductVariation->getConditionProductId();
+                            $row['MANUFACTER'] = $mainProductVariation->getManufacterId();
+                            $row['IS_MAIN'] = false;
+                            $row['PRODUCT'] = $product;
 
 
-                            $productVariation->setAttribute($attribute);
+                            $productVariation = (new ProductVariationFactory($this->entityManager))->buildProduct(new ProductVariationNormaliserFromPrestaShop($row));
 
-                            $productVariation->setManufacterId($mainProductVariation->getManufacterId());
+                            $this->entityManager->persist($product);
+//
                             $this->entityManager->persist($productVariation);
-                            $product->addProductVariation($productVariation);
-                            $product->setHasVariation(true);
+
 
                             $this->entityManager->persist($product);
 
-
-
-                            try {
-                                $this->entityManager->flush();
-                            } catch (\Exception $e) {
-                                $this->io->section($e);
-                            }
-
+                            $this->entityManager->flush();
+                            $productVariationCreated++;
                         }
 
                     } catch (\Exception $e) {
-                        $this->io->section($e);
+                        $this->io->section($e->getMessage());
                     }
                 }
             }
         }
 
-
-//        $this->getDataFromFile();
-//        if ($categoryCreated != 0) {
-//            $string = "{$categoryCreated} Category Créé en Base de Donnée";
-//        } else {
-//            $string = "Aucune  Category créé en Base de Donnée";
-//        }
-        $this->io->success('success');
+        $this->io->success('success '.$productVariationCreated.' product variation has been created');
     }
 
-    private function generateRandomString($length = 10)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[random_int(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
 }

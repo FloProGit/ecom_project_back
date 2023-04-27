@@ -39,6 +39,34 @@ class MediaUrlRepository extends ServiceEntityRepository
         }
     }
 
+    public function getMainMediaUrlForVariantsFromProduct(array $ArrayProductVariants):array
+    {
+
+
+        $Main_Variant = null;
+        $arrayUrlsByVariant = [];
+        foreach ($ArrayProductVariants as $variant)
+        {
+
+            if(!$Main_Variant)
+            {
+                $Main_Variant = $variant;
+                continue;
+            }
+            $noMainUrl = true;
+            foreach ($variant->getMediaUrls()->toArray() as $mediaUrl)
+            {
+                $noMainUrl = false;
+                $arrayUrlsByVariant[$variant->getId()] = $mediaUrl->getUrlLink();
+            }
+            if($noMainUrl)
+            {
+                $arrayUrlsByVariant[$variant->getId()]= $Main_Variant->getMediaUrls()->toArray()[0]->getUrlLink();
+            }
+        }
+        return $arrayUrlsByVariant;
+
+    }
 //    /**
 //     * @return MediaUrl[] Returns an array of MediaUrl objects
 //     */

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Array_;
 
 #[ORM\Entity(repositoryClass: ProductVariationRepository::class)]
 class ProductVariation
@@ -34,8 +35,6 @@ class ProductVariation
     #[ORM\Column]
     private ?bool $on_sale = null;
 
-
-
     #[ORM\Column]
     private ?float $price_tax_exclude = null;
 
@@ -47,7 +46,7 @@ class ProductVariation
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
-    private ?Manufacter$manufacter = null;
+    private ?Manufacter $manufacter = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Discount $discount = null;
@@ -197,7 +196,7 @@ class ProductVariation
         return $this->manufacter;
     }
 
-    public function setManufacterId(?Manufacter$manufacter): self
+    public function setManufacterId(?Manufacter $manufacter): self
     {
         $this->manufacter = $manufacter;
 
@@ -233,7 +232,15 @@ class ProductVariation
 
         return $this;
     }
+    public function addMultipleMediaUrl(Array $ArrayMediaUrl): self
+    {
+        foreach ($ArrayMediaUrl as $media)
+        {
+            $this->addMediaUrl($media);
+        }
 
+        return $this;
+    }
     public function removeMediaUrl(MediaUrl $mediaUrl): self
     {
         if ($this->mediaUrls->removeElement($mediaUrl)) {

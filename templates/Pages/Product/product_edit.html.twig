@@ -10,294 +10,174 @@
 {% endblock %}
 
 {% block content %}
-    <!--
-   This example requires some changes to your config:
 
-   ```
-   // tailwind.config.js
-   module.exports = {
-     // ...
-     plugins: [
-       // ...
-       require('@tailwindcss/forms'),
-     ],
-   }
-   ```
- -->
-    <form class="space-y-8 divide-y divide-gray-200 bg-white px-4 py-4 rounded-lg">
-        <div class="space-y-8 sm:space-y-5">
-            <div class="space-y-6 sm:space-y-5">
-                <div class="space-y-6 sm:space-y-5">
+    <form class="space-y-8  px-4 py-4 rounded-lg ">
 
-
-                    {% include 'Components/multiselect.html.twig'with {'array': arrayTest,'selectedValues' :selectedValues} %}
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="ext_id"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">ext_id</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="ext_id" name="ext_id" type="text" autocomplete="email"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+        <div id="information">
+            <div class="shadow">
+                <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                    <header>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Information</h3>
+                    </header>
+                    <div class=" ">
+                        <label for="Category" class="mb-1 w-full flex items-center text-base font-medium text-gray-700">Category</label>
+                        {% include 'Components/multiselect.html.twig'with {'array': arrayTest,'selectedValues' :selectedValues} %}
+                    </div>
+                    <div class="w-full">
+                        <label for="name"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Brand</label>
+                        <div class="mt-1 w-full">
+                            <input id="name" name="name" type="text" value="{{ product.getExtReference() }}"
+                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
+                </div>
 
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">name</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="name" name="name" type="text" autocomplete="email"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            </div>
+        </div>
+        <div id="Details">
+            <div class="shadow">
+                <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                    <header>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Details</h3>
+                    </header>
+                    <div class="w-full">
+                        <label for="name"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Name</label>
+                        <div class="mt-1 w-full">
+                            <input id="name" name="name" type="text" value="{{ product.getName() }}"
+                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                         </div>
                     </div>
+                    <div class="w-full">
+                        <label for="description" class="w-full flex items-center text-base font-medium text-gray-700">Description</label>
+                        <div class="mt-1 w-full">
+                            <textarea id="description" name="description" type="text"
+                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ product.getDescription() }}</textarea>
+                        </div>
 
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="attribute1"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Attribute 1</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="attribute1" name="attribute1" type="text" autocomplete="email"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                    </div>
+                    <div class="w-full">
+                        <label for="short_description"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Short
+                            description</label>
+                        <div class="mt-1 w-full">
+                            <textarea id="short_description" name="short_description" type="text"
+                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ product.getShortDescription() }}</textarea>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div id="Images">
+            <div class="shadow">
+                <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                    <header>
+                        <h3 class="text-lg font-medium text-gray-900">Images</h3>
+                    </header>
 
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="attribute2"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Attribute 2</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="attribute2" name="attribute2" type="text" autocomplete="email"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="value1"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Value 1</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="value1" name="value1" type="text" autocomplete="email"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="value2" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Value
-                            2</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="value2" name="value2" type="text" autocomplete="email"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="description" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Description</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <textarea rows="4" name="description" id="description"
-                                      class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="brand"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Brand</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input id="brand" name="brand" type="number" autocomplete="brand"
-                                   class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
-                    </div>
-
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="feature"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">feature</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="feature" id="feature" type="text"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="price"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">price</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="price" id="price" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="pvp" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">pvp</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="pvp" id="pvp" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="pvd" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">pvd</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="pvd" id="pvd" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="iva" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">iva</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="iva" id="iva" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="video"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">video</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="video" id="video" type="text"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="ean13"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">ean13</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="ean13" id="ean13" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="width"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">width</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="width" id="width" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="height"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">height</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="height" id="height" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="depth"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">depth</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="depth" id="depth" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="weight"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">weight</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="weight" id="weight" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="created_at" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">created
-                            at</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="created_at" id="created_at" value="2018-07-22" type="date" disabled
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="updated_at" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">updated
-                            at</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="updated_at" id="updated_at" value="2018-07-22" type="date" disabled
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="intrastat" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">intrastat</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="intrastat" id="intrastat" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="condition" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">condition</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="condition" id="condition" type="text"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="stock"
-                               class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">stock</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <input rows="4" name="stock" id="stock" type="number"
-                                   class="block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:py-1.5 sm:text-sm sm:leading-6"></input>
-                        </div>
-                    </div>
-
-                    <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                        <label for="cover-photo" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Cover
-                            photo</label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                            <div class="flex max-w-lg justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                <div class="space-y-1 text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
-                                         viewBox="0 0 48 48" aria-hidden="true">
-                                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    <div class="flex text-sm text-gray-600">
-                                        <label for="file-upload"
-                                               class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500">
-                                            <span>Upload a file</span>
-                                            <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                                        </label>
-                                        <p class="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    <div class="mt-1 sm:col-span-2 sm:mt-0">
+                        <div class="flex  justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                                     viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="file-upload"
+                                           class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500">
+                                        <span>Upload a file</span>
+                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
                                 </div>
+                                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+        </div>
 
+        {% if hasVaration %}
 
-            <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                <label for="country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">Country</label>
-                <div class="mt-1 sm:col-span-2 sm:mt-0">
-                    <select id="country" name="country" autocomplete="country-name"
-                            class="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:max-w-xs sm:text-sm">
-                        <option>NEW</option>
-                        <option>REFURBISHED_A_PLUS</option>
-                    </select>
+        <div id="information">
+            <div class="shadow">
+                <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                    <header>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Variants</h3>
+                    </header>
+                    {% include 'Components/variant_list.html.twig'with {'productsVariant' : productsVariant , 'MediaUrlVariantArray' : MediaUrlVariantArray} %}
+                </div>
+
+            </div>
+        </div>
+        {% else %}
+
+            {% include 'Components/product_variation.html.twig' with {'productVariation' : productsVariant} %}
+
+        {% endif %}
+        <div id="mesure">
+            <div class="shadow">
+                <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                    <header>
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Shipping</h3>
+                    </header>
+                    <div class="w-full">
+                        <label for="depth"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Depth</label>
+                        <div class="mt-1 w-full">
+                            <input id="depth" name="depth" type="number" value="{{ product.getDepth() }}"
+                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <label for="name"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Width</label>
+                        <div class="mt-1 w-full">
+                            <input id="width" name="width" type="number" value="{{ product.getWidth() }}"
+                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <label for="height"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Height</label>
+                        <div class="mt-1 w-full">
+                            <input id="height" name="height" type="number" value="{{ product.getHeight() }}"
+                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <label for="weight"
+                               class="w-full flex items-center text-base font-medium text-gray-700">Weight</label>
+                        <div class="mt-1 w-full">
+                            <input id="weight" name="weight" type="number" value="{{ product.getWeight() }}"
+                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="h-[5rem]">
 
-        <div class="pt-5">
-            <div class="flex justify-end">
-                <button type="button"
-                        class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Cancel
-                </button>
-                <button type="submit"
-                        class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Save
-                </button>
-            </div>
         </div>
+
+        <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
+            <div class="pt-5">
+                <div class="flex justify-end">
+                    <button type="button"
+                            class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </footer>
     </form>
 
 {% endblock %}

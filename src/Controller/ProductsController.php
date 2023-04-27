@@ -26,9 +26,11 @@ class ProductsController extends AbstractController
 
     public function index() : response
     {
-        $result = $this->productRepository->findAll();
-        dd($result);
-        return $this->render('Pages/Product/products.html.twig',['products' => $result]);
+        $result = $this->productRepository->getProductsForList();
+        return $this->render('Pages/Product/products.html.twig',[
+            'products' => $result,'breadcrumbs'=>[
+                ['data' => ['name' => 'Product']]
+            ]]);
     }
 
 

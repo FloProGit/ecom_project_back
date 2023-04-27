@@ -189,7 +189,13 @@ class Product
 
         return $this;
     }
-
+    public function addMultipleCategory(array $categories): self
+    {
+       foreach ($categories as $category){
+           $this->addCategory($category);
+       }
+        return $this;
+    }
     public function removeCategory(Category $Category): self
     {
         $this->categories->removeElement($Category);

@@ -1,0 +1,28 @@
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+        <table class="min-w-full divide-y  divide-gray-300">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" ></th>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left  font-semibold text-gray-900 ">Reference</th>
+                <th scope="col" class="px-3 py-3.5 text-left  font-semibold text-gray-900">Price</th>
+                <th scope="col" class="px-3 py-3.5 text-left  font-semibold text-gray-900">Stock</th>
+                <th scope="col" class="px-3 py-3.5 text-left  font-semibold text-gray-900">Back order</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white  ">
+            {% for variant in productsVariant %}
+                {% if not loop.first %}
+                <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 ">
+                        <img  width="64" src="{{ MediaUrlVariantArray[variant.id] }}" class=" rounded-lg">
+                    </td>
+                    <td class="whitespace-nowrap py-4 px-3  font-semibold text-blue-600 "><a href="{{ path('product_variation_edit', {id:  variant.id})  }}">{{ variant.ext_reference }}</a></td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 ">{{ variant.ext_reference }}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 ">{{ variant.quantity }}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 ">0</td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>

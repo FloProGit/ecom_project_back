@@ -56,7 +56,8 @@ class PopulatePimCommandAndFixture extends Command
         $this->io->section('Start Fixtures');
         $this->executeFixtures($output);
         $this->executeAddCategory($output);
-//        $this->executeAddProduct($output);
+        $this->executeAddProduct($output);
+        $this->executeAddProductVariation($output);
         return Command::SUCCESS;
     }
 
@@ -82,7 +83,16 @@ class PopulatePimCommandAndFixture extends Command
     private function executeAddProduct(OutputInterface $output)
     {
 
-        $command = $this->getApplication()->find('app:create-product-from-csv');
+        $command = $this->getApplication()->find('app:create-product-from-prestashop-Product_csv');
+
+        $greetInput = new ArrayInput([]);
+        $returnCode = $command->run($greetInput, $output);
+
+    }
+    private function executeAddProductVariation(OutputInterface $output)
+    {
+
+        $command = $this->getApplication()->find('app:create-product-variation-from-prestashop_csv');
 
         $greetInput = new ArrayInput([]);
         $returnCode = $command->run($greetInput, $output);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Command;
 
@@ -7,12 +7,9 @@ use App\Entity\ConditionProduct;
 use App\Entity\Product;
 use App\Entity\MediaUrl;
 use App\Entity\Manufacter;
-use App\Entity\ProductVariation;
 use App\Repository\ProductRepository;
-use App\Repository\CategoryRepository;
-use App\Repository\ManufacterRepository;
-use App\Repository\ProductVariationRepository;
-use DateTimeImmutable;
+use App\Services\Factory\ProductFactory;
+use App\Services\Normalizer\Product\ProductNormaliserFromPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -100,69 +97,57 @@ class PrestashopCSVToProduct extends Command
 
         $productCreated = 0;
         foreach ($this->getDataFromFile() as $row) {
-//            "﻿ID" => " ID" IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//            "﻿ID" = " ID"  in prestashop csv IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             if (array_key_exists("﻿ID", $row)) {
                 $product = $this->productRepository->findOneBy([
                     'ext_id' => $row["﻿ID"]
                 ]);
+
+                //if product exist do not make duplication
                 if (!$product) {
                     try {
-                        $product = new Product();
-                        $productVariation = new ProductVariation();
-                        $product->setExtId($row["﻿ID"]);
 
+                        //Replace string categories in Row Categories/Entities
                         $arrayStrCategory = explode(",", $row['CATEGORIES']);
                         $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
+                        $newArrayCategories = [];
                         foreach ($arrayCategory as $category) {
-
-                            $product->addCategory($category);
+                            $newArrayCategories[] = $category;
                         }
+                        $row['CATEGORIES'] = $newArrayCategories;
 
-                        $product->setWidth(floatval($row['WIDTH']));
-                        $product->setExtReference(floatval($row['bb_REFERENCE']));
-                        $product->setName($row['NAME']);
-                        $product->setHeight(floatval($row['HEIGHT']));
-                        $product->setDepth(floatval($row['DEPTH']));
-                        $product->setWeight(floatval($row['WEIGHT']));
-                        $product->setCreatedAt(new \DateTimeImmutable('now'));
-                        $product->setUpdatedAt(new \DateTimeImmutable('now'));
-                        $product->setExtReference($row['bb_REFERENCE']);
-                        $product->setDescription($row['DESCRIPTION']);
-                        $product->setShortDescription($row['SHORT_DESCRIPTION']);
+                        //IS_MAIN for firstProductVariant
+                        $row['IS_MAIN'] = true;
 
-                        $product->setHasVariation(false);
-
-                        $productVariation->setExtId($row["﻿ID"]);
-                        $productVariation->setName($row['NAME']);
-                        $productVariation->setQuantity($row['QUANTITY']);
-                        $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
-                        $productVariation->setEan13($row['EAN13']);
-                        $productVariation->setMinimalQuantity($row['MINIMAL_QUANTITY']);
-                        $productVariation->setPriceTaxExclude($row['PRICE_TAX_EXCLUDE']);
-                        $productVariation->setOnSale(false);
-                        $productVariation->setWholesalePrice($row['WHOLESALE_PRICE']);
-                        $productVariation->setCreatedAt(new \DateTimeImmutable('now'));
-                        $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
-                        $Condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);
-                        $productVariation->setConditionProductId($Condition);
-                        $productVariation->setExtReference($row['bb_REFERENCE']);
-                        $productVariation->setIsMain(true);
-
+                        //MediaUrl Create Entity From String  list of urls
+                        $newArrayUrls = [];
                         $imgs = explode(",", $row['IMAGES_URL']);
+
+                        $is_main = true;
                         foreach ($imgs as $img) {
-                            $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
-                            $newImage = new MediaUrl();
+                            if ($img != "") {
+                                $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
 
-                            $newImage->setMimeType("image/".$fileExtention);
-                            $newImage->setName("no definition");
-                            $newImage->setUrlLink($img);
-                            $newImage->setCreatedAt(new \DateTimeImmutable('now'));
-                            $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
+                                $newImage = new MediaUrl();
+                                $newImage->setMimeType("image/" . $fileExtention);
+                                $newImage->setName("no definition");
+                                $newImage->setUrlLink($img);
+                                $newImage->setCreatedAt(new \DateTimeImmutable('now'));
+                                $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
+                                $newImage->setIsMain($is_main);
 
-                            $productVariation->addMediaUrl($newImage);
-                            $this->entityManager->persist($newImage);
+                                if ($is_main) {
+                                    $is_main = false;
+                                }
+                                $newArrayUrls[] = $newImage;
+                                $this->entityManager->persist($newImage);
+                            }
+
                         }
+                        $row['IMAGES_URL'] = $newArrayUrls;
 
+                        // get Manufacter if not exist create new with id give by csv and create random string for name
                         $manufacter = $this->entityManager->getRepository(Manufacter::class)->findOneBy([
                             'ext_id' => intval($row['MANUFACTER'])
                         ]);
@@ -172,39 +157,42 @@ class PrestashopCSVToProduct extends Command
                             $manufacter->setName($this->generateRandomString(10));
                             $this->entityManager->persist($manufacter);
                         }
+                        $row['MANUFACTER'] = $manufacter;
 
 
-                        $productVariation->setManufacterId($manufacter);
-                        $this->entityManager->persist($productVariation);
 
-                        $product->addProductVariation($productVariation);
+                        //add condition to row
+                        $Condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);
+                        if(!$Condition)
+                        {
+                            $Condition = (new ConditionProduct())
+                                ->setCurrentCondition($row['CONDITION']);
+
+                            $this->entityManager->persist($Condition);
+                        }
+                        $row['CONDITION']=$Condition;
+
+                        //Create product First Product Variation from prestashop
+                        $product = (new ProductFactory($this->entityManager))->buildProduct(new ProductNormaliserFromPrestaShop($row));
+                        $this->entityManager->persist($product);
 
 
                         $this->entityManager->persist($product);
-                        try {
-                            $this->entityManager->flush();
 
-                        } catch (\Exception $e) {
-                            $this->io->section($e);
-                        }
-                    } catch (\Exception $e) {
-                        $this->io->section($e);
+                        $this->entityManager->flush();
+                        $productCreated++;
+                    }
+                    catch (\Exception $e) {
+                        $this->io->section($e->getMessage());
                     }
                 }
             }
         }
 
-
-//        $this->getDataFromFile();
-//        if ($categoryCreated != 0) {
-//            $string = "{$categoryCreated} Category Créé en Base de Donnée";
-//        } else {
-//            $string = "Aucune  Category créé en Base de Donnée";
-//        }
-        $this->io->success('success');
+        $this->io->success('success '.$productCreated.' product create');
     }
 
-    private function generateRandomString($length = 10)
+    private function generateRandomString(int $length = 10): string
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
@@ -215,12 +203,4 @@ class PrestashopCSVToProduct extends Command
         return $randomString;
     }
 
-    private function getMimeType(string $ext)
-    {
-
-        switch(strtolower($ext))
-        {
-            case"jpg":return "image/jpg";
-        }
-    }
 }

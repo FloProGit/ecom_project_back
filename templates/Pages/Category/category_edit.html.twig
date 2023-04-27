@@ -10,13 +10,14 @@
 {% endblock %}
 
 {% block content %}
+    {{ form_start(form) }}
+
     {% if  breadcrumbs is defined %}
         {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
     {% endif %}
 
 
 
- {{ form_start(form) }}
 <div class="space-y-8  px-4 py-4  rounded-lg ">
 
             <div id="information">

@@ -11,7 +11,9 @@
 
 {% block content %}
 
-
+    {% if  breadcrumbs is defined %}
+        {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+    {% endif %}
     <form class="space-y-8  px-4 py-4 rounded-lg ">
 
         <div id="Images">
@@ -46,7 +48,7 @@
             </div>
         </div>
 
-        {% include 'Components/product_variation.html.twig' with {'productVariation' : productsVariation} %}
+        {% include 'Components/product_variation.html.twig' with {'variation_form' : variation_form} %}
 
         <div class="h-[5rem]">
 

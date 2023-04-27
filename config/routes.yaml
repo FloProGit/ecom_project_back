@@ -27,11 +27,15 @@ category_edit:
 
 product_edit:
   path: /admin/product-edit/{id}
-  controller: App\Controller\ProductEditController::index
+  controller: App\Controller\ProductsController::editProduct
 
 product_variation_edit:
   path: /admin/product-variation-edit/{id}
-  controller: App\Controller\ProductVariationEditController::index
+  controller: App\Controller\ProductVariationController::editProductVariation
+
+product_variation_create:
+  path: /admin/product-variation-create
+  controller: App\Controller\ProductVariationController::createProductVariation
 
 default:
   path: /

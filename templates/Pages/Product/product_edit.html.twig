@@ -10,9 +10,11 @@
 {% endblock %}
 
 {% block content %}
-
-    <form class="space-y-8  px-4 py-4 rounded-lg ">
-
+    {% if  breadcrumbs is defined %}
+        {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+    {% endif %}
+    {{ form_start(product_form) }}
+        <div class="space-y-8  px-4 py-4  rounded-lg ">
         <div id="information">
             <div class="shadow">
                 <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
@@ -21,15 +23,17 @@
                     </header>
                     <div class=" ">
                         <label for="Category" class="mb-1 w-full flex items-center text-base font-medium text-gray-700">Category</label>
-                        {% include 'Components/multiselect.html.twig'with {'array': arrayTest,'selectedValues' :selectedValues} %}
+{#                        {% include 'Components/multiselect.html.twig'with {'array': arrayTest,'selectedValues' :selectedValues} %}#}
                     </div>
                     <div class="w-full">
-                        <label for="name"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Brand</label>
-                        <div class="mt-1 w-full">
-                            <input id="name" name="name" type="text" value="{{ product.getExtReference() }}"
-                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
+                        {{ form_label(product_form.ext_reference,'Ext reference',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.ext_reference,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="name"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Brand</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <input id="name" name="name" type="text" value="{{ product.getExtReference() }}"#}
+{#                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
+{#                        </div>#}
                     </div>
                 </div>
 
@@ -42,29 +46,35 @@
                         <h3 class="text-lg font-medium leading-6 text-gray-900">Details</h3>
                     </header>
                     <div class="w-full">
-                        <label for="name"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Name</label>
-                        <div class="mt-1 w-full">
-                            <input id="name" name="name" type="text" value="{{ product.getName() }}"
-                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
+                        {{ form_label(product_form.name,'Name',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.name,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="name"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Name</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <input id="name" name="name" type="text" value="{{ product.getName() }}"#}
+{#                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
+{#                        </div>#}
                     </div>
                     <div class="w-full">
-                        <label for="description" class="w-full flex items-center text-base font-medium text-gray-700">Description</label>
-                        <div class="mt-1 w-full">
-                            <textarea id="description" name="description" type="text"
-                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ product.getDescription() }}</textarea>
-                        </div>
+                        {{ form_label(product_form.description,'Description',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.description,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="description" class="w-full flex items-center text-base font-medium text-gray-700">Description</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <textarea id="description" name="description" type="text"#}
+{#                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ product.getDescription() }}</textarea>#}
+{#                        </div>#}
 
                     </div>
                     <div class="w-full">
-                        <label for="short_description"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Short
-                            description</label>
-                        <div class="mt-1 w-full">
-                            <textarea id="short_description" name="short_description" type="text"
-                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ product.getShortDescription() }}</textarea>
-                        </div>
+                        {{ form_label(product_form.short_description,'Short description',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.short_description,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="short_description"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Short#}
+{#                            description</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <textarea id="short_description" name="short_description" type="text"#}
+{#                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ product.getShortDescription() }}</textarea>#}
+{#                        </div>#}
                     </div>
                 </div>
             </div>
@@ -109,14 +119,14 @@
                     <header>
                         <h3 class="text-lg font-medium leading-6 text-gray-900">Variants</h3>
                     </header>
-                    {% include 'Components/variant_list.html.twig'with {'productsVariant' : productsVariant , 'MediaUrlVariantArray' : MediaUrlVariantArray} %}
+                    {% include 'Components/variant_list.html.twig'with {'productsVariant' : productsVariation , 'MediaUrlVariantArray' : MediaUrlVariantArray} %}
                 </div>
 
             </div>
         </div>
         {% else %}
 
-            {% include 'Components/product_variation.html.twig' with {'productVariation' : productsVariant} %}
+            {% include 'Components/product_variation.html.twig' with {'variation_form' : product_form.productVariations[0]} %}
 
         {% endif %}
         <div id="mesure">
@@ -126,36 +136,44 @@
                         <h3 class="text-lg font-medium leading-6 text-gray-900">Shipping</h3>
                     </header>
                     <div class="w-full">
-                        <label for="depth"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Depth</label>
-                        <div class="mt-1 w-full">
-                            <input id="depth" name="depth" type="number" value="{{ product.getDepth() }}"
-                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
+                        {{ form_label(product_form.depth,'Depth',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.depth,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="depth"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Depth</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <input id="depth" name="depth" type="number" value="{{ product.getDepth() }}"#}
+{#                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
+{#                        </div>#}
                     </div>
                     <div class="w-full">
-                        <label for="name"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Width</label>
-                        <div class="mt-1 w-full">
-                            <input id="width" name="width" type="number" value="{{ product.getWidth() }}"
-                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
+                        {{ form_label(product_form.width,'Width',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.width,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="name"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Width</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <input id="width" name="width" type="number" value="{{ product.getWidth() }}"#}
+{#                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
+{#                        </div>#}
                     </div>
                     <div class="w-full">
-                        <label for="height"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Height</label>
-                        <div class="mt-1 w-full">
-                            <input id="height" name="height" type="number" value="{{ product.getHeight() }}"
-                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
+                        {{ form_label(product_form.height,'Height',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.height,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="height"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Height</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <input id="height" name="height" type="number" value="{{ product.getHeight() }}"#}
+{#                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
+{#                        </div>#}
                     </div>
                     <div class="w-full">
-                        <label for="weight"
-                               class="w-full flex items-center text-base font-medium text-gray-700">Weight</label>
-                        <div class="mt-1 w-full">
-                            <input id="weight" name="weight" type="number" value="{{ product.getWeight() }}"
-                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        </div>
+                        {{ form_label(product_form.weight,'Weight',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                        {{ form_widget(product_form.weight,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+{#                        <label for="weight"#}
+{#                               class="w-full flex items-center text-base font-medium text-gray-700">Weight</label>#}
+{#                        <div class="mt-1 w-full">#}
+{#                            <input id="weight" name="weight" type="number" value="{{ product.getWeight() }}"#}
+{#                                   class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
+{#                        </div>#}
                     </div>
                 </div>
             </div>
@@ -167,19 +185,12 @@
         <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
             <div class="pt-5">
                 <div class="flex justify-end">
-                    <button type="button"
-                            class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                            class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        Save
-                    </button>
+                    {{ form_widget(product_form.submit,{'label': 'Save Category','attr':{'class':'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'  }}) }}
                 </div>
             </div>
         </footer>
-    </form>
-
+        </div>
+    {{ form_end(product_form) }}
 {% endblock %}
 
 

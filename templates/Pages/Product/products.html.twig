@@ -3,7 +3,9 @@
 {% set description_page = 'liste de produit' %}
 
 {% block content %}
-
+    {% if  breadcrumbs is defined %}
+        {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+    {% endif %}
 
     <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg mt-4 mx-4">
     <table class="min-w-full divide-y  divide-gray-300">

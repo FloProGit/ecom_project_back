@@ -91,6 +91,10 @@ class CategoriesController extends AbstractController
 
         return $this->render('Pages/Category/category_edit.html.twig',[
             'form'=> $form->createView(),
+            'breadcrumbs'=>[
+                ['route'=> 'products_list','data' => ['name' => 'Categories']],
+                ['data' => ['name' => 'New category']]
+            ],
         ]);
     }
 

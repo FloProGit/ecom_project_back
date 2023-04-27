@@ -32,6 +32,8 @@ final class ProductNormaliserFromPrestaShop implements ProductNormalizerInterfac
             ProductKeyNormalize::MEDIA_URL => $this->data['IMAGES_URL'],
             ProductKeyNormalize::IS_MAIN => $this->data['IS_MAIN'],
             ProductKeyNormalize::MANUFACTER => $this->data['MANUFACTER'],
+            ProductKeyNormalize::CONDITION => $this->data['CONDITION'],
+
         ];
     }
 }

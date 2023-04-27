@@ -21,7 +21,6 @@ final class ProductVariationFactory
     public function buildProduct(ProductNormalizerInterface $productDataInterface): ProductVariation
     {
         $productVariationData = (new ProductNormalizer($productDataInterface))->getNormalizeData();
-
         $productVariation = (new ProductVariation())
             ->setExtId($productVariationData[ProductKeyNormalize::ID] ?? ProductKeyNormalize::UNDEFINED_VALUE)
             ->setName($productVariationData[ProductKeyNormalize::NAME] ?? ProductKeyNormalize::UNDEFINED_VALUE)

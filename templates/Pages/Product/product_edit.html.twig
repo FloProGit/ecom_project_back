@@ -11,7 +11,7 @@
 
 {% block content %}
 
-    <form class="space-y-8  px-4 py-4 rounded-lg relative">
+    <form class="space-y-8  px-4 py-4 rounded-lg ">
 
         <div id="information">
             <div class="shadow">
@@ -101,6 +101,7 @@
             </div>
         </div>
 
+        {% if hasVaration %}
 
         <div id="information">
             <div class="shadow">
@@ -113,7 +114,11 @@
 
             </div>
         </div>
+        {% else %}
 
+            {% include 'Components/product_variation.html.twig' with {'productVariation' : productsVariant} %}
+
+        {% endif %}
         <div id="mesure">
             <div class="shadow">
                 <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
@@ -155,9 +160,11 @@
                 </div>
             </div>
         </div>
+        <div class="h-[5rem]">
 
+        </div>
 
-        <footer class="fixed bottom-0 w-auto left-0 right-0 z-40 p-6 border-t border-gray-100 lg:left-auto bg-red-100 lg:w-[calc(100vw_-_16rem)]">
+        <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
             <div class="pt-5">
                 <div class="flex justify-end">
                     <button type="button"

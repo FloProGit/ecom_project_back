@@ -16,9 +16,21 @@ categories_list:
      path: /admin/categories
      controller: App\Controller\CategoriesController::index
 
+category_edit:
+  path: /admin/category-edit/{id}
+  controller: App\Controller\CategoriesEditController::index
+
+category_save:
+  path: /admin/category-save/{id}
+  controller: App\Controller\CategoriesEditController::saveCategory
+
 product_edit:
   path: /admin/product-edit/{id}
   controller: App\Controller\ProductEditController::index
+
+product_variation_edit:
+  path: /admin/product-variation-edit/{id}
+  controller: App\Controller\ProductVariationEditController::index
 
 default:
   path: /

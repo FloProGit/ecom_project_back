@@ -30,7 +30,12 @@ class ProductEditController extends AbstractController
 
     public function index(Product $product) : response
     {
-        $pv = $this->productVariationRepository->getVariationForListFromProductID($product->getId());
+        if($product->isHasVariation()) {
+            $pv = $this->productVariationRepository->getVariationForListFromProductID($product->getId());
+        }
+        else{
+            $pv = $product->getProductVariations()[0];
+        }
         $MediaUrlVariantArray = $this->mediaUrlRepository->getMainMediaUrlForVariantsFromProduct($product->getProductVariations()->toArray());
 
         $resultCategoryRequest =$this->categoryRepository->getAllNameArray();
@@ -47,7 +52,11 @@ class ProductEditController extends AbstractController
                 'product' => $product,
                 'productsVariant' => $pv,
                 'MediaUrlVariantArray' => $MediaUrlVariantArray,
-                'hasVaration' => $product->isHasVariation()
+                'hasVaration' => $product->isHasVariation(),
+                'breadcrumbs'=>[
+                    ['route'=> 'products_list','data' => ['name' => 'Product']],
+                    ['data' => ['name' => $product->getName()]]
+                ]
             ]);
     }
 }

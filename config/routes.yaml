@@ -16,13 +16,14 @@ categories_list:
      path: /admin/categories
      controller: App\Controller\CategoriesController::index
 
+categories_Create:
+  path: /admin/categories-create
+  controller: App\Controller\CategoriesController::createCategory
+
 category_edit:
   path: /admin/category-edit/{id}
-  controller: App\Controller\CategoriesEditController::index
+  controller: App\Controller\CategoriesController::editCategory
 
-category_save:
-  path: /admin/category-save/{id}
-  controller: App\Controller\CategoriesEditController::saveCategory
 
 product_edit:
   path: /admin/product-edit/{id}

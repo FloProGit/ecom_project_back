@@ -10,30 +10,36 @@
 {% endblock %}
 
 {% block content %}
+    {% if  breadcrumbs is defined %}
+        {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+    {% endif %}
 
-        <form class="space-y-8  px-4 py-4  rounded-lg " action="{{ path('category_save',{'id':category.getId()}) }}"  method="PUT">
+
+
+ {{ form_start(form) }}
+<div class="space-y-8  px-4 py-4  rounded-lg ">
+
             <div id="information">
                 <div class="shadow">
                     <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                         <header>
-                            <h3 class="text-lg font-medium leading-6 text-gray-900">Information</h3>
+                            <h3 class="text-lg font-medium mb-2 leading-6 text-gray-900">Information</h3>
                         </header>
                         <div class="w-full">
-                            <label for="name"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Name</label>
-                            <div class="mt-1 w-full">
-                                <input id="name" name="name" type="text" value="{{ category.getName() }}"
-                                       class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
+                            {{ form_label(form.is_active,'Active',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.is_active,{ 'attr':{'class':'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600' }}) }}
                         </div>
                         <div class="w-full">
-                            <label for="parent"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Name</label>
-
-                            <div class="mt-1 w-full">
-                                <input id="parent" name="parent" type="text" value="{{ category.getParent() }}"
-                                       class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
+                            {{ form_label(form.name ,'Name',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}})}}
+                            {{ form_widget(form.name ,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})}}
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.id_parent,'Id parent',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.id_parent,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}} )}}
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.parent,'parent',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.parent,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
                         </div>
                     </div>
 
@@ -43,61 +49,49 @@
                 <div class="shadow">
                     <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                         <header>
-                            <h3 class="text-lg font-medium leading-6 text-gray-900">Other details</h3>
+                            <h3 class="text-lg font-medium mb-2 leading-6 text-gray-900">Other details</h3>
                         </header>
                         <div class="w-full">
-                            <label for="url_rewritter"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Url
-                                rewirtten</label>
-                            <div class="mt-1 w-full">
-                                <input id="url_rewritter" name="url_rewritter" type="text" value="{{ category.getUrlRewritten() }}"
-                                       class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
+                            {{ form_label(form.url_rewritten,'Url',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.url_rewritten ,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})}}
                         </div>
                         <div class="w-full">
-                            <label for="description"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Description</label>
-                            <div class="mt-1 w-full">
-                            <textarea id="description" name="description" type="text"
-                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ category.getDescription() }}</textarea>
-                            </div>
-
+                            {{ form_label(form.description,'description',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.description,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                         </div>
+                        <div class="w-full">
+                            {{ form_label(form.root_category,'Root category',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.root_category,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.image_url,'image_url',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.image_url,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.code,'code',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.code,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                        </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
             <div id="meta_data" >
                 <div class="shadow">
                     <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                         <header>
-                            <h3 class="text-lg font-medium leading-6 text-gray-900">Meta data</h3>
+                            <h3 class="text-lg font-medium mb-2 leading-6 text-gray-900">Meta data</h3>
                         </header>
                         <div class="w-full">
-                            <label for="meta_title"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Meta
-                                title</label>
-                            <div class="mt-1 w-full">
-                                <input id="meta_title" name="meta_title" type="text" value="{{ category.getMetaTitle() }}"
-                                       class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
+                            {{ form_label(form.meta_title,'Meta title',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.meta_title ,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})}}
                         </div>
                         <div class="w-full">
-                            <label for="meta_description"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Meta
-                                description</label>
-                            <div class="mt-1 w-full">
-                            <textarea id="meta_description" name="meta_description" type="text"
-                                      class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ category.getMetaDescription() }}</textarea>
-                            </div>
+                            {{ form_label(form.meta_description,'Meta description',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.meta_description,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})  }}
                         </div>
                         <div class="w-full">
-                            <label for="meta_keyword"
-                                   class="w-full flex items-center text-base font-medium text-gray-700">Meta
-                                keyword</label>
-                            <div class="mt-1 w-full">
-                                <input id="meta_keyword" name="meta_keyword" type="text" value="{{ category.getMetaKeyword() }}"
-                                       class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                            </div>
+                            {{ form_label(form.meta_keyword,'Meta keyword',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_widget(form.meta_keyword ,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})}}
                         </div>
                     </div>
                 </div>
@@ -108,18 +102,13 @@
             <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
                 <div class="pt-5">
                     <div class="flex justify-end">
-                        <button type="button"
-                                class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                                class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Save
-                        </button>
+                        {{ form_widget(form.submit,{'label': 'Save Category','attr':{'class':'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'  }}) }}
                     </div>
                 </div>
             </footer>
-        </form>
+            {{ form_end(form) }}
+    </div>
+
 
 {% endblock %}
 

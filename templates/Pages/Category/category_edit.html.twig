@@ -24,23 +24,35 @@
                 <div class="shadow">
                     <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                         <header>
-                            <h3 class="text-lg font-medium mb-2 leading-6 text-gray-900">Information</h3>
+                            <h3 class="text-lg font-medium mb-2 leading-6  text-gray-900">Information</h3>
                         </header>
                         <div class="w-full">
                             {{ form_label(form.is_active,'Active',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.is_active,{ 'attr':{'class':'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600' }}) }}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.is_active)}}
+                            </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.name ,'Name',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}})}}
                             {{ form_widget(form.name ,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})}}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.name)}}
+                            </div>
                         </div>
                         <div class="w-full">
-                            {{ form_label(form.id_parent,'Id parent',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                            {{ form_label(form.id_parent,'Id parent',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 '}}) }}
                             {{ form_widget(form.id_parent,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}} )}}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.id_parent)}}
+                            </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.parent,'parent',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.parent,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.parent)}}
+                            </div>
                         </div>
                     </div>
 
@@ -55,22 +67,37 @@
                         <div class="w-full">
                             {{ form_label(form.url_rewritten,'Url',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.url_rewritten ,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}})}}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.url_rewritten)}}
+                            </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.description,'description',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.description,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.description)}}
+                            </div>
                          </div>
                         <div class="w-full">
                             {{ form_label(form.root_category,'Root category',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.root_category,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.root_category)}}
+                            </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.image_url,'image_url',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.image_url,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.image_url)}}
+                            </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.code,'code',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
                             {{ form_widget(form.code,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                            <div class="text-red-700 mt-1">
+                                {{ form_errors(form.code)}}
+                            </div>
                         </div>
                         </div>
                     </div>

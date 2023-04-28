@@ -73,7 +73,6 @@ class CategoriesController extends AbstractController
         $form = $this->createForm(CategoryType::class,$category);
 
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid())
         {
             try {
@@ -82,6 +81,8 @@ class CategoriesController extends AbstractController
                 $category->setUpdatedAt(new \DateTimeImmutable('now'));
                 $this->entityManager->persist($category);
                 $this->entityManager->flush();
+
+
             }
             catch (\Exception $e)
             {

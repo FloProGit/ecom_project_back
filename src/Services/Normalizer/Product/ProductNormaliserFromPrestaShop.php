@@ -33,7 +33,7 @@ final class ProductNormaliserFromPrestaShop implements ProductNormalizerInterfac
             ProductKeyNormalize::IS_MAIN => $this->data['IS_MAIN'],
             ProductKeyNormalize::MANUFACTER => $this->data['MANUFACTER'],
             ProductKeyNormalize::CONDITION => $this->data['CONDITION'],
-
+            ProductKeyNormalize::PRODUCT_VARIATION => $this->data['PRODUCT_VARIATION'],
         ];
     }
 }

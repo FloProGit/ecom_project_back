@@ -60,7 +60,6 @@ class CategoryRepository extends ServiceEntityRepository
             $arrayIntcode[]= intval($code);
         }
 
-
         return $this->createQueryBuilder('c')
             ->where('c.code IN(:array)')
             ->setParameter('array',$arrayIntcode)

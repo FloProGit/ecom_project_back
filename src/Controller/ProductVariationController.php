@@ -15,6 +15,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\ProductVariationRepository;
 use App\Repository\MediaUrlRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +28,7 @@ class ProductVariationController extends AbstractController
         private ProductRepository $productRepository,
         private ProductVariationRepository $productVariationRepository,
         private MediaUrlRepository $mediaUrlRepository,
+        private EntityManagerInterface $entityManager,
     ){}
 
 
@@ -55,6 +57,7 @@ class ProductVariationController extends AbstractController
         {
             try {
                 $productVariation = $form->getData();
+                dd($form->get('images')->getData());
                 $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
                 $this->entityManager->persist($productVariation);
                 $this->entityManager->flush();
@@ -64,6 +67,7 @@ class ProductVariationController extends AbstractController
                 dd($e);
             }
         }
+
         return $this->render('Pages/ProductVariation/product_variation_edit.html.twig',[
             'breadcrumbs'=>[
                 ['route'=> 'products_list','data' => ['name' => 'Categories']],

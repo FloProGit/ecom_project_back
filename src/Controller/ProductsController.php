@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Filesystem\Filesystem;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -51,6 +51,30 @@ class ProductsController extends AbstractController
         {
             try {
                 $product = $form->getData();
+//                $form->get('productVariations')[0]->get('images')
+               $images = $form->get('productVariations')[0]->get('images')->getData();
+
+               // TODO : Tu appelle MediaUrlSevrice retourne un tableau de MediaUrl
+
+                foreach ($images as $image)
+                {
+                    $fichier = md5(uniqid()).'.'.$image->guessExtension();
+                    $mimeType = $image->getMimeType();
+                    $image->move(
+                        $this->getParameter('images_directory').'/images',
+                        $fichier
+                    );
+
+                    $Media = new MediaUrl();
+                    $Media->setMimeType($mimeType);
+                    $Media->setCreatedAt(new \DateTimeImmutable('now'));
+                    $Media->setUpdatedAt(new \DateTimeImmutable('now'));
+                    $Media->setName($fichier);
+                    $Media->setUrlLink($fichier);
+                    $Media->setIsMain(false);
+                    $this->entityManager->persist($Media);
+                    $product->getProductVariations()[0]->addMediaUrl($Media);
+                }
                 $product->setUpdatedAt(new \DateTimeImmutable('now'));
                 $this->entityManager->persist($product);
                 $this->entityManager->flush();
@@ -75,7 +99,7 @@ class ProductsController extends AbstractController
         {
             $returnedArray[$key] = ['label'=>$value,'selected'=>in_array($key,$haystack)];
         }
-
+//        dd($form);
         return $this->render('Pages/Product/product_edit.html.twig',[
             'breadcrumbs'=>[
                 ['route'=> 'products_list','data' => ['name' => 'Categories']],

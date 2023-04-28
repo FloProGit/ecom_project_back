@@ -8,14 +8,20 @@ use App\Entity\Product;
 use App\Entity\MediaUrl;
 use App\Entity\Manufacter;
 use App\Repository\ProductRepository;
+use App\Services\Factory\MediaUrlFactory;
 use App\Services\Factory\ProductFactory;
+use App\Services\Factory\ProductVariationFactory;
+use App\Services\Infrastructure\MediaUrlDownloadService;
 use App\Services\Normalizer\Product\ProductNormaliserFromPrestaShop;
+use App\Services\Normalizer\Product\ProductVariationNormaliserFromPrestaShop;
+use App\Services\Normalizer\Product\ProductVariationNormaliserFromProductPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -32,17 +38,24 @@ class PrestashopCSVToProduct extends Command
     private SymfonyStyle $io;
 
     private ProductRepository $productRepository;
+    private MediaUrlDownloadService $mediaUrlDownloadService;
+
+    private ParameterBagInterface $parameterBag;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         string                 $fileDirectory,
-        ProductRepository      $productRepository
+        ProductRepository      $productRepository,
+        ParameterBagInterface $parameterBag,
+        MediaUrlDownloadService $mediaUrlDownloadService
     )
     {
         parent::__construct();
         $this->fileDirectory = $fileDirectory;
         $this->entityManager = $entityManager;
         $this->productRepository = $productRepository;
+        $this->mediaUrlDownloadService = $mediaUrlDownloadService;
+        $this->parameterBag = $parameterBag;
     }
 
     protected function configure(): void
@@ -70,7 +83,7 @@ class PrestashopCSVToProduct extends Command
 
     private function getDataFromFile(): array
     {
-        $file = $this->fileDirectory . 'files-products-csv-prestashop-presta-product-2570-fr.csv';
+        $file = $this->parameterBag->get('download_directory') . '/FileTest/files-products-csv-prestashop-presta-product-2570-fr.csv';
 
         $fileExtention = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -92,8 +105,17 @@ class PrestashopCSVToProduct extends Command
 
     private function CreateProduct()
     {
-
+        $Conditions = $this->entityManager->getRepository(ConditionProduct::class)->findAll();
+        $Conditions = array_map(function(ConditionProduct $condition){
+            return $condition->getCurrentCondition();
+        },$Conditions);
         $this->io->section('Creation des Product a partir du fichier');
+
+        $manufacters = $this->entityManager->getRepository(Manufacter::class)->findAll();
+        $manufacters = array_map(function(Manufacter $manufacter){
+            return $manufacter->getExtId();
+        },$manufacters);
+
 
         $productCreated = 0;
         foreach ($this->getDataFromFile() as $row) {
@@ -111,47 +133,11 @@ class PrestashopCSVToProduct extends Command
                         //Replace string categories in Row Categories/Entities
                         $arrayStrCategory = explode(",", $row['CATEGORIES']);
                         $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
-                        $newArrayCategories = [];
-                        foreach ($arrayCategory as $category) {
-                            $newArrayCategories[] = $category;
-                        }
-                        $row['CATEGORIES'] = $newArrayCategories;
+                        $row['CATEGORIES'] = $arrayCategory;
 
-                        //IS_MAIN for firstProductVariant
-                        $row['IS_MAIN'] = true;
-
-                        //MediaUrl Create Entity From String  list of urls
-                        $newArrayUrls = [];
-                        $imgs = explode(",", $row['IMAGES_URL']);
-
-                        $is_main = true;
-                        foreach ($imgs as $img) {
-                            if ($img != "") {
-                                $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
-
-                                $newImage = new MediaUrl();
-                                $newImage->setMimeType("image/" . $fileExtention);
-                                $newImage->setName("no definition");
-                                $newImage->setUrlLink($img);
-                                $newImage->setCreatedAt(new \DateTimeImmutable('now'));
-                                $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
-                                $newImage->setIsMain($is_main);
-
-                                if ($is_main) {
-                                    $is_main = false;
-                                }
-                                $newArrayUrls[] = $newImage;
-                                $this->entityManager->persist($newImage);
-                            }
-
-                        }
-                        $row['IMAGES_URL'] = $newArrayUrls;
 
                         // get Manufacter if not exist create new with id give by csv and create random string for name
-                        $manufacter = $this->entityManager->getRepository(Manufacter::class)->findOneBy([
-                            'ext_id' => intval($row['MANUFACTER'])
-                        ]);
-                        if (!$manufacter) {
+                        if (!in_array($row['MANUFACTER'],$manufacters,true)) {
                             $manufacter = new Manufacter();
                             $manufacter->setExtId(intval($row['MANUFACTER']));
                             $manufacter->setName($this->generateRandomString(10));
@@ -161,22 +147,36 @@ class PrestashopCSVToProduct extends Command
 
 
 
-                        //add condition to row
-                        $Condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);
-                        if(!$Condition)
+                        //Check if Condition exist if not create new one
+                        if(!in_array($row['CONDITION'],$Conditions,true))
                         {
                             $Condition = (new ConditionProduct())
                                 ->setCurrentCondition($row['CONDITION']);
-
                             $this->entityManager->persist($Condition);
+                            $Conditions[] = $row['CONDITION'];
                         }
                         $row['CONDITION']=$Condition;
 
-                        //Create product First Product Variation from prestashop
-                        $product = (new ProductFactory($this->entityManager))->buildProduct(new ProductNormaliserFromPrestaShop($row));
-                        $this->entityManager->persist($product);
 
 
+                        //MediaUrl Create Entity From String  list of urls
+                        $imgs = explode(",", $row['IMAGES_URL']);
+                        $mediaUrls = $this->mediaUrlDownloadService->downloadImagesAndSaveMediaUrl($imgs,true);
+                        $row['IMAGES_URL']=$mediaUrls;
+                        if(empty($row['IMAGES_URL']))
+                        {
+                            $mediaUrl = (new MediaUrlFactory())->buildMediaUrl('default','default.png',true);
+                            $this->entityManager->persist( $mediaUrl);
+                            $row['IMAGES_URL'] = [$mediaUrl];
+                        }
+                        //CreateMainVariation
+                        $row['IS_MAIN'] = true;
+                        $productVariation = (new ProductVariationFactory())->buildProduct(new ProductVariationNormaliserFromProductPrestaShop($row));
+                        $row['PRODUCT_VARIATION'] = $productVariation;
+
+                        $product = (new ProductFactory())->buildProduct(new ProductNormaliserFromPrestaShop($row));
+
+                        $this->entityManager->persist($productVariation);
                         $this->entityManager->persist($product);
 
                         $this->entityManager->flush();

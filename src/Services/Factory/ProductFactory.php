@@ -6,21 +6,13 @@ use App\Entity\Product;
 use App\Entity\ProductVariation;
 use App\Services\Normalizer\ProductNormalizer;
 use App\Services\Normalizer\ProductNormalizerInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Services\Normalizer\ProductKeyNormalize;
 
 final class ProductFactory {
-
-    public function __construct(private EntityManagerInterface $entityManager)
-    {
-    }
     public function buildProduct(ProductNormalizerInterface $productDataInterface, ProductVariation $productVariation = null): Product {
 
         $productData = (new ProductNormalizer($productDataInterface))->getNormalizeData();
-        if(!isset($productVariation)) {
-            $productVariation = (new ProductVariationFactory($this->entityManager))->buildProduct($productDataInterface);
-        }
-        $product = (new Product())
+        return(new Product())
             ->setExtId($productData[ProductKeyNormalize::ID])
             ->setExtReference($productData[ProductKeyNormalize::EXT_REFERENCE] ?? ProductKeyNormalize::UNDEFINED_VALUE)
             ->setName($productData[ProductKeyNormalize::NAME] ?? ProductKeyNormalize::UNDEFINED_VALUE)
@@ -34,11 +26,6 @@ final class ProductFactory {
             ->setShortDescription($productData[ProductKeyNormalize::SHORT_DESCRIPTION] ?? ProductKeyNormalize::UNDEFINED_VALUE)
             ->setHasVariation($productData[ProductKeyNormalize::HAS_VARIATION] ?? false)
             ->addMultipleCategory($productData[ProductKeyNormalize::CATEGORIES]??[])
-            ->addProductVariation($productVariation);
-        $this->entityManager->persist($productVariation);
-
-        return $product;
+            ->addProductVariation($productData[ProductKeyNormalize::PRODUCT_VARIATION]??null);
     }
-
-
 }

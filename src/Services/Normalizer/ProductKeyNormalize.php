@@ -31,4 +31,6 @@ class ProductKeyNormalize
     public const CONDITION = 'CONDITION';
     public const ATTRIBUTE = 'ATTRIBUTE';
     public const PRODUCT = 'PRODUCT';
+
+    public const PRODUCT_VARIATION = 'PRODUCT_VARIATION';
 }

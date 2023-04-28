@@ -115,9 +115,6 @@
             <main class="flow-root ">
                 <section class="flex-1 w-full">
                     <div class="py-4 px-4 mx-auto  overflow-x-auto sm:px-6 lg:px-8 ">
-                        {% if  breadcrumbs is defined %}
-                            {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
-                        {% endif %}
                         {% block content %}
                         {% endblock %}
                     </div>

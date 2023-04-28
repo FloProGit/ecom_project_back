@@ -8,6 +8,7 @@ use App\Entity\Attribute;
 use App\Entity\ProductVariation;
 use App\Repository\ProductVariationRepository;
 use App\Services\Factory\ProductVariationFactory;
+use App\Services\Infrastructure\MediaUrlDownloadService;
 use App\Services\Normalizer\Product\ProductVariationNormaliserFromPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -15,6 +16,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -32,16 +34,23 @@ class PrestashopCSVToProductVariation extends Command
 
     private ProductVariationRepository $productVariationRepository;
 
+    private ParameterBagInterface $parameterBag;
+    private MediaUrlDownloadService $mediaUrlDownloadService;
+
     public function __construct(
         EntityManagerInterface     $entityManager,
         string                     $fileDirectory,
-        ProductVariationRepository $productVariationRepository
+        ProductVariationRepository $productVariationRepository,
+        ParameterBagInterface      $parameterBag,
+        MediaUrlDownloadService $mediaUrlDownloadService
     )
     {
         parent::__construct();
         $this->fileDirectory = $fileDirectory;
         $this->entityManager = $entityManager;
         $this->productVariationRepository = $productVariationRepository;
+        $this->parameterBag = $parameterBag;
+        $this->mediaUrlDownloadService = $mediaUrlDownloadService;
     }
 
     protected function configure(): void
@@ -62,16 +71,16 @@ class PrestashopCSVToProductVariation extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        $this->CreateProduct();
+        $this->createProduct();
 
         return Command::SUCCESS;
     }
 
     private function getDataFromFile(): array
     {
-        $file = $this->fileDirectory . 'files-combinations-csv-prestashop-presta-combination-2570-fr.csv';
+        $file = $this->parameterBag->get('download_directory') . '/FileTest/files-combinations-csv-prestashop-presta-combination-2570-fr.csv';
 
-        $fileExtention = pathinfo($file, PATHINFO_EXTENSION);
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
         $normalizers = [new ObjectNormalizer()];
 
@@ -84,13 +93,13 @@ class PrestashopCSVToProductVariation extends Command
         /** @var  string $fileString */
         $fileString = file_get_contents($file);
 
-        $data = $serializer->decode($fileString, $fileExtention, [CsvEncoder::DELIMITER_KEY => ';']);
+        $data = $serializer->decode($fileString, $fileExtension, [CsvEncoder::DELIMITER_KEY => ';']);
 
         return $data;
     }
 
 
-    private function CreateProduct()
+    private function createProduct()
     {
 
         $this->io->section('Creation des Product a partir du fichier');
@@ -102,9 +111,9 @@ class PrestashopCSVToProductVariation extends Command
                 $productVariationExist = $this->productVariationRepository->findOneBy([
                     'ext_reference' => $row["REFERENCE"]
                 ]);
-                if (!$productVariationExist) {
+
+                if (null === $productVariationExist) {
                     try {
-                        $productVariation = new ProductVariation();
                         $product = $this->entityManager->getRepository(Product::class)->findOneBy([
                             'ext_id' => intval($row['﻿PRODUCT_ID'])
                         ]);
@@ -112,34 +121,15 @@ class PrestashopCSVToProductVariation extends Command
                             'ext_id' => intval($row['﻿PRODUCT_ID']),
                             'is_main' => true
                         ]);
-                        if ($product) {
+
+                        if (null !== $product) {
 
                             //MediaUrl Create Entity From String  list of urls
-                            $newArrayUrls = [];
                             $imgs = explode(",", $row['IMAGE_URL']);
+                            $mediaUrls = $this->mediaUrlDownloadService->downloadImagesAndSaveMediaUrl($imgs,true);
+                            $row['IMAGE_URL'] = $mediaUrls;
 
-                            $is_main = true;
-                            foreach ($imgs as $img) {
-                                if ($img != "") {
-                                    $fileExtention = pathinfo($img, PATHINFO_EXTENSION);
 
-                                    $newImage = new MediaUrl();
-                                    $newImage->setMimeType("image/" . $fileExtention);
-                                    $newImage->setName("no definition");
-                                    $newImage->setUrlLink($img);
-                                    $newImage->setCreatedAt(new \DateTimeImmutable('now'));
-                                    $newImage->setUpdatedAt(new \DateTimeImmutable('now'));
-                                    $newImage->setIsMain($is_main);
-
-                                    if ($is_main) {
-                                        $is_main = false;
-                                    }
-                                    $newArrayUrls[] = $newImage;
-                                    $this->entityManager->persist($newImage);
-                                }
-
-                            }
-                            $row['IMAGE_URL'] = $newArrayUrls;
 
                             $attribute = new Attribute();
                             $attribute->setName($row['ATTRIBUTE']);
@@ -158,8 +148,9 @@ class PrestashopCSVToProductVariation extends Command
                             $row['PRODUCT'] = $product;
 
 
-                            $productVariation = (new ProductVariationFactory($this->entityManager))->buildProduct(new ProductVariationNormaliserFromPrestaShop($row));
-
+                            $productVariation = (new ProductVariationFactory())->buildProduct(new ProductVariationNormaliserFromPrestaShop($row));
+                            $product->addProductVariation($productVariation);
+                            $product->setHasVariation(true);
                             $this->entityManager->persist($product);
 //
                             $this->entityManager->persist($productVariation);
@@ -178,7 +169,7 @@ class PrestashopCSVToProductVariation extends Command
             }
         }
 
-        $this->io->success('success '.$productVariationCreated.' product variation has been created');
+        $this->io->success('success ' . $productVariationCreated . ' product variation has been created');
     }
 
 }

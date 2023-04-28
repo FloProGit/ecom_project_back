@@ -11,6 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -26,18 +27,21 @@ class SyncCategoriesFromCsvCommand extends Command
 
     private SymfonyStyle $io;
 
+    private ParameterBagInterface $parameterBag;
     private CategoryRepository $categoryRepository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         string                 $fileDirectory,
-        CategoryRepository     $productRepository
+        CategoryRepository     $productRepository,
+        ParameterBagInterface $parameterBag
     )
     {
         parent::__construct();
         $this->fileDirectory = $fileDirectory;
         $this->entityManager = $entityManager;
         $this->categoryRepository = $productRepository;
+        $this->parameterBag = $parameterBag;
     }
 
     protected function configure(): void
@@ -65,7 +69,7 @@ class SyncCategoriesFromCsvCommand extends Command
 
     private function getDataFromFile(): array
     {
-        $file = $this->fileDirectory . 'files-categories-csv-prestashop-category-2570-fr.csv';
+        $file = $this->parameterBag->get('download_directory') . '/FileTest/files-categories-csv-prestashop-category-2570-fr.csv';
 
         $fileExtention = pathinfo($file, PATHINFO_EXTENSION);
 

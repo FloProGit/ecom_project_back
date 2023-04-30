@@ -7,24 +7,20 @@ controllers:
 dashboard:
     path: /admin
     controller: App\Controller\DashboardController::index
+#------------------------------AUTH------------------------------------
 
+app_login:
+  path: /login
+  controller: App\Controller\Auth\LoginController::index
+
+app_logout:
+  path: /logout
+  controller: App\Controller\Auth\LogoutController::logout
+
+#------------------------------product------------------------------------
 products_list:
     path: /admin/products
     controller: App\Controller\ProductsController::index
-
-categories_list:
-     path: /admin/categories
-     controller: App\Controller\CategoriesController::index
-
-categories_Create:
-  path: /admin/categories-create
-  controller: App\Controller\CategoriesController::createCategory
-
-category_edit:
-  path: /admin/category-edit/{id}
-  controller: App\Controller\CategoriesController::editCategory
-
-
 product_edit:
   path: /admin/product-edit/{id}
   controller: App\Controller\ProductsController::editProduct
@@ -37,6 +33,29 @@ product_variation_create:
   path: /admin/product-variation-create
   controller: App\Controller\ProductVariationController::createProductVariation
 
+#------------------------------category------------------------------------
+categories_list:
+     path: /admin/categories
+     controller: App\Controller\CategoriesController::index
+
+categories_Create:
+  path: /admin/categories-create
+  controller: App\Controller\CategoriesController::createCategory
+
+category_edit:
+  path: /admin/category-edit/{id}
+  controller: App\Controller\CategoriesController::editCategory
+
+#------------------------------manufacter------------------------------------
+manufacter_list:
+  path: /admin/manufacters
+  controller: App\Controller\ManufacterController::index
+#------------------------------Condition_product------------------------------------
+condition_product_list:
+  path: /admin/condition-product
+  controller: App\Controller\ConditionProductController::index
+
+
 default:
   path: /
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
@@ -44,12 +63,5 @@ default:
     path: /admin
     permanent: true
 
-app_login:
-  path: /login
-  controller: App\Controller\Auth\LoginController::index
-
-app_logout:
-  path: /logout
-  controller: App\Controller\Auth\LogoutController::logout
 
 

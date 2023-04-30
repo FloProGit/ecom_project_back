@@ -1,0 +1,39 @@
+{% extends 'base_layout.html.twig' %}
+
+
+
+{% block content %}
+    <div class="flex">
+        {% if  breadcrumbs is defined %}
+            {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+        {% endif %}
+        <a href="{{ path('categories_Create') }}"
+           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        Create Category</a>
+    </div>
+
+
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg my-4 mx-4">
+        <table class="min-w-full divide-y  divide-gray-300">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">Image</th>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 ">Name</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white  ">
+            {% for manufacter in manufacters %}
+                <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 sm:pl-6 ">
+                        <img  width="64" src="https://www.peintremik-art.com/wp-content/uploads/2019/02/Diapositive1134.jpg" class=" rounded-lg">
+                    </td>
+                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-blue-600 sm:pl-6"><a href="{{ path('category_edit', {id:  manufacter.id})  }}">{{ manufacter.name }}</a></td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{manufacter.getExtId() }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+{% endblock %}

@@ -18,5 +18,10 @@ window.Alpine = Alpine
 
 Alpine.start()
 
+var toastLiveExample = document.getElementById('liveToast')
+
+if (toastLiveExample) {
+    toastLiveExample.classList.add('show');
+}
 
 

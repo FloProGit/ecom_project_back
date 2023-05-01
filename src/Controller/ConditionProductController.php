@@ -52,8 +52,8 @@ class ConditionProductController extends AbstractController
 
         if ($conditionProduct->isSubmitted() && $conditionProduct->isValid()) {
             try {
-                $productVariation = $conditionProduct->getData();
-                $this->entityManager->persist($productVariation);
+                $conditionProductData = $conditionProduct->getData();
+                $this->entityManager->persist($conditionProductData);
                 $this->entityManager->flush();
             } catch (\Exception $e) {
                 $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
@@ -71,8 +71,8 @@ class ConditionProductController extends AbstractController
 
         if ($conditionProduct->isSubmitted() && $conditionProduct->isValid()) {
             try {
-                $productVariation = $conditionProduct->getData();
-                $this->entityManager->persist($productVariation);
+                $conditionProductData = $conditionProduct->getData();
+                $this->entityManager->persist($conditionProductData);
                 $this->entityManager->flush();
             } catch (\Exception $e) {
                 $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");

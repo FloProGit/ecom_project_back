@@ -42,13 +42,25 @@ class ProductsController extends AbstractController
 
     public function editProduct(Product $product,Request $request) : response
     {
-
         $form = $this->createForm(ProductType::class,$product);
 
         $form->handleRequest($request);
+        $resultCategoryRequest =$this->entityManager->getRepository(Category::class)->getAllNameArray();
+       $categoriesProduct = $product->getCategories()->ToArray();
+        $codesCat =  array_map(function (Category $category) {
+           return $category->getCode();
+       },$categoriesProduct);
+        $haystack=$codesCat;
 
+        $returnedArray = [];
+        foreach ($resultCategoryRequest as $key=>$value)
+        {
+
+            $returnedArray[$key] = ['label'=>$value,'selected'=>in_array($key,$haystack)];
+        }
         if($form->isSubmitted() && $form->isValid())
         {
+//            dd();
             try {
                 $product = $form->getData();
 //                $form->get('productVariations')[0]->get('images')
@@ -76,13 +88,18 @@ class ProductsController extends AbstractController
                     $product->getProductVariations()[0]->addMediaUrl($Media);
                 }
                 $product->setUpdatedAt(new \DateTimeImmutable('now'));
+                $newCategories = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($request->get('multi-selected-json'));
+                $product->updateCategories($newCategories);
                 $this->entityManager->persist($product);
                 $this->entityManager->flush();
+
             }
             catch (\Exception $e)
             {
-                dd($e);
+                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
             }
+            $this->addFlash("success",  "Produit modifié ");
+            return $this->redirectToRoute('product_edit',['id' => $product->getId()]);
         }
         $productVariation=null;
         if($product->isHasVariation()) {
@@ -92,15 +109,11 @@ class ProductsController extends AbstractController
 
         $MediaUrlVariantArray = $this->entityManager->getRepository(MediaUrl::class)->getMainMediaUrlForVariantsFromProduct($product->getProductVariations()->toArray());
 
-        $resultCategoryRequest =$this->entityManager->getRepository(Category::class)->getAllNameArray();
-        $haystack=[2570,2580];
-        $returnedArray = [];
-        foreach ($resultCategoryRequest as $key=>$value)
-        {
-            $returnedArray[$key] = ['label'=>$value,'selected'=>in_array($key,$haystack)];
-        }
+
 //        dd($form);
         return $this->render('Pages/Product/product_edit.html.twig',[
+            'arrayTest'=> json_encode($returnedArray),
+            'selectedValues' => json_encode($codesCat),
             'breadcrumbs'=>[
                 ['route'=> 'products_list','data' => ['name' => 'Categories']],
                 ['data' => ['name' => $product->getName()]]

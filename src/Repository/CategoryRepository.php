@@ -39,35 +39,20 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
-    public function getIdByCode(string $code): int
+    public function getCategoriesByCodes(string $codes): array
     {
-       $Intcode = intval($code);
+        $codes = explode(',',$codes);
+        $Intcodes =  array_map(function(string $code){
+            return intval($code);
+        },$codes);
 
-        return $this->createQueryBuilder('c')
-                ->where('c.code = :val')
-                ->setParameter('val',$Intcode)
-                ->getQuery()
-                ->getOneOrNullResult()
-                ->getId();
-
+        $dql = 'SELECT cat FROM App\Entity\Category cat WHERE cat.code IN (:array_codes)';
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter("array_codes",$Intcodes);
+        return  $query->execute();
     }
 
-    public function getArrayIdByArrayCode(array $arrayCode): array
-    {
-        $arrayIntcode = [];
-        foreach ($arrayCode as $code)
-        {
-            $arrayIntcode[]= intval($code);
-        }
 
-        return $this->createQueryBuilder('c')
-            ->where('c.code IN(:array)')
-            ->setParameter('array',$arrayIntcode)
-            ->getQuery()
-            ->getResult()
-            ;
-
-    }
     public function getAllNameArray(): array
     {
         $resultCategoryRequest = $this->findAll();

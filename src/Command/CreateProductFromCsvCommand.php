@@ -106,12 +106,9 @@ class CreateProductFromCsvCommand extends Command
                         $product = new Product();
                         $product->setExtId($row['ID']);
 
-                        $arrayStrCategory = explode(",", $row['CATEGORY']);
-                        $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
-                        foreach ($arrayCategory as $category) {
+                        $arrayCategory = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($row['CATEGORY']);
 
-                            $product->addCategory($category);
-                        }
+                        $product->addMultipleCategory($arrayCategory);
 
 
                         $product->setName($row['NAME']);
@@ -160,12 +157,9 @@ class CreateProductFromCsvCommand extends Command
                     'ext_id' => $row['ID']
                 ]);
 
-                $arrayStrCategory = explode(",", $row['CATEGORY']);
-                $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
-                foreach ($arrayCategory as $category) {
+                $arrayCategory = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($row['CATEGORY']);
 
-                    $product->addCategory($category);
-                }
+                $product->addMultipleCategory($arrayCategory);
 
 
                 $Condition = $this->entityManager->getRepository(ConditionProduct::class)->findOneBy(['current_condition' => $row['CONDITION']]);

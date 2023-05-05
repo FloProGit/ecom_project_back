@@ -2,6 +2,7 @@
     <div class="relative">
         <div type="button" @click="toggle"
            class=" flex py-1 bg-white rounded ring-inset ring-gray-300  items-start ring-1 w-full">
+            <input name="multi-selected-json" id="multi-selected-json" type="text" hidden>
             <template x-cloak x-for="select in DrawSelected" :key="select.id">
                <span  class="inline-flex items-center rounded-full bg-indigo-100 py-0.5 pl-2.5 px-1 ml-2 text-sm font-medium text-indigo-700">
                 <span x-text="select?.value"></span>
@@ -16,7 +17,7 @@
             <template x-if="Selected.length < 1">
                     <span class="px-4 text-gray-500" >liste vide ... </span>
             </template>
-
+            
         </div>
         <ul x-show="open" x-ref="ulSelected"
             class="absolute bg-white rounded hover:cursor-pointer  ring-inset ring-gray-300 ring-1 w-full overflow-auto max-h-60 ">

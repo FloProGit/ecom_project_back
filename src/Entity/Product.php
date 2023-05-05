@@ -189,6 +189,41 @@ class Product
 
         return $this;
     }
+    public function updateCategories(array $newCategories):self
+    {
+        //get Current Categories
+        $currentCategories = $this->getCategories()->toArray();
+        $currentCat=[];
+        $currentCatListEntity=[];
+        foreach ($currentCategories as $currentCategory)
+        {
+            $code = $currentCategory->getCode();
+            $currentCat[]=$code;
+            $currentCatListEntity[$code] = $currentCategory;
+        }
+        //get New Categories
+        $newCat=[];
+        $newCatListEntity=[];
+        foreach ($newCategories as $newCategory)
+        {
+            $code = $newCategory->getCode();
+            $newCat[]=$code;
+            $newCatListEntity[$code] = $newCategory;
+        }
+        //Get with add and remove
+       $diffAdd= array_diff($newCat,$currentCat);
+       $diffRemove= array_diff($currentCat,$newCat);
+       //do action add and remove from ListEntity by code
+       foreach ($diffRemove as $toRemove)
+       {
+           $this->removeCategory($currentCatListEntity[$toRemove]);
+       }
+        foreach ($diffAdd as $toAdd)
+        {
+            $this->addCategory($newCatListEntity[$toAdd]);
+        }
+        return $this;
+    }
     public function addMultipleCategory(array $categories): self
     {
        foreach ($categories as $category){
@@ -202,7 +237,13 @@ class Product
 
         return $this;
     }
-
+    public function removeMultipleCategory(array $categories): self
+    {
+        foreach ($categories as $category){
+            $this->removeCategory($category);
+        }
+        return $this;
+    }
     /**
      * @return Collection<int, ProductVariation>
      */

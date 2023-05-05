@@ -10,7 +10,18 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
-import Alpine from 'alpinejs'
 
+
+
+import Alpine from 'alpinejs'
+window.Alpine = Alpine
 
 Alpine.start()
+
+var toastLiveExample = document.getElementById('liveToast')
+
+if (toastLiveExample) {
+    toastLiveExample.classList.add('show');
+}
+
+

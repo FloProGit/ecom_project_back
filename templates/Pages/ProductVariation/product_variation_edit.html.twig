@@ -1,0 +1,45 @@
+{% extends 'base_layout.html.twig' %}
+{% set title_page = 'categories' %}
+{% set description_page = 'categories des produits' %}
+
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ShowProduct') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="flex">
+        {% if  breadcrumbs is defined %}
+            {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+        {% endif %}
+        <a href="{{ path('categories_Create') }}"
+           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Create Product </a>
+    </div>
+    {{ form_start(variation_form) }}
+
+    <div class="space-y-8  px-4 py-4 rounded-lg ">
+
+        {% include 'Components/product_variation.html.twig' with {'variation_form' : variation_form ,'in_product':false} %}
+
+        <div class="h-[5rem]">
+
+        </div>
+
+        <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
+            <div class="pt-5">
+                <div class="flex justify-end">
+                    <div class="flex justify-end">
+                        {{ form_widget(variation_form.submit,{'label': 'Save variation','attr':{'class':'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'  }}) }}
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {{ form_end(variation_form) }}
+    </div>
+{% endblock %}
+
+

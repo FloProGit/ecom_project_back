@@ -1,0 +1,45 @@
+<div x-data="dropdown" x-init="$nextTick(()=>initValues({{ array }},{{ selectedValues }}))">
+    <div class="relative">
+        <div type="button" @click="toggle"
+           class=" flex py-1 bg-white rounded ring-inset ring-gray-300  items-start ring-1 w-full">
+            <template x-cloak x-for="select in DrawSelected" :key="select.id">
+               <span  class="inline-flex items-center rounded-full bg-indigo-100 py-0.5 pl-2.5 px-1 ml-2 text-sm font-medium text-indigo-700">
+                <span x-text="select?.value"></span>
+                      <button type="button"  @click.stop="removeFromSelect(select.id)"
+                              class="z-10 ml-0.5 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:bg-indigo-500 focus:text-white focus:outline-none">
+                        <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                            <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7"/>
+                        </svg>
+                      </button>
+                  </span>
+            </template>
+            <template x-if="Selected.length < 1">
+                    <span class="px-4 text-gray-500" >liste vide ... </span>
+            </template>
+
+        </div>
+        <ul x-show="open" x-ref="ulSelected"
+            class="absolute bg-white rounded hover:cursor-pointer  ring-inset ring-gray-300 ring-1 w-full overflow-auto max-h-60 ">
+            <div class=" px-2 m-2">
+                <input x-model="textValue" type="text" name="search" id="search" class=" block w-full rounded-full border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1  ring-inset ring-gray-300 placeholder:text-gray-400  focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6" placeholder="write your search ...">
+            </div>
+            <template x-for="(value,index) in OnClickDropDown" :key="index">
+                <div>
+                    <template x-if="value.selected">
+                        <li class="px-2 bg-blue-300  hover:bg-red-300" @click.stop="switchSelected(index)">
+                                <span><span  x-text="value.label"></span></span>
+                        </li>
+                    </template>
+                    <template x-if="!value.selected">
+                        <li class="px-2 hover:bg-blue-300" @click.stop="switchSelected(index)">
+                                <span ><span  x-text="value.label"></span></span>
+                        </li>
+                    </template>
+                </div>
+            </template>
+        </ul>
+    </div>
+</div>
+
+
+

@@ -14,12 +14,12 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
-
+.htaccess
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-
+.htaccess
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

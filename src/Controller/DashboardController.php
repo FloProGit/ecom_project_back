@@ -19,7 +19,6 @@ class DashboardController extends AbstractController
     public function index(MediaUrlDownloadService $imageDownloadService) : response
     {
         $imageDownloadService->downloadImagesAndSaveMediaUrl(['https://cdnbigbuy.com/images/53208_mandatory-ring.jpg']);
-        dd('end');
         return $this->render('dashboard.html.twig');
     }
 

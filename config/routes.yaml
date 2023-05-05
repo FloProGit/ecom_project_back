@@ -7,24 +7,20 @@ controllers:
 dashboard:
     path: /admin
     controller: App\Controller\DashboardController::index
+#------------------------------AUTH------------------------------------
 
+app_login:
+  path: /login
+  controller: App\Controller\Auth\LoginController::index
+
+app_logout:
+  path: /logout
+  controller: App\Controller\Auth\LogoutController::logout
+
+#------------------------------product------------------------------------
 products_list:
     path: /admin/products
     controller: App\Controller\ProductsController::index
-
-categories_list:
-     path: /admin/categories
-     controller: App\Controller\CategoriesController::index
-
-categories_Create:
-  path: /admin/categories-create
-  controller: App\Controller\CategoriesController::createCategory
-
-category_edit:
-  path: /admin/category-edit/{id}
-  controller: App\Controller\CategoriesController::editCategory
-
-
 product_edit:
   path: /admin/product-edit/{id}
   controller: App\Controller\ProductsController::editProduct
@@ -37,6 +33,52 @@ product_variation_create:
   path: /admin/product-variation-create
   controller: App\Controller\ProductVariationController::createProductVariation
 
+#------------------------------category------------------------------------
+categories_list:
+     path: /admin/categories
+     controller: App\Controller\CategoriesController::index
+
+categories_Create:
+  path: /admin/categories-create
+  controller: App\Controller\CategoriesController::createCategory
+
+category_edit:
+  path: /admin/category-edit/{id}
+  controller: App\Controller\CategoriesController::editCategory
+
+#------------------------------manufacter------------------------------------
+manufacter_list:
+  path: /admin/manufacters
+  controller: App\Controller\ManufacterController::index
+
+manufacter_save:
+  path: /admin/manufacters-save/{id}
+  controller: App\Controller\ManufacterController::saveManufacter
+
+manufacter_create:
+  path: /admin/manufacters-create
+  controller: App\Controller\ManufacterController::createManufacter
+
+manufacter_delete:
+  path: /admin/manufacters-delete/{id}
+  controller: App\Controller\ManufacterController::deleteManufacter
+#------------------------------Condition_product------------------------------------
+condition_product_list:
+  path: /admin/condition-product
+  controller: App\Controller\ConditionProductController::index
+
+condition_product_save:
+  path: /admin/condition-product-save/{id}
+  controller: App\Controller\ConditionProductController::saveConditionProduct
+
+condition_product_create:
+  path: /admin/condition-product-create
+  controller: App\Controller\ConditionProductController::createConditionProduct
+
+condition_product_delete:
+  path: /admin/condition-product-delete/{id}
+  controller: App\Controller\ConditionProductController::deleteConditionProduct
+
 default:
   path: /
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
@@ -44,12 +86,5 @@ default:
     path: /admin
     permanent: true
 
-app_login:
-  path: /login
-  controller: App\Controller\Auth\LoginController::index
-
-app_logout:
-  path: /logout
-  controller: App\Controller\Auth\LogoutController::logout
 
 

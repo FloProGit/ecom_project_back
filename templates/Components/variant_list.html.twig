@@ -14,7 +14,7 @@
                 {% if not loop.first %}
                 <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
                     <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 ">
-                        <img  width="64" src="{{ MediaUrlVariantArray[variant.id] }}" class=" rounded-lg">
+                        <img  width="64" src="{{ asset('/download/images/'~ MediaUrlVariantArray[variant.id]) }}" class=" rounded-lg">
                     </td>
                     <td class="whitespace-nowrap py-4 px-3  font-semibold text-blue-600 "><a href="{{ path('product_variation_edit', {id:  variant.id})  }}">{{ variant.ext_reference }}</a></td>
                     <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 ">{{ variant.ext_reference }}</td>

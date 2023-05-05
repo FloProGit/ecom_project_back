@@ -9,13 +9,16 @@ namespace App\Controller;
 
 
 use App\Entity\Category;
+use App\Entity\Manufacter;
 use App\Entity\MediaUrl;
 use App\Entity\Product;
 use App\Entity\ProductVariation;
+use App\Form\ManufacterType;
 use App\Form\ProductType;
 use App\Form\ProductVariationType;
 use App\Repository\ManufacterRepository;
 use App\Repository\ProductRepository;
+use App\Services\Infrastructure\ErrorFromHandlingTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,82 +37,78 @@ class ManufacterController extends AbstractController
     public function index() : response
     {
         $result = $this->manufacterRepository->findAll();
-        return $this->render('Pages/Manufacter/manufacter.html.twig',[
+
+        $manufactersForms = array_map(function ($manufacter) {
+            return $this->createForm(ManufacterType::class, $manufacter)->createView();
+        }, $result);
+
+        $formularCreation = $this->createForm(ManufacterType::class, new Manufacter())->createView();
+        return $this->render('Pages/Manufacter/manufacter.html.twig', [
             'manufacters' => $result,'breadcrumbs'=>[
                 ['data' => ['name' => 'Manufacter']]
-            ]]);
+            ]
+            ,
+            'manufacter_forms_array' => $manufactersForms,
+            'manufacter_form_create' => $formularCreation
+        ]);
     }
 
-    public function editProduct(Product $product,Request $request) : response
+    public function saveManufacter(Manufacter $manufacter ,Request $request) : response
     {
+        $manufacter = $this->createForm(ManufacterType::class, $manufacter);
 
-        $form = $this->createForm(ProductType::class,$product);
+        $manufacter->handleRequest($request);
 
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($manufacter->isSubmitted() && $manufacter->isValid()) {
             try {
-                $product = $form->getData();
-//                $form->get('productVariations')[0]->get('images')
-               $images = $form->get('productVariations')[0]->get('images')->getData();
-
-               // TODO : Tu appelle MediaUrlSevrice retourne un tableau de MediaUrl
-
-                foreach ($images as $image)
-                {
-                    $fichier = md5(uniqid()).'.'.$image->guessExtension();
-                    $mimeType = $image->getMimeType();
-                    $image->move(
-                        $this->getParameter('images_directory').'/images',
-                        $fichier
-                    );
-
-                    $Media = new MediaUrl();
-                    $Media->setMimeType($mimeType);
-                    $Media->setCreatedAt(new \DateTimeImmutable('now'));
-                    $Media->setUpdatedAt(new \DateTimeImmutable('now'));
-                    $Media->setName($fichier);
-                    $Media->setUrlLink($fichier);
-                    $Media->setIsMain(false);
-                    $this->entityManager->persist($Media);
-                    $product->getProductVariations()[0]->addMediaUrl($Media);
-                }
-                $product->setUpdatedAt(new \DateTimeImmutable('now'));
-                $this->entityManager->persist($product);
+                $manufacterData = $manufacter->getData();
+                $this->entityManager->persist($manufacterData);
                 $this->entityManager->flush();
-            }
-            catch (\Exception $e)
-            {
-                dd($e);
+            } catch (\Exception $e) {
+                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
             }
         }
-        $productVariation=null;
-        if($product->isHasVariation()) {
+        $this->addFlash("success",  "Contient le contenu de la notification ");
+        return $this->redirectToRoute('manufacter_list');
+    }
 
-            $productVariation = $this->entityManager->getRepository(ProductVariation::class)->getVariationForListFromProductID($product->getId());
+    public function createManufacter(Request $request) : response
+    {
+        $manufacter = $this->createForm(ManufacterType::class, new Manufacter());
+
+        $manufacter->handleRequest($request);
+
+        if ($manufacter->isSubmitted() && $manufacter->isValid()) {
+            try {
+                $manufacterData = $manufacter->getData();
+                $this->entityManager->persist($manufacterData);
+                $this->entityManager->flush();
+                $this->addFlash("success",  'Manufacter' .$manufacterData->getName().'Add');
+            } catch (\Exception $e) {
+                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
+            }
+        }
+        else{
+            $errorTransformer = new ErrorFromHandlingTransformer($manufacter->getErrors(true));
+            $this->addFlash("danger",  $errorTransformer->__toString());
         }
 
-        $MediaUrlVariantArray = $this->entityManager->getRepository(MediaUrl::class)->getMainMediaUrlForVariantsFromProduct($product->getProductVariations()->toArray());
+        return $this->redirectToRoute('manufacter_list');
+    }
 
-        $resultCategoryRequest =$this->entityManager->getRepository(Category::class)->getAllNameArray();
-        $haystack=[2570,2580];
-        $returnedArray = [];
-        foreach ($resultCategoryRequest as $key=>$value)
+    public function deleteManufacter(Manufacter $manufacter) : response
+    {
+        try{
+            $this->entityManager->remove($manufacter);
+            $this->entityManager->flush();
+        }
+        catch (\Exception $e)
         {
-            $returnedArray[$key] = ['label'=>$value,'selected'=>in_array($key,$haystack)];
-        }
-//        dd($form);
-        return $this->render('Pages/Product/product_edit.html.twig',[
-            'breadcrumbs'=>[
-                ['route'=> 'products_list','data' => ['name' => 'Categories']],
-                ['data' => ['name' => $product->getName()]]
-            ],
-            'productsVariation' => $productVariation,
-            'MediaUrlVariantArray' => $MediaUrlVariantArray,
-            'hasVaration' => $product->isHasVariation(),
-            'product_form'=> $form->createView(),
-        ]);
+            $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
+            return $this->redirectToRoute('condition_product_list');
 
+        }
+        $this->addFlash("warning",  "suppression effectué");
+        return $this->redirectToRoute('manufacter_list');
     }
 }

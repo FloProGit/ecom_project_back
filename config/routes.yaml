@@ -50,11 +50,34 @@ category_edit:
 manufacter_list:
   path: /admin/manufacters
   controller: App\Controller\ManufacterController::index
+
+manufacter_save:
+  path: /admin/manufacters-save/{id}
+  controller: App\Controller\ManufacterController::saveManufacter
+
+manufacter_create:
+  path: /admin/manufacters-create
+  controller: App\Controller\ManufacterController::createManufacter
+
+manufacter_delete:
+  path: /admin/manufacters-delete/{id}
+  controller: App\Controller\ManufacterController::deleteManufacter
 #------------------------------Condition_product------------------------------------
 condition_product_list:
   path: /admin/condition-product
   controller: App\Controller\ConditionProductController::index
 
+condition_product_save:
+  path: /admin/condition-product-save/{id}
+  controller: App\Controller\ConditionProductController::saveConditionProduct
+
+condition_product_create:
+  path: /admin/condition-product-create
+  controller: App\Controller\ConditionProductController::createConditionProduct
+
+condition_product_delete:
+  path: /admin/condition-product-delete/{id}
+  controller: App\Controller\ConditionProductController::deleteConditionProduct
 
 default:
   path: /

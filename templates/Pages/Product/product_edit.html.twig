@@ -23,7 +23,7 @@
                     </header>
                     <div class=" ">
                         <label for="Category" class="mb-1 w-full flex items-center text-base font-medium text-gray-700">Category</label>
-{#                        {% include 'Components/multiselect.html.twig'with {'array': arrayTest,'selectedValues' :selectedValues} %}#}
+                        {% include 'Components/multiselect.html.twig'with {'array': arrayTest,'selectedValues' :selectedValues} %}
                     </div>
                     <div class="w-full">
                         {{ form_label(product_form.ext_reference,'Ext reference',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}

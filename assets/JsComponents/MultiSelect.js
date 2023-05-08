@@ -7,9 +7,12 @@ document.addEventListener('alpine:init', () => {
         values:[],
         valuesFiltered:[],
         Selected: [],
+        inputForm :null,
         initValues(data,selectedValues){
             this.Selected = selectedValues
           this.values = data;
+            this.inputForm = document.getElementById("multi-selected-json");
+            this.inputForm.value=this.Selected;
         },
         toggle(e) {
             if(e.pointerType === "mouse")
@@ -32,7 +35,6 @@ document.addEventListener('alpine:init', () => {
                 return JSON.parse(JSON.stringify(this.valuesFiltered));
             }
             else{
-                console.log('je pass ici')
                 return JSON.parse(JSON.stringify(this.values));
             }
 
@@ -46,6 +48,7 @@ document.addEventListener('alpine:init', () => {
         {
             this.values[code]['selected'] = false;
             this.Selected = this.Selected.filter((value) => (value !== code))
+            this.inputForm.value=this.Selected;
         },
         switchSelected(code)
         {
@@ -59,8 +62,7 @@ document.addEventListener('alpine:init', () => {
                 this.values[code]['selected'] = true;
                 this.Selected.push(intCode);
             }
-            console.log(this.Selected)
-
+            this.inputForm.value=this.Selected;
         }
 
     }))

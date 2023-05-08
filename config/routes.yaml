@@ -17,6 +17,23 @@ app_logout:
   path: /logout
   controller: App\Controller\Auth\LogoutController::logout
 
+#------------------------------user------------------------------------
+user_list:
+  path: /admin/user-edit
+  controller: App\Controller\UserManagementController::index
+
+user_save:
+  path: /admin/user-save/{id}
+  controller: App\Controller\UserManagementController::saveUser
+
+user_delete:
+  path: /admin/user-delete/{id}
+  controller: App\Controller\UserManagementController::deleteUser
+
+user_create:
+  path: /admin/user-create
+  controller: App\Controller\UserManagementController::createUser
+
 #------------------------------product------------------------------------
 products_list:
     path: /admin/products

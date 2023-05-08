@@ -105,7 +105,7 @@ class ManufacterController extends AbstractController
         catch (\Exception $e)
         {
             $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
-            return $this->redirectToRoute('condition_product_list');
+            return $this->redirectToRoute('manufacter_list');
 
         }
         $this->addFlash("warning",  "suppression effectué");

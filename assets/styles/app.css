@@ -33,3 +33,30 @@ body {
 @tailwind utilities;
 
 [x-cloak] { display: none !important; }
+body * {
+    @apply transition-colors duration-200;
+}
+@layer base {
+
+    :root {
+        --color-primary: 160 90 255;
+        --color-white: 255 255 255;
+        --color-text: 33 33 33;
+        --color-light: 245 245 245;
+        --color-success: 0 200 81;
+        --color-info: 51 181 229;
+        --color-warn: 255 187 51;
+        --color-error: 254 78 78;
+    }
+
+    :root[class="dark"] {
+        --color-primary: 247 147 34;
+        --color-white: 38 38 38;
+        --color-text: 33 33 33;
+        --color-light: 245 245 245;
+        --color-success: 0 200 81;
+        --color-info: 51 181 229;
+        --color-warn: 255 187 51;
+        --color-error: 254 78 78;
+    }
+}

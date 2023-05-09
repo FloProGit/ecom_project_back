@@ -10,7 +10,7 @@
                 {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
             {% endif %}
             <button @click="showModal = true"
-                    class="rounded-md border border-gray-300 bg-green-400 py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    class="rounded-md border border-gray-300 bg-green-400 py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 Create Manufacter</button>
         </div>
 
@@ -19,11 +19,11 @@
             <table class="min-w-full divide-y  divide-gray-300">
                 <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 ">Id</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Current condition</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Ext id</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Id</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Current condition</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Ext id</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white  ">
@@ -31,18 +31,18 @@
                     {{ form_start(manufacter_form ,{'action': path('manufacter_save',{id : manufacter_form.id.vars.value})}) }}
                     <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
 
-                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{manufacter_form.id.vars.value }}</td>
-                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-blue-600 sm:pl-6">
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{manufacter_form.id.vars.value }}</td>
+                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
                             {{form_widget(manufacter_form.name) }}
                         </td>
-                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-blue-600 sm:pl-6">
+                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
                             {{form_widget(manufacter_form.ext_id) }}
                         </td>
 
-                        <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{form_widget(manufacter_form.submit,{'attr':{'class':'rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}</td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(manufacter_form.submit,{'attr':{'class':'rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}</td>
                         <td>
                             <a href="{{ path('manufacter_delete',{id : manufacter_form.id.vars.value}) }}"
-                               class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                               class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hovered hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
                                 delete</a>
                         </td>
                     </tr>
@@ -66,17 +66,17 @@
                         <div  @click.away.prevent="showModal = false" class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                             {{ form_start(manufacter_form_create,{'action': path('manufacter_create')}) }}
                             <header>
-                                <h3 class="text-lg font-medium leading-6 text-gray-900">Create Manufacter</h3>
+                                <h3 class="label-crud-block">Create Manufacter</h3>
                             </header>
                             <div class="w-full mt-2">
-                                {{ form_label(manufacter_form_create.name,null,{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                                {{ form_widget(manufacter_form_create.name,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                                {{ form_label(manufacter_form_create.name,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                                {{ form_widget(manufacter_form_create.name,{'attr': {'class': 'input-crud-form'}}) }}
                             </div>
                             <div class="w-full mt-2">
-                                {{ form_label(manufacter_form_create.ext_id,null,{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                                {{ form_widget(manufacter_form_create.ext_id,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                                {{ form_label(manufacter_form_create.ext_id,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                                {{ form_widget(manufacter_form_create.ext_id,{'attr': {'class': 'input-crud-form'}}) }}
                             </div>
-                            {{form_widget(manufacter_form_create.submit,{'attr':{'class':'mt-2 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}
+                            {{form_widget(manufacter_form_create.submit,{'attr':{'class':'mt-2 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}
                             {{ form_end(manufacter_form_create) }}
                         </div>
                     </div>

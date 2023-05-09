@@ -33,30 +33,67 @@ body {
 @tailwind utilities;
 
 [x-cloak] { display: none !important; }
-body * {
-    @apply transition-colors duration-200;
+
+/*transision color*/
+/*body * {*/
+/*    @apply transition-colors duration-200;*/
+/*}*/
+/*TODO make add style transition color when click button and remove it when 200 ms is pass*/
+
+@layer components {
+    .input-crud-form {
+        @apply w-full rounded-md border-inputborder shadow-sm bg-white text-symplytext focus:border-ring focus:ring-ring sm:text-sm;
+    }
+    .label-crud-form {
+        @apply w-full flex items-center text-base font-medium mb-2 text-hoveredtext;
+    }
+    .label-crud-block {
+        @apply text-lg font-medium leading-6 text-titletext;
+    }
 }
+/*.hovered {*/
+/*    @apply transition-colors duration-100;*/
+/*}*/
+
+
+
+
 @layer base {
 
     :root {
         --color-primary: 160 90 255;
         --color-white: 255 255 255;
-        --color-text: 33 33 33;
-        --color-light: 245 245 245;
+        --color-light: 247 247 247;
         --color-success: 0 200 81;
         --color-info: 51 181 229;
         --color-warn: 255 187 51;
         --color-error: 254 78 78;
+        --color-ring: 37 99 235;
+        --color-inputborder: 38 38 38;
+
+        /*text*/
+        --color-symplytext: 33 33 33;
+        --color-linktext: 79 70 229;
+        --color-hoveredtext: 76 76 76;
+        --color-hovertext: 0 0 0  ;
+        --color-titletext: 0 0 0 ;
     }
 
     :root[class="dark"] {
         --color-primary: 247 147 34;
         --color-white: 38 38 38;
-        --color-text: 33 33 33;
-        --color-light: 245 245 245;
+        --color-light: 82 82 82;
         --color-success: 0 200 81;
         --color-info: 51 181 229;
         --color-warn: 255 187 51;
         --color-error: 254 78 78;
+        --color-ring: 37 99 235;
+        --color-inputborder: 14 165 233;
+        /*text*/
+        --color-symplytext: 245 245 245;
+        --color-linktext: 79 70 229;
+        --color-hoveredtext: 200 200 200;
+        --color-hovertext: 250 250 250;
+        --color-titletext: 250 250 250;
     }
 }

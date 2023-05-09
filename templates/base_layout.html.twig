@@ -14,14 +14,14 @@
                     <nav x-data="{currentState : 'team'}" class="flex-1 space-y-1 bg-white px-2" aria-label="Sidebar">
                         <div>
                             <a href="{{ path('dashboard') }}"
-                               class="bg-gray-100 text-gray-900 group flex w-full items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium">Dashboard</a>
+                               class="bg-gray-100 text-hoveredtext group flex w-full items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium">Dashboard</a>
                         </div>
                         <div class="space-y-1">
                             <button @Click="currentState = currentState == 'team'?'':'team'" type="button"
-                                    class="bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex w-full items-center rounded-md py-2 pr-2 text-left text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    class="bg-white text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-hovertext group flex w-full items-center rounded-md py-2 pr-2 text-left text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     aria-controls="sub-menu-1" aria-expanded="false">
                                 <!-- Expanded: "rotate-90 text-gray-400", Collapsed: "text-gray-300" -->
-                                <svg class="text-gray-300 mr-2 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hover:text-gray-400"
+                                <svg class="text-gray-300 mr-2 h-5 w-5 flex-shrink-0 transform transition-colors duration-150 ease-in-out group-hovered hover:text-gray-400"
                                      viewBox="0 0 20 20" aria-hidden="true">
                                     <path d="M6 6L14 10L6 14V6Z" fill="currentColor"/>
                                 </svg>
@@ -31,7 +31,7 @@
                             <div>
                                 <a
                                         id="theme-switcher"
-                                        class="block w-full whitespace-nowrap bg-transparent px-3 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-100 dark:hover:bg-gray-600 focus:dark:bg-gray-600"
+                                        class="block w-full whitespace-nowrap bg-transparent px-3 py-2 text-sm font-normal text-hoveredtext hovered hover:bg-gray-100 focus:bg-gray-200 focus:outline-none active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-100 dark:hovered hover:bg-gray-600 focus:dark:bg-gray-600"
                                         href="#"
                                         data-theme="light">
                                     <div class="pointer-events-none">
@@ -52,7 +52,7 @@
                                 </a>
                                 <a
                                         id="theme-switcher"
-                                        class="block w-full whitespace-nowrap bg-transparent px-3 py-2 text-sm font-normal text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-100 dark:hover:bg-gray-600 focus:dark:bg-gray-600"
+                                        class="block w-full whitespace-nowrap bg-transparent px-3 py-2 text-sm font-normal text-hoveredtext hovered hover:bg-gray-100 focus:bg-gray-200 focus:outline-none active:text-zinc-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-gray-400 dark:text-gray-100 dark:hovered hover:bg-gray-600 focus:dark:bg-gray-600"
                                         href="#"
                                         data-theme="dark"
                                         data-te-dropdown-item-ref>
@@ -86,19 +86,19 @@
                             <!-- Expandable link section, show/hide based on state. -->
                             <div x-show="currentState == 'team'" class="space-y-1" id="sub-menu-1">
                                 <a href="{{ path('products_list') }}"
-                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                                   class="hovered group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-hovertext">
                                     Products</a>
                                 <a href="{{ path('categories_list') }}"
-                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-hovertext">
                                     Categories</a>
                                 <a href="{{ path('manufacter_list') }}"
-                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-hovertext">
                                     Manufacters</a>
                                 <a href="{{ path('condition_product_list') }}"
-                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-hovertext">
                                     Conditions</a>
                                 <a href="{{ path('user_list') }}"
-                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-hovertext">
                                     User management</a>
                             </div>
                         </div>
@@ -108,9 +108,9 @@
                     <div class="flex items-center">
 
                         <div class="ml-3">
-                            <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                            <p class="text-sm font-medium text-hoveredtext group-hovered hover:text-hovertext">
                                 {{ app.user.name }}</p>
-                            <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">{{ app.user.email }}</p>
+                            <p class="text-xs font-medium text-symplytext group-hovered hover:text-hoveredtext">{{ app.user.email }}</p>
                         </div>
                     </div>
                     <div class="flex items-center justify-items-end ">
@@ -128,7 +128,7 @@
         <div class="flex flex-1 flex-col lg:pl-64">
             <div class="sticky top-0 z-10 pl-1 pt-1 sm:pl-3 sm:pt-3 lg:hidden">
                 <button type="button"
-                        class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-symplytext hovered hover:text-hovertext focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                     <span class="sr-only">Open sidebar</span>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                          aria-hidden="true">

@@ -10,7 +10,7 @@
             {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
         {% endif %}
         <button @click="showModal = true"
-           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
         Create Category</button>
     </div>
 
@@ -19,10 +19,10 @@
         <table class="min-w-full divide-y  divide-gray-300">
             <thead class="bg-gray-50">
             <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 ">Id</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Current condition</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Id</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Current condition</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white  ">
@@ -30,15 +30,15 @@
                 {{ form_start(condition_form ,{'action': path('condition_product_save',{id : condition_form.id.vars.value})}) }}
                 <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
 
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{condition_form.id.vars.value }}</td>
-                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-blue-600 sm:pl-6">
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{condition_form.id.vars.value }}</td>
+                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
                             {{form_widget(condition_form.current_condition) }}
                     </td>
 
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{form_widget(condition_form.submit,{'attr':{'class':'rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(condition_form.submit,{'attr':{'class':'rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}</td>
                     <td>
                         <a href="{{ path('condition_product_delete',{id : condition_form.id.vars.value}) }}"
-                           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                             delete Condition</a>
                     </td>
                 </tr>
@@ -62,12 +62,12 @@
                     <div  @click.away.prevent="showModal = false" class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                         {{ form_start(conditions_forms_create,{'action': path('condition_product_create')}) }}
                         <header>
-                            <h3 class="text-lg font-medium leading-6 text-gray-900">Create</h3>
+                            <h3 class="label-crud-block">Create</h3>
                         </header>
                         <div class="w-full mt-2">
-                            {{ form_widget(conditions_forms_create.current_condition,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                            {{ form_widget(conditions_forms_create.current_condition,{'attr': {'class': 'input-crud-form'}}) }}
                         </div>
-                        {{form_widget(conditions_forms_create.submit,{'attr':{'class':'mt-2 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}
+                        {{form_widget(conditions_forms_create.submit,{'attr':{'class':'mt-2 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}
                         {{ form_end(conditions_forms_create) }}
                     </div>
                 </div>

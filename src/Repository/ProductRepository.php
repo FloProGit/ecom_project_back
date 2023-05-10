@@ -46,7 +46,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         //PROBLEME AVEC DQL LIMIT ET OFFSET ajout de MediaUrl.is_main en bdd pour limité la sortie a 1 image
 
-        $dql = 'SELECT pv.id ,p.name , pv.ext_reference , med.url_link , man.ext_id , pv.quantity ,cp.current_condition , pv.is_main
+        $dql = 'SELECT p.id ,p.name , pv.ext_reference , med.url_link , man.ext_id , pv.quantity ,cp.current_condition , pv.is_main
          FROM App\Entity\MediaUrl med 
          JOIN med.product_variation pv
          JOIN pv.product p 

@@ -20,7 +20,7 @@ class ConditionProductType extends AbstractType
                 'disabled' => true,
             ])
             ->add('current_condition' , TextType::class)
-            ->add('submit' , SubmitType::class)
+            ->add('submit' , SubmitType::class,['label' => 'Update'])
         ;
     }
 

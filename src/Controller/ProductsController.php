@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Category;
+use App\Entity\ConditionProduct;
 use App\Entity\MediaUrl;
 use App\Entity\Product;
 use App\Entity\ProductVariation;
@@ -28,7 +29,7 @@ class ProductsController extends AbstractController
 
     }
 
-    public function index(): response
+    public function index(): Response
     {
         $result = $this->productRepository->getProductsForList();
         return $this->render('Pages/Product/products.html.twig', [
@@ -37,7 +38,7 @@ class ProductsController extends AbstractController
             ]]);
     }
 
-    public function editProduct(Product $product, Request $request): response
+    public function editProduct(Product $product, Request $request): Response
     {
         $form = $this->createForm(ProductType::class, $product);
 
@@ -70,7 +71,7 @@ class ProductsController extends AbstractController
                         $fichier = md5(uniqid()) . '.' . $image->guessExtension();
                         $mimeType = $image->getMimeType();
                         $image->move(
-                            $this->getParameter('images_directory') . '/images',
+                            $this->getParameter('images_directory') ,
                             $fichier
                         );
 
@@ -119,6 +120,95 @@ class ProductsController extends AbstractController
             'productsVariation' => $productVariation,
             'MediaUrlVariantArray' => $MediaUrlVariantArray,
             'hasVaration' => $product->isHasVariation(),
+            'product_form' => $form->createView(),
+        ]);
+
+    }
+
+    public function createProduct( Request $request): Response
+    {
+        $newProduct = new Product();
+        $productVariation = new ProductVariation();
+        $newProduct->addProductVariation($productVariation);
+        $form = $this->createForm(ProductType::class, $newProduct);
+
+        $form->handleRequest($request);
+
+        //create data categories for product category multiselect in view
+        $resultCategoryRequest = $this->entityManager->getRepository(Category::class)->getAllNameArray();
+
+        $returnedArray = [];
+        foreach ($resultCategoryRequest as $key => $value) {
+
+            $returnedArray[$key] = ['label' => $value, 'selected' => false];
+        }
+
+        //when form is submit
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $product = $form->getData();
+                $product->setHasVariation(false);
+                if (!$product->isHasVariation()) {
+                    $productVariation =$product->getProductVariations()[0];
+                    $productVariation->setCreatedAt(new \DateTimeImmutable());
+                    $productVariation->setUpdatedAt(new \DateTimeImmutable());
+                    $productVariation->setIsMain(true);
+                    $productVariation->setConditionProductId($this->entityManager->getRepository(ConditionProduct::class)->findAll()[0]);
+                    $images = $form->get('productVariations')[0]->get('images')->getData();
+                    //image add
+                    $isMain = true;
+                    foreach ($images as $image) {
+                        $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+                        $mimeType = $image->getMimeType();
+                        $image->move(
+                            $this->getParameter('images_directory'),
+                            $fichier
+                        );
+
+                        $Media = new MediaUrl();
+                        $Media->setMimeType($mimeType);
+                        $Media->setCreatedAt(new \DateTimeImmutable('now'));
+                        $Media->setUpdatedAt(new \DateTimeImmutable('now'));
+                        $Media->setName($fichier);
+                        $Media->setUrlLink($fichier);
+                        $Media->setIsMain($isMain);
+                        $isMain=false;
+                        $this->entityManager->persist($Media);
+                        $product->getProductVariations()[0]->addMediaUrl($Media);
+                    }
+                }
+
+                $product->setUpdatedAt(new \DateTimeImmutable('now'));
+                $newCategories = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($request->get('multi-selected-json'));
+
+                $product->updateCategories($newCategories);
+                $product->setCreatedAt(new \DateTimeImmutable());
+                $product->setUpdatedAt(new \DateTimeImmutable());
+                $this->entityManager->persist($productVariation);
+                $this->entityManager->persist($product);
+                $this->entityManager->flush();
+
+                $this->addFlash("success", "Produit modifié ");
+
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+                $this->addFlash("danger", "Oups! quelque chose c'est mal passé ");
+            }
+
+            return $this->redirectToRoute('products_list');
+        }
+
+
+
+        return $this->render('Pages/Product/product_create.html.twig', [
+            'arrayTest' => json_encode($returnedArray),
+            'selectedValues' => json_encode([]),
+            'breadcrumbs' => [
+                ['route' => 'products_list', 'data' => ['name' => 'New Product']
+                ]
+            ],
+            'productsVariation' => $productVariation,
+            'hasVaration' => false,
             'product_form' => $form->createView(),
         ]);
 

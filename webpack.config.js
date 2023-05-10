@@ -56,6 +56,7 @@ Encore
     })
     .addEntry('app', './assets/app.js')
     .addEntry('ShowProduct', './assets/JsPages/ShowProduct.js')
+    .addEntry('darkMode', './assets/JsPages/DarkMode.js')
 
     // enables Sass/SCSS support
     //.enableSassLoader()

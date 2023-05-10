@@ -1,5 +1,5 @@
 {% extends 'base_layout.html.twig' %}
-
+{% set title_page = 'Category' %}
 
 
 {% block content %}
@@ -7,33 +7,33 @@
         {% if  breadcrumbs is defined %}
             {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
         {% endif %}
-        <a href="{{ path('categories_Create') }}"
-           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-        Create Category</a>
+        <a href="{{ path('categories_create') }}"
+           class="primary-button create-button">
+            Create {{ title_page|lower }} </a>
     </div>
 
 
-    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg my-4 mx-4">
-        <table class="min-w-full divide-y  divide-gray-300">
+    <div class="overflow-hidden section-border my-4 mx-4">
+        <table class="min-w-full ">
             <thead class="bg-gray-50">
             <tr>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">Image</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Code</th>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 ">Name</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Parent</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext sm:pl-6">Image</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Code</th>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Name</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Parent</th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 bg-white  ">
+            <tbody class=" bg-white  ">
             {% for category in categories %}
-                <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
+                <tr class="{% if  loop.index%2 %} bg-light {% endif %}">
 
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500 sm:pl-6 ">
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext sm:pl-6 ">
                         <img  width="64" src="https://www.peintremik-art.com/wp-content/uploads/2019/02/Diapositive1134.jpg" class=" rounded-lg">
                     </td>
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{ category.getCode() }}</td>
-                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-blue-600 sm:pl-6"><a href="{{ path('category_edit', {id:  category.id})  }}">{{ category.getName() }}</a></td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{ category.getCode() }}</td>
+                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium  sm:pl-6"><a class="linked-text" href="{{ path('category_edit', {id:  category.id})  }}">{{ category.getName() }}</a></td>
 
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-500">{{ category.getParent() }}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{ category.getParent() }}</td>
                 </tr>
             {% endfor %}
             </tbody>

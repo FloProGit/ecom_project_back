@@ -16,7 +16,7 @@
     {{ form_start(product_form) }}
         <div class="space-y-8  px-4 py-4  rounded-lg ">
         <div id="information">
-            <div class="shadow">
+            <div class="section-border">
                 <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                     <header>
                         <h3 class="label-crud-block">Information</h3>
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div id="Details">
-            <div class="shadow">
+            <div class="section-border">
                 <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                     <header>
                         <h3 class="label-crud-block">Details</h3>
@@ -81,7 +81,7 @@
             {% include 'Components/product_variation.html.twig' with {'variation_form' : product_form.productVariations[0],'in_product':false} %}
 
         <div id="mesure">
-            <div class="shadow">
+            <div class="section-border">
                 <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
                     <header>
                         <h3 class="label-crud-block">Shipping</h3>

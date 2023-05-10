@@ -12,7 +12,6 @@ body {
 *::-webkit-scrollbar {
     width: 15px;
     height: 15px;
-
 }
 
 *::-webkit-scrollbar-track {
@@ -26,23 +25,23 @@ body {
     border-radius: 14px;
     border: 5px  solid transparent;
     box-shadow: inset 0 0 14px 14px grey;
-
-
 }
+
 @tailwind components;
 @tailwind utilities;
 
 [x-cloak] { display: none !important; }
 
-/*transision color*/
-/*body * {*/
-/*    @apply transition-colors duration-200;*/
-/*}*/
-/*TODO make add style transition color when click button and remove it when 200 ms is pass*/
-
 @layer components {
+    .linked-text{
+        @apply text-linktext hover:text-warn
+    }
+
+    .section-border {
+        @apply shadow shadow-shadowbase rounded-lg;
+    }
     .input-crud-form {
-        @apply w-full rounded-md border-inputborder shadow-sm bg-white text-symplytext focus:border-ring focus:ring-ring sm:text-sm;
+        @apply w-full rounded-md border-inputborder shadow-sm bg-white text-symplytext focus:border-warn focus:ring-warn sm:text-sm;
     }
     .label-crud-form {
         @apply w-full flex items-center text-base font-medium mb-2 text-hoveredtext;
@@ -50,26 +49,33 @@ body {
     .label-crud-block {
         @apply text-lg font-medium leading-6 text-titletext;
     }
+    .primary-button {
+        @apply rounded-md self-center py-3 px-4 text-sm font-medium shadow-sm shadow-shadowbase;
+    }
+    .create-button {
+        @apply bg-success text-hovertext hover:bg-warn;
+    }
+    .delete-button {
+        @apply bg-error text-hovertext hover:bg-warn;
+    }
+    .update-button {
+        @apply bg-ring text-hovertext hover:bg-warn;
+    }
 }
-/*.hovered {*/
-/*    @apply transition-colors duration-100;*/
-/*}*/
-
-
-
 
 @layer base {
 
     :root {
         --color-primary: 160 90 255;
         --color-white: 255 255 255;
-        --color-light: 247 247 247;
+        --color-light: 230 230 230;
         --color-success: 0 200 81;
         --color-info: 51 181 229;
-        --color-warn: 255 187 51;
+        --color-warn: 255 150 15;
         --color-error: 254 78 78;
-        --color-ring: 37 99 235;
+        --color-ring: 50 150 235;
         --color-inputborder: 38 38 38;
+        --color-shadowbase: 76 76 76;
 
         /*text*/
         --color-symplytext: 33 33 33;
@@ -83,15 +89,16 @@ body {
         --color-primary: 247 147 34;
         --color-white: 38 38 38;
         --color-light: 82 82 82;
-        --color-success: 0 200 81;
+        --color-success: 0 150 81;
         --color-info: 51 181 229;
         --color-warn: 255 187 51;
-        --color-error: 254 78 78;
-        --color-ring: 37 99 235;
+        --color-error: 200 78 78;
+        --color-ring: 37 99 200;
         --color-inputborder: 14 165 233;
+        --color-shadowbase: 200 200 200 ;
         /*text*/
         --color-symplytext: 245 245 245;
-        --color-linktext: 79 70 229;
+        --color-linktext: 50 150 235;
         --color-hoveredtext: 200 200 200;
         --color-hovertext: 250 250 250;
         --color-titletext: 250 250 250;

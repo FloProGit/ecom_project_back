@@ -1,8 +1,8 @@
 <div x-data="dropdown" x-init="$nextTick(()=>initValues({{ array }},{{ selectedValues }}))">
-    <div class="relative">
+    <div class="relative" @click.away="open = false">
         <div type="button" @click="toggle"
-           class=" flex py-1 bg-white rounded ring-inset ring-gray-300  items-start ring-1 w-full">
-            <input name="multi-selected-json" id="multi-selected-json" type="text" hidden>
+           class=" flex py-1 bg-white rounded ring-inset ring-inputborder focus:ring-warn  items-start ring-1 w-full">
+            <input name="multi-selected-json" id="multi-selected-json" type="text" hidden >
             <template x-cloak x-for="select in DrawSelected" :key="select.id">
                <span  class="inline-flex items-center rounded-full bg-info py-0.5 pl-2.5 px-1 ml-2 text-sm font-medium text-indigo-700">
                 <span x-text="select?.value"></span>
@@ -17,12 +17,11 @@
             <template x-if="Selected.length < 1">
                     <span class="px-4 text-symplytext" >liste vide ... </span>
             </template>
-            
         </div>
         <ul x-show="open" x-ref="ulSelected"
             class="absolute bg-white rounded hovered hover:cursor-pointer  ring-inset ring-gray-300 ring-1 w-full overflow-auto max-h-60 ">
             <div class=" px-2 m-2">
-                <input x-model="textValue" type="text" name="search" id="search" class=" block w-full rounded-full border-0 px-4 py-1.5 text-hoveredtext shadow-sm ring-1  ring-inset ring-gray-300 placeholder:text-gray-400  focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6" placeholder="write your search ...">
+                <input x-model="textValue" type="text" name="search" id="search" class=" block input-crud-form" placeholder="write your search ...">
             </div>
             <template x-for="(value,index) in OnClickDropDown" :key="index">
                 <div>

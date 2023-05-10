@@ -1,5 +1,5 @@
 {% extends 'base_layout.html.twig' %}
-
+{% set title_page = 'User' %}
 
 
 {% block content %}
@@ -10,13 +10,13 @@
                 {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
             {% endif %}
             <button @click="showModal = true"
-                    class="rounded-md border border-gray-300 bg-green-400 py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                Create Manufacter</button>
+                    class="primary-button create-button">
+                Create {{ title_page|lower }}</button>
         </div>
 
 
-        <div  class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg my-4 mx-4">
-            <table class="min-w-full divide-y  divide-gray-300">
+        <div  class="overflow-hidden section-border my-4 mx-4">
+            <table class="min-w-full ">
                 <thead class="bg-gray-50">
                 <tr>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Id</th>
@@ -28,18 +28,18 @@
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
                 </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 bg-white">
+                <tbody class=" bg-white">
 
                 {% for user_form in user_forms_array %}
                     {{ form_start(user_form ,{'action': path('user_save',{id : user_form.vars.value.getId()})}) }}
-                    <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
+                    <tr class="{% if  loop.index%2 %} bg-light {% endif %}">
 
                         <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{user_form.vars.value.getId() }}</td>
                         <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
-                            {{form_widget(user_form.name) }}
+                            {{form_widget(user_form.name,{'attr': {'class': 'input-crud-form'}}) }}
                         </td>
                         <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
-                            {{form_widget(user_form.email) }}
+                            {{form_widget(user_form.email,{'attr': {'class': 'input-crud-form'}}) }}
                         </td>
                         <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
                             {% for user_choice in user_form.roles.children %}
@@ -51,12 +51,12 @@
                             {% endfor %}
                         </td>
                         <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
-                            {{form_widget(user_form.created_at) }}
+                            {{form_widget(user_form.created_at,{'attr': {'class': 'input-crud-form bg-light'}}) }}
                         </td>
-                        <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(user_form.submit,{'attr':{'class':'rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}</td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(user_form.submit,{'attr':{'class':'primary-button update-button'}}) }}</td>
                         <td>
                             <a href="{{ path('user_delete',{id : user_form.vars.value.getId()}) }}"
-                               class="rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hovered hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                               class="primary-button delete-button">
                                 delete</a>
                         </td>
                     </tr>

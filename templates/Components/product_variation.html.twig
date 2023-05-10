@@ -4,10 +4,10 @@
 {% endif %}
 
     <div id="Images">
-        <div class="shadow">
+        <div class="section-border">
             <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4" x-data="{ files: null }" >
                 <header>
-                    <h3 class="text-lg font-medium text-hoveredtext">Images</h3>
+                    <h3 class="label-crud-block">Images</h3>
                 </header>
 
                 <div class="mt-1 sm:col-span-2 sm:mt-0 relative">
@@ -15,16 +15,16 @@
                     <div class="text-red-700 mt-1">
                         {{ form_errors(variation_form.images)}}
                     </div>
-                    <div class="flex  justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                        <div class="space-y-1 text-center">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                    <div class="flex  justify-center rounded-md border-2 border-dashed border-inputborder px-6 pt-5 pb-6">
+                        <div class="space-y-1 text-center text-sm ">
+                            <svg class="mx-auto h-12 w-12 text-inputborder" stroke="currentColor" fill="none"
                                  viewBox="0 0 48 48" aria-hidden="true">
                                 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
                                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <div class="flex text-sm text-hoveredtext">
+                            <div class="flex text-sm text-symplytext">
                                 <label for="file-upload"
-                                       class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hovered hover:text-indigo-500">
+                                       class="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hovered hover:text-indigo-500">
                                     <span>Click in this area</span>
                                 </label>
                                 <p class="pl-1">or drag and drop</p>
@@ -46,7 +46,7 @@
 
 
 <div id="pricing">
-    <div class="shadow">
+    <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
             <header>
                 <h3 class="label-crud-block">Pricing</h3>
@@ -90,7 +90,7 @@
 
 
 <div id="stock">
-    <div class="shadow">
+    <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
             <header>
                 <h3 class="label-crud-block">Stock</h3>
@@ -115,7 +115,7 @@
 
 {#A FAIRE AVEC LE FORMULAIRE #}
 {#<div id="attribute">#}
-{#    <div class="shadow">#}
+{#    <div class="section-border">#}
 {#        <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">#}
 {#            <header>#}
 {#                <h3 class="label-crud-block">Attribute</h3>#}
@@ -142,7 +142,7 @@
 
 
 <div id="information">
-    <div class="shadow">
+    <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
             <header>
                 <h3 class="label-crud-block">Information</h3>

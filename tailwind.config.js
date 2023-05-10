@@ -11,6 +11,7 @@ module.exports = {
       white: "rgb(var(--color-white) / <alpha-value>)",
       titletext: "rgb(var(--color-titletext) / <alpha-value>)",
       symplytext: "rgb(var(--color-symplytext) / <alpha-value>)",
+      shadowbase: "rgb(var(--color-shadowbase) / 0.3)",
       linktext: "rgb(var(--color-linktext) / <alpha-value>)",
       hoveredtext: "rgb(var(--color-hoveredtext) / <alpha-value>)",
       hovertext: "rgb(var(--color-hovertext) / <alpha-value>)",
@@ -22,6 +23,11 @@ module.exports = {
       error: "rgb(var(--color-error) / <alpha-value>)",
       ring: "rgb(var(--color-ring) / <alpha-value>)",
       inputborder: "rgb(var(--color-inputborder) / <alpha-value>)",
+
+      // No Dark Color
+      'black-nd': "rgb(var(0 0 0) / <alpha-value>)",
+
+
       transparent: "transparent",
       current: "currentColor",
     },

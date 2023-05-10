@@ -1,6 +1,6 @@
 {% extends 'base_layout.html.twig' %}
 
-
+{% set title_page = 'Condition product' %}
 
 {% block content %}
 
@@ -10,13 +10,13 @@
             {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
         {% endif %}
         <button @click="showModal = true"
-           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-        Create Category</button>
+                class="primary-button create-button">
+        Create {{ title_page|lower }}</button>
     </div>
 
 
-    <div  class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg my-4 mx-4">
-        <table class="min-w-full divide-y  divide-gray-300">
+    <div  class="overflow-hidden section-border my-4 mx-4">
+        <table class="min-w-full ">
             <thead class="bg-gray-50">
             <tr>
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Id</th>
@@ -25,21 +25,21 @@
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
             </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 bg-white  ">
+            <tbody class=" bg-white  ">
             {% for condition_form in conditions_forms_array %}
                 {{ form_start(condition_form ,{'action': path('condition_product_save',{id : condition_form.id.vars.value})}) }}
-                <tr class="{% if  loop.index%2 %} bg-gray-300 {% endif %}">
+                <tr class="{% if  loop.index%2 %} bg-light {% endif %}">
 
                     <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{condition_form.id.vars.value }}</td>
                     <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
-                            {{form_widget(condition_form.current_condition) }}
+                            {{form_widget(condition_form.current_condition,{'attr': {'class': 'input-crud-form'}}) }}
                     </td>
 
-                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(condition_form.submit,{'attr':{'class':'rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(condition_form.submit,{'attr':{'class':'primary-button update-button'}}) }}</td>
                     <td>
                         <a href="{{ path('condition_product_delete',{id : condition_form.id.vars.value}) }}"
-                           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            delete Condition</a>
+                           class="primary-button delete-button">
+                            Delete</a>
                     </td>
                 </tr>
                 {{ form_end(condition_form) }}
@@ -48,14 +48,14 @@
         </table>
 
         <div x-cloak x-show="showModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-             x-transition:enter="ease-out duration-1000"
+             x-transition:enter="ease-out duration-200"
              x-transition:enter-start="opacity-0"
              x-transition:enter-end="opacity-100"
              x-transition:leave="ease-in duration-200"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
 
-            <div x-show="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            <div x-show="showModal" class="fixed inset-0 bg-light bg-opacity-75 transition-opacity"
             ></div>
             <div x-show="showModal" class="fixed inset-0 z-10 overflow-y-auto">
                 <div x-bind:class="{hidden: ! showModal}" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">

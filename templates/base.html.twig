@@ -12,13 +12,37 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    </head>
-    <body >
 
-    </div>
+        {% endblock %}
+{#        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>#}
+
+{#        for dark mode fix the white flash#}
+        <style>
+            body {
+                visibility: hidden;
+                opacity: 0;
+            }
+        </style>
+    </head>
+    <body class="bg-white">
+    <script type="module" src="{{ asset('build/darkMode.js') }}"></script>
+
+
         {% include "Components/toasts.html.twig" %}
         {% block body %}{% endblock %}
+
+
+    {#        for dark mode fix the white flash#}
+    <script>
+      function showContent() {
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = 1;
+      }
+      window.addEventListener('DOMContentLoaded', function () {
+        showContent();
+      });
+    </script>
+
     </body>
+
 </html>

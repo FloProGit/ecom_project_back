@@ -1,0 +1,116 @@
+{% extends 'base_layout.html.twig' %}
+{% set title_page = 'User' %}
+
+
+{% block content %}
+
+    <div x-data="{ 'showModal': false }">
+        <div class="flex">
+            {% if  breadcrumbs is defined %}
+                {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+            {% endif %}
+            <button @click="showModal = true"
+                    class="primary-button create-button">
+                Create {{ title_page|lower }}</button>
+        </div>
+
+
+        <div  class="overflow-hidden section-border my-4 mx-4">
+            <table class="min-w-full ">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Id</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Name</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Email</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Roles</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Created at</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext"></th>
+                </tr>
+                </thead>
+                <tbody class=" bg-white">
+
+                {% for user_form in user_forms_array %}
+                    {{ form_start(user_form ,{'action': path('user_save',{id : user_form.vars.value.getId()})}) }}
+                    <tr class="{% if  loop.index%2 %} bg-light {% endif %}">
+
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{user_form.vars.value.getId() }}</td>
+                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                            {{form_widget(user_form.name,{'attr': {'class': 'input-crud-form'}}) }}
+                        </td>
+                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                            {{form_widget(user_form.email,{'attr': {'class': 'input-crud-form'}}) }}
+                        </td>
+                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                            {% for user_choice in user_form.roles.children %}
+                                <div class="">
+                                    {{form_widget(user_choice) }}
+                                    {{ form_label(user_choice)}}
+
+                                </div>
+                            {% endfor %}
+                        </td>
+                        <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                            {{form_widget(user_form.created_at,{'attr': {'class': 'input-crud-form bg-light'}}) }}
+                        </td>
+                        <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(user_form.submit,{'attr':{'class':'primary-button update-button'}}) }}</td>
+                        <td>
+                            <a href="{{ path('user_delete',{id : user_form.vars.value.getId()}) }}"
+                               class="primary-button delete-button">
+                                delete</a>
+                        </td>
+                    </tr>
+                    {{ form_end(user_form) }}
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div x-cloak x-show="showModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+                 x-transition:enter="ease-out duration-1000"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
+
+                <div x-show="showModal" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                ></div>
+                <div x-show="showModal" class="fixed inset-0 z-10 overflow-y-auto">
+                    <div x-bind:class="{hidden: ! showModal}" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div  @click.away.prevent="showModal = false" class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                            {{ form_start(user_form_create,{'action': path('user_create')}) }}
+                            <header>
+                                <h3 class="label-crud-block">Create Manufacter</h3>
+                            </header>
+                            <div class="w-full mt-2">
+                                {{ form_label(user_form_create.name,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                                {{ form_widget(user_form_create.name,{'attr': {'class': 'input-crud-form'}}) }}
+                            </div>
+                            <div class="w-full mt-2">
+                                {{ form_label(user_form_create.email,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                                {{ form_widget(user_form_create.email,{'attr': {'class': 'input-crud-form'}}) }}
+                            </div>
+{#                            {% for user_form in user_forms_array %}#}
+                            <div class="w-full mt-2">
+                                {% for user_choice in user_form_create.roles.children %}
+                                    <div class="">
+                                        {{form_widget(user_choice) }}
+                                        {{ form_label(user_choice)}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="w-full mt-2">
+                                {{ form_label(user_form_create.created_at,null,{'label_attr': {'class': 'hidden'}}) }}
+                                {{ form_widget(user_form_create.created_at,{'attr': {'class': 'hidden'}}) }}
+                            </div>
+
+                            {{form_widget(user_form_create.submit,{'attr':{'class':'mt-2 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}
+                            {{ form_end(user_form_create) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

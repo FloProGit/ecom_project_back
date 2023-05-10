@@ -4,10 +4,10 @@
 {% endif %}
 
     <div id="Images">
-        <div class="shadow">
+        <div class="section-border">
             <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4" x-data="{ files: null }" >
                 <header>
-                    <h3 class="text-lg font-medium text-gray-900">Images</h3>
+                    <h3 class="label-crud-block">Images</h3>
                 </header>
 
                 <div class="mt-1 sm:col-span-2 sm:mt-0 relative">
@@ -15,21 +15,21 @@
                     <div class="text-red-700 mt-1">
                         {{ form_errors(variation_form.images)}}
                     </div>
-                    <div class="flex  justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                        <div class="space-y-1 text-center">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                    <div class="flex  justify-center rounded-md border-2 border-dashed border-inputborder px-6 pt-5 pb-6">
+                        <div class="space-y-1 text-center text-sm ">
+                            <svg class="mx-auto h-12 w-12 text-inputborder" stroke="currentColor" fill="none"
                                  viewBox="0 0 48 48" aria-hidden="true">
                                 <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
                                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <div class="flex text-sm text-gray-600">
+                            <div class="flex text-sm text-symplytext">
                                 <label for="file-upload"
-                                       class="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500">
+                                       class="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hovered hover:text-indigo-500">
                                     <span>Click in this area</span>
                                 </label>
                                 <p class="pl-1">or drag and drop</p>
                             </div>
-                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                            <p class="text-xs text-symplytext">PNG, JPG, GIF up to 10MB</p>
                         </div>
                     </div>
                 </div>
@@ -46,22 +46,22 @@
 
 
 <div id="pricing">
-    <div class="shadow">
+    <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
             <header>
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Pricing</h3>
+                <h3 class="label-crud-block">Pricing</h3>
             </header>
 
             <div class="w-full">
-                {{ form_label(variation_form.price_tax_exclude,'Price tax exclude',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.price_tax_exclude,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.price_tax_exclude,'Price tax exclude',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.price_tax_exclude,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.price_tax_exclude)}}
                 </div>
             </div>
             <div class="w-full">
-                {{ form_label(variation_form.wholesale_price,'Wholesale price',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.wholesale_price,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.wholesale_price,'Wholesale price',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.wholesale_price,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.wholesale_price)}}
                 </div>
@@ -70,7 +70,7 @@
 {#            A FAIRE AVEC LE FORM#}
 {#            <div class="w-full">#}
 {#                <label for="name"#}
-{#                       class="w-full flex items-center text-base font-medium text-gray-700">Discount</label>#}
+{#                       class="w-full flex items-center text-base font-medium text-hoveredtext">Discount</label>#}
 {#                <div class="mt-1 w-full">#}
 {#                    <input id="name" name="name" type="number"#}
 {#                           class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
@@ -78,7 +78,7 @@
 {#            </div>#}
 
             <div class="w-full">
-                {{ form_label(variation_form.on_sale,'On sale',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
+                {{ form_label(variation_form.on_sale,'On sale',{'label_attr': {'class': 'label-crud-form'}}) }}
                 {{ form_widget(variation_form.on_sale,{ 'attr':{'class':'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600' }}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.on_sale)}}
@@ -90,21 +90,21 @@
 
 
 <div id="stock">
-    <div class="shadow">
+    <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
             <header>
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Stock</h3>
+                <h3 class="label-crud-block">Stock</h3>
             </header>
             <div class="w-full">
-                {{ form_label(variation_form.quantity,'Quantity',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.quantity,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.quantity,'Quantity',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.quantity,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.quantity)}}
                 </div>
             </div>
             <div class="w-full">
-                {{ form_label(variation_form.minimal_quantity,'Minimal quantity',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.minimal_quantity,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.minimal_quantity,'Minimal quantity',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.minimal_quantity,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.minimal_quantity)}}
                 </div>
@@ -115,14 +115,14 @@
 
 {#A FAIRE AVEC LE FORMULAIRE #}
 {#<div id="attribute">#}
-{#    <div class="shadow">#}
+{#    <div class="section-border">#}
 {#        <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">#}
 {#            <header>#}
-{#                <h3 class="text-lg font-medium leading-6 text-gray-900">Attribute</h3>#}
+{#                <h3 class="label-crud-block">Attribute</h3>#}
 {#            </header>#}
 {#            <div class="w-full">#}
 {#                <label for="depth"#}
-{#                       class="w-full flex items-center text-base font-medium text-gray-700">Attribute name</label>#}
+{#                       class="w-full flex items-center text-base font-medium text-hoveredtext">Attribute name</label>#}
 {#                <div class="mt-1 w-full">#}
 {#                    <input id="depth" name="depth" type="text" value="{{ productVariation.getAttribute().getName()|default('') }}"#}
 {#                           class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
@@ -130,7 +130,7 @@
 {#            </div>#}
 {#            <div class="w-full">#}
 {#                <label for="depth"#}
-{#                       class="w-full flex items-center text-base font-medium text-gray-700">value</label>#}
+{#                       class="w-full flex items-center text-base font-medium text-hoveredtext">value</label>#}
 {#                <div class="mt-1 w-full">#}
 {#                    <input id="depth" name="depth" type="number" value="{{ productVariation.getAttribute().getValue()|default(0) }}"#}
 {#                           class="w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">#}
@@ -142,36 +142,36 @@
 
 
 <div id="information">
-    <div class="shadow">
+    <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
             <header>
-                <h3 class="text-lg font-medium leading-6 text-gray-900">Information</h3>
+                <h3 class="label-crud-block">Information</h3>
             </header>
             <div class="w-full">
-                {{ form_label(variation_form.name,'Name',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.name,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.name,'Name',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.name,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.name)}}
                 </div>
             </div>
 
             <div class="w-full">
-                {{ form_label(variation_form.ext_id,'Ext identifier',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.ext_id,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.ext_id,'Ext identifier',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.ext_id,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.ext_id)}}
                 </div>
             </div>
             <div class="w-full">
-                {{ form_label(variation_form.ext_reference,'Ext reference',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.ext_reference,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.ext_reference,'Ext reference',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.ext_reference,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.ext_reference)}}
                 </div>
             </div>
             <div class="w-full">
-                {{ form_label(variation_form.ean13,'EAN13',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 text-gray-700'}}) }}
-                {{ form_widget(variation_form.ean13,{'attr': {'class': 'w-full  rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'}}) }}
+                {{ form_label(variation_form.ean13,'EAN13',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.ean13,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.ean13)}}
                 </div>

@@ -17,13 +17,35 @@ app_logout:
   path: /logout
   controller: App\Controller\Auth\LogoutController::logout
 
+#------------------------------user------------------------------------
+user_list:
+  path: /admin/user-edit
+  controller: App\Controller\UserManagementController::index
+
+user_save:
+  path: /admin/user-save/{id}
+  controller: App\Controller\UserManagementController::saveUser
+
+user_delete:
+  path: /admin/user-delete/{id}
+  controller: App\Controller\UserManagementController::deleteUser
+
+user_create:
+  path: /admin/user-create
+  controller: App\Controller\UserManagementController::createUser
+
 #------------------------------product------------------------------------
 products_list:
     path: /admin/products
     controller: App\Controller\ProductsController::index
+
 product_edit:
   path: /admin/product-edit/{id}
   controller: App\Controller\ProductsController::editProduct
+
+product_create:
+  path: /admin/product-create
+  controller: App\Controller\ProductsController::createProduct
 
 product_variation_edit:
   path: /admin/product-variation-edit/{id}
@@ -38,7 +60,7 @@ categories_list:
      path: /admin/categories
      controller: App\Controller\CategoriesController::index
 
-categories_Create:
+categories_create:
   path: /admin/categories-create
   controller: App\Controller\CategoriesController::createCategory
 

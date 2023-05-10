@@ -131,8 +131,8 @@ class PrestashopCSVToProduct extends Command
                     try {
 
                         //Replace string categories in Row Categories/Entities
-                        $arrayStrCategory = explode(",", $row['CATEGORIES']);
-                        $arrayCategory = $this->entityManager->getRepository(Category::class)->getArrayIdByArrayCode($arrayStrCategory);
+                        $arrayCategory = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($row['CATEGORIES']);
+
                         $row['CATEGORIES'] = $arrayCategory;
 
 

@@ -17,15 +17,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserManagementController extends AbstractController
 {
     public function __construct(private UserRepository $userRepository,
                                 private EntityManagerInterface $entityManager,
                                 private UserPasswordHasherInterface $passwordHasher)
-    {
-
-    }
+    {}
 
     public function index(): response
     {
@@ -47,8 +47,10 @@ class UserManagementController extends AbstractController
 
     }
 
+    #[CanDo(['ROLE_USER'],'user_list')]
     public function saveUser(User $User ,Request $request) : response
     {
+
         $User = $this->createForm(UserType::class, $User);
 
         $User->handleRequest($request);
@@ -65,6 +67,7 @@ class UserManagementController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('user_list');
     }
+    #[CanDo(['ROLE_USER','ROLE_ADMIN'],'user_list')]
     public function createUser(Request $request) : response
     {
         $newUser = $this->createForm(UserType::class, new User());
@@ -91,6 +94,7 @@ class UserManagementController extends AbstractController
         return $this->redirectToRoute('user_list');
     }
 
+    #[CanDo(['ROLE_USER'],'user_list')]
     public function deleteUser(User $user)
     {
         try{

@@ -46,7 +46,13 @@ class CategoriesController extends AbstractController
         {
             try {
                 $category = $form->getData();
+
+                $categoryParent = $form->get('id_parent')->getData();
+
+                $category->setIdParent($categoryParent->getIdParent());
+                $category->setParent($categoryParent->getName());
                 $category->setUpdatedAt(new \DateTimeImmutable('now'));
+
                 $this->entityManager->persist($category);
                 $this->entityManager->flush();
             }

@@ -11,22 +11,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\CanDo;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 final class PermissionActionEvent implements EventSubscriberInterface
 {
     private UrlGeneratorInterface $urlGenerator;
     private TokenStorageInterface $tokenStorage;
-    private RequestStack  $requestStack;
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         TokenStorageInterface $tokenStorage,
-        RequestStack  $requestStack
     ) {
         $this->urlGenerator = $urlGenerator;
         $this->tokenStorage = $tokenStorage;
-        $this->requestStack = $requestStack;
     }
 
     public static function getSubscribedEvents(): array
@@ -58,11 +54,10 @@ final class PermissionActionEvent implements EventSubscriberInterface
                 continue;
             }
 
-            if (!$attribute->getArguments()) {
+            $argument = $attribute->getArguments();
+            if ([] === $argument) {
                 continue;
             }
-
-            $argument = $attribute->getArguments();
 
             if (!is_array($argument[0])) {
                 continue;
@@ -75,9 +70,8 @@ final class PermissionActionEvent implements EventSubscriberInterface
             }
             $routeName = $argument[1] ?? 'dashboard';
             $flashMessage = $argument[2] ?? 'you do not have permission to execute this action';
-
+            $event->getRequest()->getSession()->getFlashBag()->add('danger', $flashMessage);
             $redirectUrl = $this->urlGenerator->generate($routeName);
-            $this->requestStack->getSession()->getFlashBag()->add('danger', $flashMessage);
             $event->setController(fn() => new RedirectResponse($redirectUrl));
             $event->stopPropagation();
         }

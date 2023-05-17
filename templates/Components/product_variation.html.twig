@@ -66,7 +66,9 @@
             </div>
 
             <div class="w-full">
-                {{ form_label(variation_form.discount_id,'Wholesale price',{'label_attr': {'class': 'label-crud-form'}}) }}
+
+                    {{ form_label(variation_form.discount_id,'Wholesale price',{'label_attr': {'class': 'label-crud-form'}}) }}
+
                 {{ form_widget(variation_form.discount_id,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.discount_id) }}
@@ -136,14 +138,20 @@
                 </div>
             </div>
             <div class="w-full">
+                <div class="flex ">
+                    {% include  'Components/under_construction.html.twig'%}
                 {{ form_label(variation_form.manufacter,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                </div>
                 {{ form_widget(variation_form.manufacter,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.manufacter) }}
                 </div>
             </div>
             <div class="w-full">
+                <div class="flex ">
+                    {% include  'Components/under_construction.html.twig'%}
                 {{ form_label(variation_form.attribute,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                </div>
                 {{ form_widget(variation_form.attribute,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.manufacter) }}

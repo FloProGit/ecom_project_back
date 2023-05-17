@@ -114,7 +114,7 @@ class ProductsController extends AbstractController
             'arrayTest' => json_encode($returnedArray),
             'selectedValues' => json_encode($codesCat),
             'breadcrumbs' => [
-                ['route' => 'products_list', 'data' => ['name' => 'Categories']],
+                ['route' => 'products_list', 'data' => ['name' => 'Product']],
                 ['data' => ['name' => $product->getName()]]
             ],
             'productsVariation' => $productVariation,

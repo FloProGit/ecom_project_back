@@ -56,7 +56,7 @@ class ProductVariationController extends AbstractController
 
         return $this->render('Pages/ProductVariation/product_variation_edit.html.twig',[
             'breadcrumbs'=>[
-                ['route'=> 'products_list','data' => ['name' => 'Categories']],
+                ['route'=> 'products_list','data' => ['name' => 'Product']],
                 ['route'=> 'product_edit','param' => ['id'=> $product->getId()],'data' => ['name' => $product->getName()]],
                 ['data' => ['name' => 'Variation ' .$productVariation->getExtReference()]]
             ],

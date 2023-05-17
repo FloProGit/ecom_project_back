@@ -38,7 +38,7 @@ class UserManagementController extends AbstractController
         $formularCreation = $this->createForm(UserType::class, new User())->createView();
         return $this->render('Pages/UserManagement/user_management.html.twig', [
              'breadcrumbs' => [
-                ['data' => ['name' => 'ConditionProduct']]
+                ['data' => ['name' => 'User management']]
             ]
             ,
             'user_forms_array' => $ConditonsForms,

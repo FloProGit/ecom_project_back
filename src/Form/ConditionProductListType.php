@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ConditionProductListType extends AbstractType
+final class ConditionProductListType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -2,7 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Attribute;
+use App\Entity\Discount;
+use App\Entity\Manufacter;
 use App\Entity\ProductVariation;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -25,6 +29,22 @@ class ProductVariationType extends AbstractType
             ->add('minimal_quantity',NumberType::class)
             ->add('ean13',TextType::class)
             ->add('wholesale_price',NumberType::class)
+            ->add('manufacter',EntityType::class,[
+                'class'=> Manufacter::class,
+                'label' => 'Manufacter',
+                'choice_label' => 'name',
+                'mapped' => false
+            ])
+            ->add('attribute',EntityType::class,[
+                'class'=> Attribute::class,
+                'label' => 'attribute',
+                'choice_label' => 'name',
+            ])
+            ->add('discount_id',EntityType::class,[
+                'class'=> Discount::class,
+                'label' => 'discount',
+                'choice_label' => 'value',
+            ])
             ->add('on_sale',CheckboxType::class,[
                 'required' => false,
             ])

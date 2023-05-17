@@ -32,20 +32,6 @@ class ProductVariationController extends AbstractController
     ){}
 
 
-//    public function index(ProductVariation $productVariation ) : response
-//    {
-//        $product = $productVariation->getProductId();
-//        return $this->render('Pages/ProductVariation/product_variation_edit.html.twig',[
-//            'productId' => $product,
-//            'productsVariation' => $productVariation,
-//            'breadcrumbs'=>[
-//                ['route'=> 'products_list','data' => ['name' => 'Product']],
-//                ['route'=> 'product_edit','param' => ['id'=> $product->getId()],'data' => ['name' => $product->getName()]],
-//                ['data' => ['name' => 'Variation ' .$productVariation->getExtReference()]]
-//            ]
-//        ]);
-//    }
-
     public function editProductVariation(ProductVariation $productVariation ,Request $request) : response
     {
 
@@ -57,7 +43,7 @@ class ProductVariationController extends AbstractController
         {
             try {
                 $productVariation = $form->getData();
-                dd($form->get('images')->getData());
+
                 $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
                 $this->entityManager->persist($productVariation);
                 $this->entityManager->flush();
@@ -107,7 +93,6 @@ class ProductVariationController extends AbstractController
             ],
             'variation_form'=> $form->createView(),
         ]);
-
     }
 }
 

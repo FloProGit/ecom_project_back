@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\TaxRule;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -30,6 +32,12 @@ class ProductType extends AbstractType
             ->add('ext_reference',TextType::class)
             ->add('description',TextareaType::class)
             ->add('short_description',TextType::class)
+            ->add('tax_rule',EntityType::class,[
+                'class'=> TaxRule::class,
+                'label' => 'tax rule',
+                'choice_label' => 'name',
+                'mapped' => false
+            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $product = $event->getData();
                 $form = $event->getForm();

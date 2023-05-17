@@ -47,6 +47,7 @@ product_create:
   path: /admin/product-create
   controller: App\Controller\ProductsController::createProduct
 
+#------------------------------product_variation------------------------------------
 product_variation_edit:
   path: /admin/product-variation-edit/{id}
   controller: App\Controller\ProductVariationController::editProductVariation
@@ -61,12 +62,63 @@ categories_list:
      controller: App\Controller\CategoriesController::index
 
 categories_create:
-  path: /admin/categories-create
+  path: /admin/category-create
   controller: App\Controller\CategoriesController::createCategory
 
 category_edit:
   path: /admin/category-edit/{id}
   controller: App\Controller\CategoriesController::editCategory
+
+#------------------------------category------------------------------------
+discount_list:
+  path: /admin/discounts
+  controller: App\Controller\DiscountController::index
+
+discount_create:
+  path: /admin/discount-create
+  controller: App\Controller\DiscountController::createDiscount
+
+discount_save:
+  path: /admin/discount-edit/{id}
+  controller: App\Controller\DiscountController::saveDiscount
+
+discount_delete:
+  path: /admin/discounts-delete/{id}
+  controller: App\Controller\DiscountController::deleteDiscount
+
+#------------------------------tax_rule------------------------------------
+tax_rule_list:
+  path: /admin/tax-rules
+  controller: App\Controller\TaxRuleController::index
+
+tax_rule_create:
+  path: /admin/tax-rule-create
+  controller: App\Controller\TaxRuleController::createTaxRule
+
+tax_rule_save:
+  path: /admin/tax-rule-edit/{id}
+  controller: App\Controller\TaxRuleController::saveTaxRule
+
+tax_rule_delete:
+  path: /admin/tax-rule-delete/{id}
+  controller: App\Controller\TaxRuleController::deleteTaxRule
+
+#------------------------------attribute------------------------------------
+attribute_list:
+  path: /admin/attribute-rules
+  controller: App\Controller\AttributeController::index
+
+attribute_create:
+  path: /admin/attribute-create
+  controller: App\Controller\AttributeController::createAttribute
+
+attribute_save:
+  path: /admin/attribute-edit/{id}
+  controller: App\Controller\AttributeController::saveAttribute
+
+attribute_delete:
+  path: /admin/attribute-delete/{id}
+  controller: App\Controller\AttributeController::deleteAttribute
 
 #------------------------------manufacter------------------------------------
 manufacter_list:

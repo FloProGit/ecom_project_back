@@ -48,7 +48,7 @@ class CategoryType extends AbstractType
                 'class'=> Category::class,
                 'choice_label' => 'name',
                 'mapped' => false,
-                'data' => $this->categoryRepository->find($builder->getData()->getIdParent())
+                'data' => $this->categoryRepository->find($builder->getData()->getIdParent() ?? 0)
 
             ])
             ->add('root_category', NumberType::class, ['required' => true])

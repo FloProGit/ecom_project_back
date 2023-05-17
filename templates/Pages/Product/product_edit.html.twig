@@ -40,6 +40,13 @@
                             {{ form_errors(product_form.ext_id)}}
                         </div>
                     </div>
+                    <div class="w-full">
+                        {{ form_label(product_form.tax_rule,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                        {{ form_widget(product_form.tax_rule,{'attr': {'class': 'input-crud-form'}}) }}
+                        <div class="text-red-700 mt-1">
+                            {{ form_errors(product_form.tax_rule)}}
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -143,7 +150,7 @@
         <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-light lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
             <div class="pt-5">
                 <div class="flex justify-end">
-                    {{ form_widget(product_form.submit,{'label': 'Save Category','attr':{'class':'primary-button update-button'  }}) }}
+                    {{ form_widget(product_form.submit,{'label': 'Save Product','attr':{'class':'primary-button update-button'  }}) }}
                 </div>
             </div>
         </footer>

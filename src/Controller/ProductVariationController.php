@@ -67,6 +67,7 @@ class ProductVariationController extends AbstractController
 
     public function createProductVariation(Request $request) : response
     {
+        dd($request);
         $productVariation = new ProductVariation();
         $form = $this->createForm(ProductVariationType::class,$productVariation);
         $product = $productVariation->getProductId();

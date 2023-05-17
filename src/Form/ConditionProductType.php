@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\ConditionProduct;
+use App\Form\Constraints\LengthConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -19,7 +20,7 @@ final class ConditionProductType extends AbstractType
             ->add('id',HiddenType::class,[
                 'disabled' => true,
             ])
-            ->add('current_condition' , TextType::class)
+            ->add('current_condition' , TextType::class ,['required'=>true,'constraints'=> new LengthConstraint(2,255)])
             ->add('submit' , SubmitType::class,['label' => 'Update'])
         ;
     }

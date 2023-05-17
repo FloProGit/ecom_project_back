@@ -16,14 +16,13 @@ class DiscountType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id',HiddenType::class,[
+            ->add('id', HiddenType::class, [
                 'disabled' => true,
             ])
-            ->add('value',NumberType::class,['label'=>'value'])
-            ->add('discount_from',DateTimeType::class,['widget' => 'single_text','input'=>'datetime_immutable'])
-            ->add('discount_to',DateTimeType::class,['widget' => 'single_text','input'=>'datetime_immutable'])
-            ->add('submit',SubmitType::class)
-        ;
+            ->add('value', NumberType::class, ['required' => true, 'label' => 'value'])
+            ->add('discount_from', DateTimeType::class, ['widget' => 'single_text','required' => true, 'input' => 'datetime_immutable'])
+            ->add('discount_to', DateTimeType::class, ['widget' => 'single_text', 'required' => true,'input' => 'datetime_immutable'])
+            ->add('submit', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

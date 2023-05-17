@@ -138,6 +138,13 @@
                 </div>
             </div>
             <div class="w-full">
+                {{ form_label(variation_form.condition_product_id,'Condition',{'label_attr': {'class': 'label-crud-form'}}) }}
+                {{ form_widget(variation_form.condition_product_id,{'attr': {'class': 'input-crud-form'}}) }}
+                <div class="text-red-700 mt-1">
+                    {{ form_errors(variation_form.ext_reference) }}
+                </div>
+            </div>
+            <div class="w-full">
                 <div class="flex ">
                     {% include  'Components/under_construction.html.twig'%}
                 {{ form_label(variation_form.manufacter,null,{'label_attr': {'class': 'label-crud-form'}}) }}

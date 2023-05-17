@@ -5,10 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\ConditionProduct;
-use App\Entity\Product;
-use App\Form\ConditionProductListType;
 use App\Form\ConditionProductType;
-use App\Form\ProductType;
 use App\Repository\ConditionProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

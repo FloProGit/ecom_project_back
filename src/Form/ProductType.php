@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\TaxRule;
+use App\Form\Constraints\LengthConstraint;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -23,16 +24,17 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ext_id',TextType::class)
-            ->add('name',TextType::class)
-            ->add('width',NumberType::class)
-            ->add('height',NumberType::class)
-            ->add('depth',NumberType::class)
-            ->add('weight',NumberType::class)
-            ->add('ext_reference',TextType::class)
-            ->add('description',TextareaType::class)
-            ->add('short_description',TextType::class)
+            ->add('ext_id',TextType::class,['required'=>true,'constraints'=>new LengthConstraint(2,255)])
+            ->add('name',TextType::class,['required'=>true,'constraints'=>new LengthConstraint(2,255)])
+            ->add('width',NumberType::class,['required'=>true])
+            ->add('height',NumberType::class,['required'=>true])
+            ->add('depth',NumberType::class,['required'=>true])
+            ->add('weight',NumberType::class,['required'=>true])
+            ->add('ext_reference',TextType::class,['required'=>true,'constraints'=>new LengthConstraint(2,255)])
+            ->add('description',TextareaType::class,['required'=>true])
+            ->add('short_description',TextType::class,['required'=>true,'constraints'=>new LengthConstraint(2,255)])
             ->add('tax_rule',EntityType::class,[
+                'required'=>true,
                 'class'=> TaxRule::class,
                 'label' => 'tax rule',
                 'choice_label' => 'name',

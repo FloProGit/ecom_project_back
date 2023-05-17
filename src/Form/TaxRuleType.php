@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\TaxRule;
+use App\Form\Constraints\LengthConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -19,8 +20,8 @@ class TaxRuleType extends AbstractType
             ->add('id',HiddenType::class,[
                 'disabled' => true,
             ])
-            ->add('code_tax',NumberType::class)
-            ->add('name',TextType::class)
+            ->add('code_tax',NumberType::class,['required'=>true])
+            ->add('name',TextType::class,['required'=>true,'constraints'=>new LengthConstraint(2,255)])
             ->add('submit',SubmitType::class)
         ;
     }

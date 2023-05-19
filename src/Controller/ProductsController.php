@@ -42,7 +42,7 @@ class ProductsController extends AbstractController
                 ['data' => ['name' => 'Product']]
             ]]);
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
     public function editProduct(Product $product, Request $request): Response
     {
         $form = $this->createForm(ProductType::class, $product);
@@ -113,7 +113,7 @@ class ProductsController extends AbstractController
         ]);
 
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
     public function createProduct( Request $request): Response
     {
         $newProduct = new Product();

@@ -35,7 +35,7 @@ class ProductVariationController extends AbstractController
         private MultiMediaUrlFactory $multiMediaUrlFactory
     ){}
 
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
     public function editProductVariation(ProductVariation $productVariation ,Request $request) : response
     {
 
@@ -68,7 +68,7 @@ class ProductVariationController extends AbstractController
         ]);
 
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
     public function createProductVariation(Request $request ,ProductRepository $productRepository) : response
     {
         $productVariation = new ProductVariation();
@@ -116,7 +116,7 @@ class ProductVariationController extends AbstractController
             'variation_form'=> $form->createView(),
         ]);
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
     public function deleteProductVariation(ProductVariation $productVariation): Response
     {
         try{

@@ -35,7 +35,7 @@ class CategoriesController extends AbstractController
             ]
         ]);
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'categories_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'categories_list')]
     public function editCategory(Category $category,Request $request) : response
     {
 
@@ -72,7 +72,7 @@ class CategoriesController extends AbstractController
         ]);
 
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'categories_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'categories_list')]
     public function createCategory(Request $request) : response
     {
         $category = new Category();

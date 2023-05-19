@@ -53,7 +53,7 @@ class ManufacterController extends AbstractController
             'manufacter_form_create' => $formularCreation
         ]);
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'manufacter_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'manufacter_list')]
     public function saveManufacter(Manufacter $manufacter ,Request $request) : response
     {
         $manufacter = $this->createForm(ManufacterType::class, $manufacter);
@@ -72,7 +72,7 @@ class ManufacterController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('manufacter_list');
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'manufacter_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'manufacter_list')]
     public function createManufacter(Request $request) : response
     {
         $manufacter = $this->createForm(ManufacterType::class, new Manufacter());
@@ -96,7 +96,7 @@ class ManufacterController extends AbstractController
 
         return $this->redirectToRoute('manufacter_list');
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'manufacter_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'manufacter_list')]
     public function deleteManufacter(Manufacter $manufacter) : response
     {
         try{

@@ -45,7 +45,7 @@ final class AttributeController extends AbstractController
             'attribute_forms_create' => $formularCreation
         ]);
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'attribute_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'attribute_list')]
     public function saveAttribute(Attribute $attribute , Request $request): Response
     {
         $form = $this->createForm(AttributeType::class,$attribute);
@@ -69,7 +69,7 @@ final class AttributeController extends AbstractController
         return $this->redirectToRoute('attribute_list');
     }
 
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'attribute_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'attribute_list')]
     public function createAttribute(Request $request): Response
     {
         $attributeForm = $this->createForm(AttributeType::class,new Attribute());
@@ -93,7 +93,7 @@ final class AttributeController extends AbstractController
         }
         return $this->redirectToRoute('attribute_list');
     }
-    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'attribute_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'attribute_list')]
     public function deleteAttribute(Attribute $attribute): Response
     {
         try{

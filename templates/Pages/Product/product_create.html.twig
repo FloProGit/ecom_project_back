@@ -41,6 +41,14 @@
                         </div>
 
                     </div>
+                    <div class="w-full">
+                        {{ form_label(product_form.tax_rule,'Ext id',{'label_attr': {'class': 'label-crud-form'}}) }}
+                        {{ form_widget(product_form.tax_rule,{'attr': {'class': 'input-crud-form'}}) }}
+                        <div class="text-red-700 mt-1">
+                            {{ form_errors(product_form.tax_rule)}}
+                        </div>
+
+                    </div>
                 </div>
 
             </div>

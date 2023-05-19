@@ -69,9 +69,9 @@ class ProductVariationType extends AbstractType
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
                 $productVariation = $event->getData();
                 $form = $event->getForm();
-                if (!$productVariation->getProductId()) {
-                    return;
-                }
+//                if ($productVariation->getProductId()) {
+//                    return;
+//                }
                 $form->add('submit',SubmitType::class);
             })
         ;

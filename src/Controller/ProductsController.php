@@ -12,6 +12,7 @@ use App\Entity\ProductVariation;
 use App\Form\ProductType;
 use App\Form\ProductVariationType;
 use App\Repository\ProductRepository;
+use App\Services\Factory\MultiMediaUrlFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,10 @@ use Symfony\Component\Serializer\Serializer;
 
 class ProductsController extends AbstractController
 {
-    public function __construct(private ProductRepository $productRepository, private EntityManagerInterface $entityManager)
+    public function __construct(
+        private ProductRepository $productRepository,
+        private EntityManagerInterface $entityManager,
+        private MultiMediaUrlFactory $multiMediaUrlFactory)
     {
 
     }
@@ -65,26 +69,10 @@ class ProductsController extends AbstractController
                 $product = $form->getData();
                 if (!$product->isHasVariation()) {
                     $images = $form->get('productVariations')[0]->get('images')->getData();
+                    $mediaUrls = $this->multiMediaUrlFactory->buildMediaUrls($images,$this->getParameter('images_directory') );
 
-                    //image add
-                    foreach ($images as $image) {
-                        $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-                        $mimeType = $image->getMimeType();
-                        $image->move(
-                            $this->getParameter('images_directory') ,
-                            $fichier
-                        );
 
-                        $Media = new MediaUrl();
-                        $Media->setMimeType($mimeType);
-                        $Media->setCreatedAt(new \DateTimeImmutable('now'));
-                        $Media->setUpdatedAt(new \DateTimeImmutable('now'));
-                        $Media->setName($fichier);
-                        $Media->setUrlLink($fichier);
-                        $Media->setIsMain(false);
-                        $this->entityManager->persist($Media);
-                        $product->getProductVariations()[0]->addMediaUrl($Media);
-                    }
+                    $product->getProductVariations()[0]->addMultipleMediaUrl($mediaUrls);
                 }
                 $product->setUpdatedAt(new \DateTimeImmutable('now'));
                 $newCategories = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($request->get('multi-selected-json'));
@@ -131,7 +119,6 @@ class ProductsController extends AbstractController
         $productVariation = new ProductVariation();
         $newProduct->addProductVariation($productVariation);
         $form = $this->createForm(ProductType::class, $newProduct);
-
         $form->handleRequest($request);
 
         //create data categories for product category multiselect in view
@@ -149,33 +136,9 @@ class ProductsController extends AbstractController
                 $product = $form->getData();
                 $product->setHasVariation(false);
                 if (!$product->isHasVariation()) {
-                    $productVariation =$product->getProductVariations()[0];
-                    $productVariation->setCreatedAt(new \DateTimeImmutable());
-                    $productVariation->setUpdatedAt(new \DateTimeImmutable());
-                    $productVariation->setIsMain(true);
-                    $productVariation->setConditionProductId($this->entityManager->getRepository(ConditionProduct::class)->findAll()[0]);
                     $images = $form->get('productVariations')[0]->get('images')->getData();
-                    //image add
-                    $isMain = true;
-                    foreach ($images as $image) {
-                        $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-                        $mimeType = $image->getMimeType();
-                        $image->move(
-                            $this->getParameter('images_directory'),
-                            $fichier
-                        );
-
-                        $Media = new MediaUrl();
-                        $Media->setMimeType($mimeType);
-                        $Media->setCreatedAt(new \DateTimeImmutable('now'));
-                        $Media->setUpdatedAt(new \DateTimeImmutable('now'));
-                        $Media->setName($fichier);
-                        $Media->setUrlLink($fichier);
-                        $Media->setIsMain($isMain);
-                        $isMain=false;
-                        $this->entityManager->persist($Media);
-                        $product->getProductVariations()[0]->addMediaUrl($Media);
-                    }
+                    $mediaUrls = $this->multiMediaUrlFactory->buildMediaUrls($images,$this->getParameter('images_directory') );
+                    $product->getProductVariations()[0]->addMultipleMediaUrl($mediaUrls);
                 }
 
                 $product->setUpdatedAt(new \DateTimeImmutable('now'));
@@ -184,6 +147,10 @@ class ProductsController extends AbstractController
                 $product->updateCategories($newCategories);
                 $product->setCreatedAt(new \DateTimeImmutable());
                 $product->setUpdatedAt(new \DateTimeImmutable());
+                $productVariation->setCreatedAt(new \DateTimeImmutable());
+                $productVariation->setUpdatedAt(new \DateTimeImmutable());
+                $productVariation->setIsMain(true);
+
                 $this->entityManager->persist($productVariation);
                 $this->entityManager->persist($product);
                 $this->entityManager->flush();
@@ -197,8 +164,6 @@ class ProductsController extends AbstractController
 
             return $this->redirectToRoute('products_list');
         }
-
-
 
         return $this->render('Pages/Product/product_create.html.twig', [
             'arrayTest' => json_encode($returnedArray),

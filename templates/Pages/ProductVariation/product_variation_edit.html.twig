@@ -33,6 +33,9 @@
                     <div class="flex justify-end">
                         {{ form_widget(variation_form.submit,{'label': 'Save variation','attr':{'class':'primary-button update-button'  }}) }}
                     </div>
+                    <div class="flex justify-end">
+                        <a class="primary-button delete-button ml-2" href="{{ path('product_variation_delete',{'id' : app.request.attributes.get('id')}) }}">Delete</a>
+                    </div>
                 </div>
             </div>
         </footer>

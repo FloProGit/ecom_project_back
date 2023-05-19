@@ -13,6 +13,10 @@
     {% if  breadcrumbs is defined %}
         {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
     {% endif %}
+    <form action="{{ path( 'product_variation_create' ) }}" method="get" id="variation_product_form">
+        <label for="product_id"></label>
+        <input type="text" name="product_id" id="product_id" class="hidden" value="{{ app.request.attributes.get('id') }}">
+    </form>
     {{ form_start(product_form) }}
         <div class="space-y-8  px-4 py-4  rounded-lg ">
         <div id="information">
@@ -96,13 +100,8 @@
                         <h3 class="label-crud-block mb-4">Variants</h3>
                     </header>
                     <div class="w-full mb-6">
-{#                        <form action="{{ path('product_variation_create' ) }}">#}
-{#                            {{ dump(app.request.attributes.get('request').query.get('param_name')) }}#}
-{#                            <input type="text" value="{{ app.request.attributes.get('request').query.get('param_name') }}">#}
-{#                        </form>#}
-                        <a href="{{ path('product_variation_create' ) }}"
-                           class="primary-button create-button ">
-                            Create product variation </a>
+                        <button class="primary-button create-button" type="submit" form="variation_product_form" value="Submit">
+                            Create product variation</button>
                     </div>
                     {% include 'Components/variant_list.html.twig'with {'productsVariant' : productsVariation , 'MediaUrlVariantArray' : MediaUrlVariantArray} %}
                 </div>
@@ -111,9 +110,8 @@
         </div>
         {% else %}
             <div class="w-full">
-                <a href="{{ path('product_variation_create') }}"
-                   class="primary-button create-button mb-4">
-                    Create product variation </a>
+                <button class="primary-button create-button" type="submit" form="variation_product_form" value="Submit">
+                    Create product variation</button>
             </div>
             {% include 'Components/product_variation.html.twig' with {'variation_form' : product_form.productVariations[0],'in_product':false} %}
 

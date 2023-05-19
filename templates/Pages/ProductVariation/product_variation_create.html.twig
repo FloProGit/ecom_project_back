@@ -1,0 +1,43 @@
+{% extends 'base_layout.html.twig' %}
+{% set title_page = 'Product variation create' %}
+{% set description_page = 'categories des produits' %}
+
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ShowProduct') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="flex">
+        {% if  breadcrumbs is defined %}
+            {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+        {% endif %}
+
+    </div>
+    {{ form_start(variation_form) }}
+
+    <div class="space-y-8  px-4 py-4 rounded-lg ">
+
+        {% include 'Components/product_variation.html.twig' with {'variation_form' : variation_form ,'in_product':false} %}
+
+        <div class="h-[5rem]">
+
+        </div>
+
+        <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-light lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
+            <div class="pt-5">
+                <div class="flex justify-end">
+                    <div class="flex justify-end">
+                        {{ form_widget(variation_form.submit,{'label': 'Save variation','attr':{'class':'primary-button update-button'  }}) }}
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {{ form_end(variation_form) }}
+    </div>
+{% endblock %}
+
+

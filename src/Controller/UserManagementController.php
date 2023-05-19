@@ -47,7 +47,7 @@ class UserManagementController extends AbstractController
 
     }
 
-    #[CanDo(['ROLE_USER'],'user_list')]
+    #[CanDo(['ROLE_ADMIN'],'user_list')]
     public function saveUser(User $User ,Request $request) : response
     {
 
@@ -67,7 +67,7 @@ class UserManagementController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('user_list');
     }
-    #[CanDo(['ROLE_USER','ROLE_ADMIN'],'user_list')]
+    #[CanDo(['ROLE_ADMIN'],'user_list')]
     public function createUser(Request $request) : response
     {
         $newUser = $this->createForm(UserType::class, new User());
@@ -94,7 +94,7 @@ class UserManagementController extends AbstractController
         return $this->redirectToRoute('user_list');
     }
 
-    #[CanDo(['ROLE_USER'],'user_list')]
+    #[CanDo(['ROLE_ADMIN'],'user_list')]
     public function deleteUser(User $user)
     {
         try{

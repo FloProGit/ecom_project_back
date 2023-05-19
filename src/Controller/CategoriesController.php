@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\CanDo;
 
 class CategoriesController extends AbstractController
 {
@@ -34,7 +35,7 @@ class CategoriesController extends AbstractController
             ]
         ]);
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'categories_list')]
     public function editCategory(Category $category,Request $request) : response
     {
 
@@ -71,6 +72,7 @@ class CategoriesController extends AbstractController
         ]);
 
     }
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'categories_list')]
     public function createCategory(Request $request) : response
     {
         $category = new Category();

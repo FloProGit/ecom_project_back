@@ -14,7 +14,7 @@
         {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
     {% endif %}
     <form action="{{ path( 'product_variation_create' ) }}" method="get" id="variation_product_form">
-        <label for="product_id"></label>
+{#        <label for="product_id"></label>#}
         <input type="text" name="product_id" id="product_id" class="hidden" value="{{ app.request.attributes.get('id') }}">
     </form>
     {{ form_start(product_form) }}

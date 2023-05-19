@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\CanDo;
 
 final class TaxRuleController extends AbstractController
 {
@@ -46,7 +47,7 @@ final class TaxRuleController extends AbstractController
             'tax_rule_forms_create' => $formularCreation
         ]);
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'tax_rule_list')]
     public function saveTaxRule(TaxRule $taxRule,Request $request): Response
     {
         $form = $this->createForm(TaxRuleType::class,$taxRule);
@@ -70,6 +71,7 @@ final class TaxRuleController extends AbstractController
         return $this->redirectToRoute('tax_rule_list');
 
     }
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'tax_rule_list')]
     public function createTaxRule(Request $request): Response
     {
         $taxRuleForm = $this->createForm(TaxRuleType::class,new TaxRule());
@@ -94,7 +96,7 @@ final class TaxRuleController extends AbstractController
         return $this->redirectToRoute('tax_rule_list');
 
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'tax_rule_list')]
     public function deleteTaxRule(TaxRule $taxRule): Response
     {
         try{

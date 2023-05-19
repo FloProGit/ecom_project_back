@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\CanDo;
 
 final class DiscountController extends AbstractController
 {
@@ -41,7 +42,7 @@ final class DiscountController extends AbstractController
             'discount_forms_create' => $formularCreation
         ]);
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'discount_list')]
     public function saveDiscount(Discount $discount,Request $request): Response
     {
 
@@ -74,7 +75,7 @@ final class DiscountController extends AbstractController
         }
         return $this->redirectToRoute('discount_list');
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'discount_list')]
     public function createDiscount(Request $request): Response
     {
 

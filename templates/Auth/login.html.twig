@@ -4,9 +4,9 @@
 
 
 {% block body %}
-        {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
     <div class="flex min-h-full h-screen flex-col bg-white  justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -16,9 +16,28 @@
         </div>
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+
+            {#            //this part is Only for presentation version it will be delete in real condition #}
+            <form class="space-y-6" action="{{ path('app_login') }}" method="post" id="login_guest">
+                <input id="username" name="_username" type="email" autocomplete="username" value="guest@gmail.com"
+                       class="hidden">
+
+                <input id="password" name="_password" type="password" autocomplete="current-password" value="azerty1234"
+                       class="hidden">
+            </form>
+            <form class="space-y-6" action="{{ path('app_login') }}" method="post" id="login_user">
+                <input id="username" name="_username" type="email" autocomplete="username" value="useradmin23@gmail.com"
+                       class="hidden">
+
+                <input id="password" name="_password" type="password" autocomplete="current-password" value="azerty1234"
+                       class="hidden">
+            </form>
+            {#            ------------------------------------------------------------------- -#}
+
             <form class="space-y-6" action="{{ path('app_login') }}" method="post">
                 <div>
-                    <label for="username" class="block text-sm font-medium leading-6 text-hoveredtext">Email address</label>
+                    <label for="username" class="block text-sm font-medium leading-6 text-hoveredtext">Email
+                        address</label>
                     <div class="mt-2">
                         <input id="username" name="_username" type="email" autocomplete="username" required
                                class="input-crud-form">
@@ -27,19 +46,39 @@
 
                 <div>
                     <div class="flex items-center justify-between">
-                        <label for="password" class="block text-sm font-medium leading-6 text-hoveredtext">Password</label>
+                        <label for="password"
+                               class="block text-sm font-medium leading-6 text-hoveredtext">Password</label>
                     </div>
                     <div class="mt-2">
                         <input id="password" name="_password" type="password" autocomplete="current-password" required
                                class="input-crud-form">
                     </div>
                 </div>
-
                 <div>
                     <button type="submit"
                             class="primary-button update-button w-full">
                         Login
                     </button>
+
+                    {#            //this part is Only for presentation version it will be delete in real condition #}
+                    <div>
+                        <p class="block text-sm font-medium leading-6 text-hoveredtext mt-4">accées sans droit de modification</p>
+                        <button type="submit"
+                                class="primary-button update-button w-full mt-1"
+                                form="login_guest">
+                            Login guest
+                        </button>
+                    </div>
+                    <div>
+                        <p class="block text-sm font-medium leading-6 text-hoveredtext mt-4">accées avec droit de modification sauf user Management</p>
+                        <button type="submit"
+                                class="primary-button update-button w-full mt-1"
+                                form="login_user">
+                            Login user
+                        </button>
+                    </div>
+                    {#            ------------------------------------------------------------------- -#}
+
                 </div>
             </form>
 

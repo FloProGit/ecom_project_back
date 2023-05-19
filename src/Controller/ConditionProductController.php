@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\CanDo;
 
 class ConditionProductController extends AbstractController
 {
@@ -41,6 +42,7 @@ class ConditionProductController extends AbstractController
             'conditions_forms_create' => $formularCreation
         ]);
     }
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'condition_product_list')]
     public function saveConditionProduct(ConditionProduct $conditionProduct ,Request $request) : response
     {
         $conditionProduct = $this->createForm(ConditionProductType::class, $conditionProduct);
@@ -59,7 +61,7 @@ class ConditionProductController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('condition_product_list');
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'condition_product_list')]
     public function createConditionProduct(Request $request) : response
     {
         $conditionProduct = $this->createForm(ConditionProductType::class, new ConditionProduct());
@@ -78,7 +80,7 @@ class ConditionProductController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('condition_product_list');
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'condition_product_list')]
     public function deleteConditionProduct(ConditionProduct $conditionProduct,Request $request) : response
     {
         try{

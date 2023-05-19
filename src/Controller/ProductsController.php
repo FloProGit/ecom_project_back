@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Http\Attribute\CanDo;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -41,7 +42,7 @@ class ProductsController extends AbstractController
                 ['data' => ['name' => 'Product']]
             ]]);
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
     public function editProduct(Product $product, Request $request): Response
     {
         $form = $this->createForm(ProductType::class, $product);
@@ -112,7 +113,7 @@ class ProductsController extends AbstractController
         ]);
 
     }
-
+    #[CanDo(['ROLE_ADMIN','ROLE_USER'],'products_list')]
     public function createProduct( Request $request): Response
     {
         $newProduct = new Product();

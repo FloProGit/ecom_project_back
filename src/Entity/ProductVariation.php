@@ -48,7 +48,7 @@ class ProductVariation
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
     private ?Manufacter $manufacter = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'productVariations')]
     private ?Discount $discount = null;
 
     #[ORM\OneToMany(mappedBy: 'product_variation', targetEntity: MediaUrl::class)]
@@ -69,7 +69,7 @@ class ProductVariation
     #[ORM\Column]
     private ?bool $is_main = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'productVariations')]
     private ?Attribute $attribute = null;
 
     public function __construct()

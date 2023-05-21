@@ -13,6 +13,10 @@
     {% if  breadcrumbs is defined %}
         {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
     {% endif %}
+    <form action="{{ path( 'product_variation_create' ) }}" method="get" id="variation_product_form">
+{#        <label for="product_id"></label>#}
+        <input type="text" name="product_id" id="product_id" class="hidden" value="{{ app.request.attributes.get('id') }}">
+    </form>
     {{ form_start(product_form) }}
         <div class="space-y-8  px-4 py-4  rounded-lg ">
         <div id="information">
@@ -38,6 +42,16 @@
                         {{ form_widget(product_form.ext_id,{'attr': {'class': 'input-crud-form'}}) }}
                         <div class="text-red-700 mt-1">
                             {{ form_errors(product_form.ext_id)}}
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex ">
+                            {% include  'Components/under_construction.html.twig'%}
+                        {{ form_label(product_form.tax_rule,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                        </div>
+                        {{ form_widget(product_form.tax_rule,{'attr': {'class': 'input-crud-form'}}) }}
+                        <div class="text-red-700 mt-1">
+                            {{ form_errors(product_form.tax_rule)}}
                         </div>
                     </div>
                 </div>
@@ -75,27 +89,30 @@
             </div>
         </div>
 
+
+
         {% if hasVaration %}
 
         <div id="information">
             <div class="section-border">
-                <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                <div class="flex-col bg-white rounded-md  px-4 py-4">
                     <header>
-                        <h3 class="label-crud-block">Variants</h3>
+                        <h3 class="label-crud-block mb-4">Variants</h3>
                     </header>
-                    <div class="w-full">
-                        <a href="{{ path('categories_create') }}"
-                           class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                            Create Product </a>
+                    <div class="w-full mb-6">
+                        <button class="primary-button create-button" type="submit" form="variation_product_form" value="Submit">
+                            Create product variation</button>
                     </div>
-
                     {% include 'Components/variant_list.html.twig'with {'productsVariant' : productsVariation , 'MediaUrlVariantArray' : MediaUrlVariantArray} %}
                 </div>
 
             </div>
         </div>
         {% else %}
-
+            <div class="w-full">
+                <button class="primary-button create-button" type="submit" form="variation_product_form" value="Submit">
+                    Create product variation</button>
+            </div>
             {% include 'Components/product_variation.html.twig' with {'variation_form' : product_form.productVariations[0],'in_product':false} %}
 
         {% endif %}
@@ -143,7 +160,7 @@
         <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-light lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
             <div class="pt-5">
                 <div class="flex justify-end">
-                    {{ form_widget(product_form.submit,{'label': 'Save Category','attr':{'class':'primary-button update-button'  }}) }}
+                    {{ form_widget(product_form.submit,{'label': 'Save Product','attr':{'class':'primary-button update-button'  }}) }}
                 </div>
             </div>
         </footer>

@@ -38,7 +38,7 @@ class UserManagementController extends AbstractController
         $formularCreation = $this->createForm(UserType::class, new User())->createView();
         return $this->render('Pages/UserManagement/user_management.html.twig', [
              'breadcrumbs' => [
-                ['data' => ['name' => 'ConditionProduct']]
+                ['data' => ['name' => 'User management']]
             ]
             ,
             'user_forms_array' => $ConditonsForms,
@@ -47,7 +47,7 @@ class UserManagementController extends AbstractController
 
     }
 
-    #[CanDo(['ROLE_USER'],'user_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN'],'user_list')]
     public function saveUser(User $User ,Request $request) : response
     {
 
@@ -67,7 +67,7 @@ class UserManagementController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('user_list');
     }
-    #[CanDo(['ROLE_USER','ROLE_ADMIN'],'user_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN'],'user_list')]
     public function createUser(Request $request) : response
     {
         $newUser = $this->createForm(UserType::class, new User());
@@ -94,7 +94,7 @@ class UserManagementController extends AbstractController
         return $this->redirectToRoute('user_list');
     }
 
-    #[CanDo(['ROLE_USER'],'user_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN'],'user_list')]
     public function deleteUser(User $user)
     {
         try{

@@ -1,0 +1,93 @@
+{% extends 'base_layout.html.twig' %}
+
+{% set title_page = 'Discount' %}
+
+{% block content %}
+
+    <div x-data="{ 'showModal': false }">
+    <div class="flex">
+        {% if  breadcrumbs is defined %}
+            {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+        {% endif %}
+        <button @click="showModal = true"
+                class="primary-button create-button">
+        Create {{ title_page|lower }}</button>
+    </div>
+
+
+    <div  class="overflow-hidden section-border my-4 mx-4">
+        <table class="min-w-full ">
+            <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-hoveredtext ">Id</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">Value</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">From</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-hoveredtext">To</th>
+            </tr>
+            </thead>
+            <tbody class=" bg-white  ">
+            {% for discount_form in discount_forms_array %}
+                {{ form_start(discount_form ,{'action': path('discount_save',{id : discount_form.id.vars.value})}) }}
+                <tr class="{% if  loop.index%2 %} bg-light {% endif %}">
+
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{discount_form.id.vars.value }}</td>
+                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                            {{form_widget(discount_form.value,{'attr': {'class': 'input-crud-form'}}) }}
+                    </td>
+                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                        {{form_widget(discount_form.discount_from,{'attr': {'class': 'input-crud-form '}}) }}
+                    </td>
+                    <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
+                        {{form_widget(discount_form.discount_to,{'attr': {'class': 'input-crud-form '}}) }}
+                    </td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext">{{form_widget(discount_form.submit,{'attr':{'class':'primary-button update-button'}}) }}</td>
+                    <td>
+                        <a href="{{ path('discount_delete',{id : discount_form.id.vars.value}) }}"
+                           class="primary-button delete-button">
+                            Delete</a>
+                    </td>
+                </tr>
+                {{ form_end(discount_form) }}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div x-cloak x-show="showModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+             x-transition:enter="ease-out duration-200"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+
+            <div x-show="showModal" class="fixed inset-0 bg-light bg-opacity-75 transition-opacity"
+            ></div>
+            <div x-show="showModal" class="fixed inset-0 z-10 overflow-y-auto">
+                <div x-bind:class="{hidden: ! showModal}" class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <div  @click.away.prevent="showModal = false" class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                        {{ form_start(discount_forms_create,{'action': path('discount_create')}) }}
+                        <header>
+                            <h3 class="label-crud-block">Create</h3>
+                        </header>
+                        <div class="w-full mt-2">
+                            {{ form_label(discount_forms_create.value,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(discount_forms_create.value,{'attr': {'class': 'input-crud-form'}}) }}
+                        </div>
+                        <div class="w-full mt-2">
+                            {{ form_label(discount_forms_create.discount_from,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(discount_forms_create.discount_from,{'attr': {'class': 'input-crud-form'}}) }}
+                        </div>
+                        <div class="w-full mt-2">
+                            {{ form_label(discount_forms_create.discount_to,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(discount_forms_create.discount_to,{'attr': {'class': 'input-crud-form'}}) }}
+                        </div>
+                        {{form_widget(discount_forms_create.submit,{'attr':{'class':'primary-button update-button mt-4'}}) }}
+                        {{ form_end(discount_forms_create) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

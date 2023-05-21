@@ -42,7 +42,7 @@ class AppFixtures extends Fixture
         $user->setName('admin');
         $user->setEmail('admin@gmail.com');
         $user->setName('admin');
-        $user->setRoles(['ROLE_ADMIN']);
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
         $plaintextPassword = 'azerty1234';
         $user->setPassword($this->passwordHasher->hashPassword($user, $plaintextPassword));
         $user->setCreatedAt(new \DateTimeImmutable('now'));

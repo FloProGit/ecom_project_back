@@ -47,6 +47,10 @@ product_create:
   path: /admin/product-create
   controller: App\Controller\ProductsController::createProduct
 
+product_delete:
+  path: /admin/product-delete/{id}
+  controller: App\Controller\ProductsController::deleteProduct
+
 #------------------------------product_variation------------------------------------
 product_variation_edit:
   path: /admin/product-variation-edit/{id}

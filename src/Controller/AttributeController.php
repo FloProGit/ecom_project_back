@@ -93,7 +93,7 @@ final class AttributeController extends AbstractController
         }
         return $this->redirectToRoute('attribute_list');
     }
-    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'attribute_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN'],'attribute_list')]
     public function deleteAttribute(Attribute $attribute): Response
     {
         try{

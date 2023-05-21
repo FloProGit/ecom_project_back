@@ -179,4 +179,28 @@ class ProductsController extends AbstractController
         ]);
 
     }
+    #[CanDo(['ROLE_SUPER_ADMIN'],'products_list')]
+    public function deleteProduct(Product $product) : response
+    {
+        try{
+            foreach ($product->getProductVariations() as $productVariation)
+            {
+                $mediaUrls = $productVariation->getMediaUrls();
+                foreach ($mediaUrls as $mediaUrl)
+                {
+                    $productVariation->removeMediaUrl($mediaUrl);
+                }
+                $this->entityManager->remove($productVariation);
+            }
+            $this->entityManager->remove($product);
+            $this->entityManager->flush();
+            $this->addFlash("warning",  "suppression effectué");
+        }
+        catch (\Exception $e)
+        {
+            $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
+            dd($e);
+        }
+        return $this->redirectToRoute('products_list');
+    }
 }

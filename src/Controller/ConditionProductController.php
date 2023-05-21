@@ -80,7 +80,7 @@ class ConditionProductController extends AbstractController
         $this->addFlash("success",  "Contient le contenu de la notification ");
         return $this->redirectToRoute('condition_product_list');
     }
-    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'condition_product_list')]
+    #[CanDo(['ROLE_SUPER_ADMIN'],'condition_product_list')]
     public function deleteConditionProduct(ConditionProduct $conditionProduct,Request $request) : response
     {
         try{

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="en">
+  <file id="linkword.en">
+    <unit id="3HJ929." name="a_f">
+      <segment>
+        <source>a_f</source>
+        <target> </target>
+      </segment>
+    </unit>
+    <unit id="AogqWpF" name="a_m">
+      <segment>
+        <source>a_m</source>
+        <target> </target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

@@ -1,5 +1,5 @@
 {% extends 'base_layout.html.twig' %}
-{% set title_page = 'product' %}
+{% set title_page = 'product'  %}
 {% set description_page = 'liste de produit' %}
 
 {% block content %}
@@ -9,7 +9,7 @@
         {% endif %}
         <a href="{{ path('product_create') }}"
            class="primary-button create-button">
-            Create {{ title_page|lower }} </a>
+            {% trans from 'button' %}create {% endtrans %} {% trans from 'linkword' %}a_m{% endtrans %} {{ title_page|trans({},'general')|lower}} </a>
     </div>
 
     <div class="overflow-hidden section-border mt-4 mx-4">

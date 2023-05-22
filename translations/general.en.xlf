@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="en">
+  <file id="general.en">
+    <unit id="qHkhV8t" name="product">
+      <segment>
+        <source>product</source>
+        <target>Product</target>
+      </segment>
+    </unit>
+    <unit id="7bLNO3T" name="category">
+      <segment>
+        <source>category</source>
+        <target>Category</target>
+      </segment>
+    </unit>
+    <unit id="9WL_vH0" name="manufacter">
+      <segment>
+        <source>manufacter</source>
+        <target>Manufacter</target>
+      </segment>
+    </unit>
+    <unit id="WW1ApO0" name="condition">
+      <segment>
+        <source>condition</source>
+        <target>Condition</target>
+      </segment>
+    </unit>
+    <unit id="2Uw3kmF" name="user_management">
+      <segment>
+        <source>user_management</source>
+        <target>User management</target>
+      </segment>
+    </unit>
+    <unit id="IhYXMYv" name="discount">
+      <segment>
+        <source>discount</source>
+        <target>Discount</target>
+      </segment>
+    </unit>
+    <unit id="qSv9AsR" name="attribute">
+      <segment>
+        <source>attribute</source>
+        <target>Attribute</target>
+      </segment>
+    </unit>
+    <unit id="IlF1Q99" name="tax_rule">
+      <segment>
+        <source>tax_rule</source>
+        <target>Tax rule</target>
+      </segment>
+    </unit>
+    <unit id="8bTbNvk" name="attributes">
+      <segment>
+        <source>attributes</source>
+        <target>Attributes</target>
+      </segment>
+    </unit>
+    <unit id="piFuoD5" name="categories">
+      <segment>
+        <source>categories</source>
+        <target>Categories</target>
+      </segment>
+    </unit>
+    <unit id="Vip3p64" name="conditions">
+      <segment>
+        <source>conditions</source>
+        <target>Conditions</target>
+      </segment>
+    </unit>
+    <unit id="Cj4nuMq" name="products">
+      <segment>
+        <source>products</source>
+        <target>Products</target>
+      </segment>
+    </unit>
+    <unit id="C1_9HWQ" name="manufacters">
+      <segment>
+        <source>manufacters</source>
+        <target>Manufacters</target>
+      </segment>
+    </unit>
+    <unit id=".oPAixJ" name="discounts">
+      <segment>
+        <source>discounts</source>
+        <target>Discounts</target>
+      </segment>
+    </unit>
+    <unit id="YopVOnA" name="tax_rules">
+      <segment>
+        <source>tax_rules</source>
+        <target>Tax rules</target>
+      </segment>
+    </unit>
+    <unit id="BPiZbad" name="user">
+      <segment>
+        <source>user</source>
+        <target>User</target>
+      </segment>
+    </unit>
+    <unit id="fftM9nd" name="users">
+      <segment>
+        <source>users</source>
+        <target>Users</target>
+      </segment>
+    </unit>
+    <unit id="ccSlNqJ" name="new_product">
+      <segment>
+        <source>new_product</source>
+        <target>New product</target>
+      </segment>
+    </unit>
+    <unit id="gZtguyU" name="variation">
+      <segment>
+        <source>variation</source>
+        <target>Variation</target>
+      </segment>
+    </unit>
+    <unit id="9tPlF.9" name="new_variation">
+      <segment>
+        <source>new_variation</source>
+        <target>New product variation</target>
+      </segment>
+    </unit>
+    <unit id="eMXrA0U" name="new_m">
+      <segment>
+        <source>new_m</source>
+        <target>New</target>
+      </segment>
+    </unit>
+    <unit id="IFM7Oxb" name="new_f">
+      <segment>
+        <source>new_f</source>
+        <target>New</target>
+      </segment>
+    </unit>
+  </file>
+</xliff>

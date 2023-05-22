@@ -31,7 +31,10 @@ class UserType extends AbstractType
             ->add('created_at',DateType::class,
                 ['disabled' => true,'widget' => 'single_text'])
             ->add('name')
-            ->add('submit',SubmitType::class,['label' => 'Update'])
+            ->add('submit',SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ])
         ;
     }
 

@@ -1,5 +1,5 @@
 {% extends 'base_layout.html.twig' %}
-{% set title_page = 'User' %}
+{% set title_page = 'user' %}
 
 
 {% block content %}
@@ -11,7 +11,7 @@
             {% endif %}
             <button @click="showModal = true"
                     class="primary-button create-button">
-                Create {{ title_page|lower }}</button>
+                {% trans from 'button' %}create {% endtrans %} {% trans from 'linkword' %}a_m{% endtrans %} {{ title_page|trans({},'general')|lower}}</button>
         </div>
 
 
@@ -43,7 +43,7 @@
                         </td>
                         <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-linktext sm:pl-6">
                             {% for user_choice in user_form.roles.children %}
-                                <div class="">
+                                <div >
                                     {{form_widget(user_choice) }}
                                     {{ form_label(user_choice)}}
 
@@ -57,7 +57,7 @@
                         <td>
                             <a href="{{ path('user_delete',{id : user_form.vars.value.getId()}) }}"
                                class="primary-button delete-button">
-                                delete</a>
+                                {% trans from 'button' %}delete{% endtrans %}</a>
                         </td>
                     </tr>
                     {{ form_end(user_form) }}
@@ -91,9 +91,9 @@
                                 {{ form_widget(user_form_create.email,{'attr': {'class': 'input-crud-form'}}) }}
                             </div>
 {#                            {% for user_form in user_forms_array %}#}
-                            <div class="w-full mt-2">
+                            <div class="w-full mt-2 text-linktext">
                                 {% for user_choice in user_form_create.roles.children %}
-                                    <div class="">
+                                    <div >
                                         {{form_widget(user_choice) }}
                                         {{ form_label(user_choice)}}
                                     </div>
@@ -104,7 +104,7 @@
                                 {{ form_widget(user_form_create.created_at,{'attr': {'class': 'hidden'}}) }}
                             </div>
 
-                            {{form_widget(user_form_create.submit,{'attr':{'class':'mt-2 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-hoveredtext shadow-sm hovered hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'}}) }}
+                            {{form_widget(user_form_create.submit,{'label':'create','attr':{'class':'primary-button create-button mt-4'}}) }}
                             {{ form_end(user_form_create) }}
                         </div>
                     </div>

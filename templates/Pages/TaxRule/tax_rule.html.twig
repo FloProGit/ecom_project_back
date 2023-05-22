@@ -1,6 +1,6 @@
 {% extends 'base_layout.html.twig' %}
 
-{% set title_page = 'Tax rule' %}
+{% set title_page = 'tax_rule' %}
 
 {% block content %}
 
@@ -11,7 +11,7 @@
         {% endif %}
         <button @click="showModal = true"
                 class="primary-button create-button">
-        Create {{ title_page|lower }}</button>
+            {% trans from 'button' %}create {% endtrans %} {% trans from 'linkword' %}a_f{% endtrans %} {{ title_page|trans({},'general')|lower}}</button>
     </div>
 
 
@@ -41,7 +41,7 @@
                     <td>
                         <a href="{{ path('tax_rule_delete',{id : tax_rule_form.id.vars.value}) }}"
                            class="primary-button delete-button">
-                            Delete</a>
+                            {% trans from 'button' %}delete{% endtrans %}</a>
                     </td>
                 </tr>
                 {{ form_end(tax_rule_form) }}
@@ -75,7 +75,7 @@
                             {{ form_widget(tax_rule_forms_create.code_tax,{'attr': {'class': 'input-crud-form'}}) }}
                         </div>
                        
-                        {{form_widget(tax_rule_forms_create.submit,{'attr':{'class':'primary-button update-button mt-4'}}) }}
+                        {{form_widget(tax_rule_forms_create.submit,{'label':'create','attr':{'class':'primary-button create-button mt-4'}}) }}
                         {{ form_end(tax_rule_forms_create) }}
                     </div>
                 </div>

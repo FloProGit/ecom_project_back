@@ -22,7 +22,10 @@ class TaxRuleType extends AbstractType
             ])
             ->add('code_tax',NumberType::class,['required'=>true])
             ->add('name',TextType::class,['required'=>true,'constraints'=>new LengthConstraint(2,255)])
-            ->add('submit',SubmitType::class)
+            ->add('submit',SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ])
         ;
     }
 

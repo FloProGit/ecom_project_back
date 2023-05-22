@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ConditionProductRepository::class)]
-#[UniqueEntity('current_condition')]
 class ConditionProduct
 {
     #[ORM\Id]
@@ -16,7 +15,7 @@ class ConditionProduct
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255,unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $current_condition = null;
 
     #[ORM\OneToMany(mappedBy: 'condition_product', targetEntity: ProductVariation::class)]

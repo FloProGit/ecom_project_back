@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\CanDo;
 
 class CategoriesController extends AbstractController
 {
@@ -34,7 +35,7 @@ class CategoriesController extends AbstractController
             ]
         ]);
     }
-
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'categories_list')]
     public function editCategory(Category $category,Request $request) : response
     {
 
@@ -46,7 +47,13 @@ class CategoriesController extends AbstractController
         {
             try {
                 $category = $form->getData();
+
+                $categoryParent = $form->get('id_parent')->getData();
+
+                $category->setIdParent($categoryParent->getIdParent());
+                $category->setParent($categoryParent->getName());
                 $category->setUpdatedAt(new \DateTimeImmutable('now'));
+
                 $this->entityManager->persist($category);
                 $this->entityManager->flush();
             }
@@ -65,6 +72,7 @@ class CategoriesController extends AbstractController
         ]);
 
     }
+    #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'categories_list')]
     public function createCategory(Request $request) : response
     {
         $category = new Category();

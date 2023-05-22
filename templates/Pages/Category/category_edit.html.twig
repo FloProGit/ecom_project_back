@@ -29,29 +29,22 @@
                         <div class="w-full">
                             {{ form_label(form.is_active,'Active',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.is_active,{ 'attr':{'class':'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600' }}) }}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.is_active)}}
                             </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.name ,'Name',{'label_attr': {'class': 'label-crud-form'}})}}
                             {{ form_widget(form.name ,{'attr': {'class': 'input-crud-form'}})}}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.name)}}
                             </div>
                         </div>
                         <div class="w-full">
-                            {{ form_label(form.id_parent,'Id parent',{'label_attr': {'class': 'w-full flex items-center text-base font-medium mb-2 '}}) }}
+                            {{ form_label(form.id_parent,'Id parent',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.id_parent,{'attr': {'class': 'input-crud-form'}} )}}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.id_parent)}}
-                            </div>
-                        </div>
-                        <div class="w-full">
-                            {{ form_label(form.parent,'parent',{'label_attr': {'class': 'label-crud-form'}}) }}
-                            {{ form_widget(form.parent,{'attr': {'class': 'input-crud-form'}}) }}
-                            <div class="text-red-700 mt-1">
-                                {{ form_errors(form.parent)}}
                             </div>
                         </div>
                     </div>
@@ -67,35 +60,35 @@
                         <div class="w-full">
                             {{ form_label(form.url_rewritten,'Url',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.url_rewritten ,{'attr': {'class': 'input-crud-form'}})}}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.url_rewritten)}}
                             </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.description,'description',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.description,{'attr': {'class': 'input-crud-form'}}) }}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.description)}}
                             </div>
                          </div>
                         <div class="w-full">
                             {{ form_label(form.root_category,'Root category',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.root_category,{'attr': {'class': 'input-crud-form'}}) }}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.root_category)}}
                             </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.image_url,'image_url',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.image_url,{'attr': {'class': 'input-crud-form'}}) }}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.image_url)}}
                             </div>
                         </div>
                         <div class="w-full">
                             {{ form_label(form.code,'code',{'label_attr': {'class': 'label-crud-form'}}) }}
                             {{ form_widget(form.code,{'attr': {'class': 'input-crud-form'}}) }}
-                            <div class="text-red-700 mt-1">
+                            <div class="text-error mt-1">
                                 {{ form_errors(form.code)}}
                             </div>
                         </div>
@@ -130,7 +123,7 @@
             <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
                 <div class="pt-5">
                     <div class="flex justify-end">
-                        {{ form_widget(form.submit,{'label': 'Save Category','attr':{'class':'rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hovered hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'  }}) }}
+                        {{ form_widget(form.submit,{'label': 'Save Category','attr':{'class':'primary-button update-button'  }}) }}
                     </div>
                 </div>
             </footer>

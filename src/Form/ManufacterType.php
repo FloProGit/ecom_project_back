@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Manufacter;
+use App\Form\Constraints\LengthConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -23,15 +24,13 @@ class ManufacterType extends AbstractType
                 'disabled' => true,
             ])
             ->add('name',TextType::class,[
+                'required'=>true,
                 'constraints' => [
                     new NotBlank(),
-                    new Length(
-                        min: 2,
-                        max: 50,
-                        minMessage: 'Your first name must be at least {{ limit }} characters long',
-                        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',)],
+                    new LengthConstraint(2,255)],
             ])
             ->add('ext_id',NumberType::class,[
+                'required'=>true,
                 'label' => 'External Id',
                 'invalid_message' => 'external ID must be number like (123456) no decimal',
                 'constraints' => [

@@ -133,5 +133,11 @@
         <target>New</target>
       </segment>
     </unit>
+    <unit id="zeD7Dew" name="settings">
+      <segment>
+        <source>settings</source>
+        <target>Settings</target>
+      </segment>
+    </unit>
   </file>
 </xliff>

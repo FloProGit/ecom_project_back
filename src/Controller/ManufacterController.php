@@ -24,15 +24,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ManufacterController extends AbstractController
 {
     private ManufacterRepository $manufacterRepository;
     private EntityManagerInterface $entityManager;
-    public function __construct( ManufacterRepository $manufacterRepository, EntityManagerInterface $entityManager)
+    private TranslatorInterface $t;
+    public function __construct( ManufacterRepository $manufacterRepository, EntityManagerInterface $entityManager,TranslatorInterface $t)
     {
         $this->entityManager = $entityManager;
         $this->manufacterRepository = $manufacterRepository;
+        $this->t = $t;
     }
 
     public function index() : response
@@ -46,7 +49,7 @@ class ManufacterController extends AbstractController
         $formularCreation = $this->createForm(ManufacterType::class, new Manufacter())->createView();
         return $this->render('Pages/Manufacter/manufacter.html.twig', [
             'manufacters' => $result,'breadcrumbs'=>[
-                ['data' => ['name' => 'Manufacter']]
+                ['data' => ['name' => $this->t->trans('manufacters', domain: 'general')]]
             ]
             ,
             'manufacter_forms_array' => $manufactersForms,

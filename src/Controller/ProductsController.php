@@ -23,15 +23,24 @@ use Symfony\Component\Security\Http\Attribute\CanDo;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductsController extends AbstractController
 {
+    private ProductRepository $productRepository;
+        private EntityManagerInterface $entityManager;
+        private MultiMediaUrlFactory $multiMediaUrlFactory;
+        private TranslatorInterface $t;
     public function __construct(
-        private ProductRepository $productRepository,
-        private EntityManagerInterface $entityManager,
-        private MultiMediaUrlFactory $multiMediaUrlFactory)
+         ProductRepository $productRepository,
+         EntityManagerInterface $entityManager,
+         MultiMediaUrlFactory $multiMediaUrlFactory,
+    TranslatorInterface $t
+    )
     {
-
+        $this->productRepository = $productRepository;
+        $this->entityManager = $entityManager;
+        $this->t =$t;
     }
 
     public function index(): Response
@@ -39,7 +48,7 @@ class ProductsController extends AbstractController
         $result = $this->productRepository->getProductsForList();
         return $this->render('Pages/Product/products.html.twig', [
             'products' => $result, 'breadcrumbs' => [
-                ['data' => ['name' => 'Product']]
+                ['data' => ['name' => $this->t->trans('product', domain: 'general')]]
             ]]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
@@ -103,7 +112,7 @@ class ProductsController extends AbstractController
             'arrayTest' => json_encode($returnedArray),
             'selectedValues' => json_encode($codesCat),
             'breadcrumbs' => [
-                ['route' => 'products_list', 'data' => ['name' => 'Product']],
+                ['route' => 'products_list', 'data' => ['name' => $this->t->trans('product', domain: 'general')]],
                 ['data' => ['name' => $product->getName()]]
             ],
             'productsVariation' => $productVariation,
@@ -170,7 +179,7 @@ class ProductsController extends AbstractController
             'arrayTest' => json_encode($returnedArray),
             'selectedValues' => json_encode([]),
             'breadcrumbs' => [
-                ['route' => 'products_list', 'data' => ['name' => 'New Product']
+                ['route' => 'products_list', 'data' => ['name' => $this->t->trans('new_product', domain: 'general')]
                 ]
             ],
             'productsVariation' => $productVariation,

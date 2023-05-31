@@ -43,29 +43,32 @@
                             <div x-show="currentState == 'team'" class="space-y-1 " id="sub-menu-1">
                                 <a href="{{ path('products_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm  font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    Products</a>
+                                    {% trans from 'general' %}products{% endtrans %}</a>
                                 <a href="{{ path('categories_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    Categories</a>
+                                    {% trans from 'general' %}categories{% endtrans %}</a>
                                 <a href="{{ path('manufacter_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hover:bg-light hover:text-warn">
-                                    Manufacters</a>
+                                    {% trans from 'general' %}manufacters{% endtrans %}</a>
                                 <a href="{{ path('condition_product_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    Conditions</a>
+                                    {% trans from 'general' %}conditions{% endtrans %}</a>
                                 <a href="{{ path('user_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    Users management</a>
+                                    {% trans from 'general' %}user_management{% endtrans %}</a>
                                 <a href="{{ path('discount_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                   Discounts</a>
+                                    {% trans from 'general' %}discounts{% endtrans %}</a>
                                 <a href="{{ path('tax_rule_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    Tax rule</a>
+                                    {% trans from 'general' %}tax_rules{% endtrans %}</a>
                                 <a href="{{ path('attribute_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    Attributes</a>
+                                    {% trans from 'general' %}attributes{% endtrans %}</a>
                             </div>
+                            <a href="{{ path('setting') }}"
+                               class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
+                                {% trans from 'general' %}setting{% endtrans %}</a>
                         </div>
                     </nav>
                 </div>

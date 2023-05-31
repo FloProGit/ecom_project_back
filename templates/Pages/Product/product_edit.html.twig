@@ -166,11 +166,11 @@
                 <div class="flex justify-end">
 
                     <div class="flex justify-end">
-                        {{ form_widget(product_form.submit,{'label': 'Save Product','attr':{'class':'primary-button update-button'  }}) }}
+                        {{ form_widget(product_form.submit,{'attr':{'class':'primary-button update-button'  }}) }}
                     </div>
                     <div class="flex justify-end">
                         <a class="primary-button delete-button ml-2"
-                           href="{{ path('product_delete',{'id' : app.request.attributes.get('id')}) }}">Delete</a>
+                           href="{{ path('product_delete',{'id' : app.request.attributes.get('id')}) }}">{% trans from 'button' %}delete{% endtrans %}</a>
                     </div>
                 </div>
 

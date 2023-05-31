@@ -22,7 +22,10 @@ class DiscountType extends AbstractType
             ->add('value', NumberType::class, ['required' => true, 'label' => 'value'])
             ->add('discount_from', DateTimeType::class, ['widget' => 'single_text','required' => true, 'input' => 'datetime_immutable'])
             ->add('discount_to', DateTimeType::class, ['widget' => 'single_text', 'required' => true,'input' => 'datetime_immutable'])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

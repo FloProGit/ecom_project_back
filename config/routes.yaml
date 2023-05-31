@@ -160,12 +160,16 @@ condition_product_delete:
   path: /admin/condition-product-delete/{id}
   controller: App\Controller\ConditionProductController::deleteConditionProduct
 
+#------------------------------Settings------------------------------------
+setting:
+  path: /admin/setting
+  controller: App\Controller\Setting\SettingController::index
+
 default:
   path: /
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
   defaults:
     path: /admin
     permanent: true
-
 
 

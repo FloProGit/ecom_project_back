@@ -1,6 +1,6 @@
 {% extends 'base_layout.html.twig' %}
 
-{% set title_page = 'Attribute' %}
+{% set title_page = 'attribute' %}
 
 {% block content %}
 
@@ -11,7 +11,7 @@
         {% endif %}
         <button @click="showModal = true"
                 class="primary-button create-button">
-        Create {{ title_page|lower }}</button>
+            {% trans from 'button' %}create {% endtrans %} {% trans from 'linkword' %}a_m{% endtrans %} {{ title_page|trans({},'general')|lower}}</button>
     </div>
 
 
@@ -44,7 +44,7 @@
                     <td>
                         <a href="{{ path('attribute_delete',{id : attribute_form.id.vars.value}) }}"
                            class="primary-button delete-button">
-                            Delete</a>
+                            {% trans from 'button' %}delete{% endtrans %}</a>
                     </td>
                 </tr>
                 {{ form_end(attribute_form) }}
@@ -78,7 +78,7 @@
                             {{ form_widget(attribute_forms_create.value,{'attr': {'class': 'input-crud-form'}}) }}
                         </div>
                        
-                        {{form_widget(attribute_forms_create.submit,{'attr':{'class':'primary-button update-button mt-4'}}) }}
+                        {{form_widget(attribute_forms_create.submit,{'label':'create','attr':{'class':'primary-button create-button mt-4'}}) }}
                         {{ form_end(attribute_forms_create) }}
                     </div>
                 </div>

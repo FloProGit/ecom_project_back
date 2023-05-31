@@ -19,13 +19,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\CanDo;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserManagementController extends AbstractController
 {
-    public function __construct(private UserRepository $userRepository,
-                                private EntityManagerInterface $entityManager,
-                                private UserPasswordHasherInterface $passwordHasher)
-    {}
+    private UserRepository $userRepository;
+    private EntityManagerInterface $entityManager;
+    private UserPasswordHasherInterface $passwordHasher;
+    private TranslatorInterface $t;
+    public function __construct( UserRepository $userRepository,
+                                 EntityManagerInterface $entityManager,
+                                 UserPasswordHasherInterface $passwordHasher,TranslatorInterface $t
+    )
+    {
+        $this->userRepository = $userRepository;
+        $this->entityManager = $entityManager;
+        $this->passwordHasher = $passwordHasher;
+        $this->t = $t;
+    }
 
     public function index(): response
     {
@@ -38,7 +49,7 @@ class UserManagementController extends AbstractController
         $formularCreation = $this->createForm(UserType::class, new User())->createView();
         return $this->render('Pages/UserManagement/user_management.html.twig', [
              'breadcrumbs' => [
-                ['data' => ['name' => 'User management']]
+                ['data' => ['name' => $this->t->trans('user_management', domain: 'general')]]
             ]
             ,
             'user_forms_array' => $ConditonsForms,

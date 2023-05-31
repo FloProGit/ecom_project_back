@@ -72,7 +72,10 @@ class ProductVariationType extends AbstractType
 //                if ($productVariation->getProductId()) {
 //                    return;
 //                }
-                $form->add('submit',SubmitType::class);
+                $form->add('submit',SubmitType::class,[
+                    'translation_domain' => 'button',
+                    'label' => 'update'
+                ]);
             })
         ;
     }

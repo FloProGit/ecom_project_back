@@ -173,6 +173,17 @@ import_file:
   path: /admin/import-file
   controller: App\Controller\ImportController::importDataFromFile
 
+
+#------------------------------------------------------------------------
+#------------------------------API---------------------------------------
+#------------------------------------------------------------------------
+api_login_check:
+  path: /api/login_check
+
+
+
+
+
 default:
   path: /
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction

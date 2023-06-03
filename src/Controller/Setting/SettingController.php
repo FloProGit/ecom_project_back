@@ -44,6 +44,7 @@ final class SettingController extends AbstractController
                 ['data' => ['name' => $this->t->trans('settings', domain: 'general')]],
             ],
             'setting_form' => $form,
+            'navbardata' => json_encode(['fm'=> 'settings'])
         ]);
     }
 

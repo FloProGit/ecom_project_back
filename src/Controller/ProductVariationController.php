@@ -76,6 +76,7 @@ class ProductVariationController extends AbstractController
                 ['data' => ['name' => $this->t->trans('variation', domain: 'general') .' '. $productVariation->getExtReference()]]
             ],
             'variation_form' => $form->createView(),
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])
         ]);
     }
 
@@ -121,6 +122,7 @@ class ProductVariationController extends AbstractController
                 ['data' => ['name' => $this->t->trans('new_variation', domain: 'general')]]
             ],
             'variation_form' => $form->createView(),
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])
         ]);
     }
 

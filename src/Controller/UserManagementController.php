@@ -53,7 +53,8 @@ class UserManagementController extends AbstractController
             ]
             ,
             'user_forms_array' => $ConditonsForms,
-            'user_form_create' => $formularCreation
+            'user_form_create' => $formularCreation,
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'user_management'])
         ]);
 
     }

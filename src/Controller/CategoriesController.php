@@ -39,6 +39,7 @@ class CategoriesController extends AbstractController
             'breadcrumbs' => [
                 ['data' => ['name' => $this->t->trans('categories', domain: 'general')]]
             ]
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'categories'])
         ]);
     }
 
@@ -73,6 +74,7 @@ class CategoriesController extends AbstractController
                 ['data' => ['name' => $category->getName()]]
             ],
             'form' => $form->createView(),
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'categories'])
         ]);
 
     }
@@ -105,7 +107,7 @@ class CategoriesController extends AbstractController
             'breadcrumbs' => [
                 ['route' => 'products_list', 'data' => ['name' => $this->t->trans('categories', domain: 'general')]],
                 ['data' => ['name' => $this->t->trans('new_f', domain: 'general').' '.$this->t->trans('category', domain: 'general')]]
-            ],
+            ],'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'categories'])
         ]);
     }
 

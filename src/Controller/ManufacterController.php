@@ -54,6 +54,7 @@ class ManufacterController extends AbstractController
             ,
             'manufacter_forms_array' => $manufactersForms,
             'manufacter_form_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'manufacters'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'manufacter_list')]
@@ -88,8 +89,10 @@ class ManufacterController extends AbstractController
                 $this->entityManager->persist($manufacterData);
                 $this->entityManager->flush();
                 $this->addFlash("success",  'Manufacter' .$manufacterData->getName().'Add');
+
             } catch (\Exception $e) {
-                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
+
+                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé");
             }
         }
         else{

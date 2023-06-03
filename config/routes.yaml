@@ -164,6 +164,14 @@ condition_product_delete:
 setting:
   path: /admin/setting
   controller: App\Controller\Setting\SettingController::index
+#------------------------------Import------------------------------------
+import:
+  path: /admin/import
+  controller: App\Controller\ImportController::index
+
+import_file:
+  path: /admin/import-file
+  controller: App\Controller\ImportController::importDataFromFile
 
 default:
   path: /

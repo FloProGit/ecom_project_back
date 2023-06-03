@@ -24,11 +24,14 @@ final class MediaUrlDownloadService {
     public function downloadImagesAndSaveMediaUrl(array $urls,bool $setFirstIsMain = false): array {
 
         return array_filter( array_map(function(string $url) use(&$setFirstIsMain) {
+
             if('' === $url)
             {
                 return null;
             }
+
             $fileName = $this->downloadImageAndGetName($url);
+
             if(null === $fileName)
             {
                 return null;
@@ -46,13 +49,33 @@ final class MediaUrlDownloadService {
     }
 
     private function downloadImageAndGetName(string $url): ?string {
+
         try {
+            $url =  str_replace(' ','%20',$url);
             $imageContent = file_get_contents($url);
             if(!$imageContent) {
                 return null;
             }
 
-            $fileExtension = pathinfo($url, PATHINFO_EXTENSION);
+            $b64 = base64_encode( $imageContent);
+
+            // '/' : jpg
+            // 'i' : png
+            // 'R' : gif
+            // 'U' : webp
+            $fileExtension = '';
+            switch ($b64[0])
+            {
+                case '/':$fileExtension = 'jpg';break;
+                case 'i':$fileExtension = 'png';break;
+                case 'R':$fileExtension = 'gif';break;
+                case 'U':$fileExtension = 'webp';break;
+            }
+//            if($fileExtension == '')
+//            {
+//                $fileExtension = pathinfo($url, PATHINFO_EXTENSION);
+//            }
+
             if(is_array($fileExtension) || '' === $fileExtension)
             {
                 return null;

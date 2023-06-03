@@ -47,9 +47,11 @@ class ProductsController extends AbstractController
     {
         $result = $this->productRepository->getProductsForList();
         return $this->render('Pages/Product/products.html.twig', [
-            'products' => $result, 'breadcrumbs' => [
+            'products' => $result,
+            'breadcrumbs' => [
                 ['data' => ['name' => $this->t->trans('product', domain: 'general')]]
-            ]]);
+            ]
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'products_list')]
     public function editProduct(Product $product, Request $request): Response
@@ -119,6 +121,7 @@ class ProductsController extends AbstractController
             'MediaUrlVariantArray' => $MediaUrlVariantArray,
             'hasVaration' => $product->isHasVariation(),
             'product_form' => $form->createView(),
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])
         ]);
 
     }
@@ -184,7 +187,7 @@ class ProductsController extends AbstractController
             ],
             'productsVariation' => $productVariation,
             'hasVaration' => false,
-            'product_form' => $form->createView(),
+            'product_form' => $form->createView(),'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])
         ]);
 
     }

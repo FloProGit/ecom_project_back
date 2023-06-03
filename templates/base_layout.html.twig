@@ -16,58 +16,76 @@
                             </svg>
                         </span>
                     </div>
-                    <nav x-data="{currentState : 'empty'}" class="flex-1 space-y-1 bg-white px-2" aria-label="Sidebar">
+                    <nav x-data="navbar" x-init="initValues({{ navbardata }})" class="flex-1 space-y-1 bg-white px-2" aria-label="Sidebar">
                         <div>
-                            <a href="{{ path('dashboard') }}"
+                            <a :class="firstMenu == 'dashboard' ? 'bg-light' : ''" href="{{ path('dashboard') }}"
                                class="bg-gray-100 text-hoveredtext group flex w-full items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium hover:bg-light hover:text-warn">Dashboard</a>
                         </div>
                         <div class="space-y-1">
-                            <button @Click="currentState = currentState == 'team'?'':'team'" type="button"
-                                    class="bg-white text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-warn group flex w-full items-center rounded-md py-2 pr-2 text-left text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            <button @Click="firstMenu = firstMenu == 'catalogue'?'':'catalogue'" type="button"
+                                    class="bg-white text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-warn group flex w-full items-center rounded-md py-2 pr-2 text-left text-sm font-medium "
                                     aria-controls="sub-menu-1" aria-expanded="false">
                                 <!-- Expanded: "rotate-90 text-gray-400", Collapsed: "text-gray-300" -->
                                 <span>
 
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                     :class="{'rotate-90': currentState == 'team'}" class="w-6 h-6 transition ease-in">
+                                     :class="{'rotate-90': firstMenu == 'catalogue'}" class="w-6 h-6 transition ease-in">
                                     <path   class="stroke-hovertext" stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
                                 </svg>
-{#                                <svg class=" mr-2 h-5 w-5"#}
-{#                                     viewBox="0 0 20 20" aria-hidden="true">#}
-{#                                    <path class="fill-hovertext" d="M6 6L14 10L6 14V6Z"/>#}
-{#                                </svg>#}
                                 </span>
                                 Catalogue
                             </button>
                             {#    TODO something like this maybe => https://www.youtube.com/watch?v=G8PyiSnf2H4#}
-                            <div x-show="currentState == 'team'" class="space-y-1 " id="sub-menu-1">
-                                <a href="{{ path('products_list') }}"
+                            <div x-show="firstMenu == 'catalogue'" class="space-y-1 " id="sub-menu-1">
+                                <a :class="subMenu == 'products' ? 'bg-light' : ''" href="{{ path('products_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm  font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}products{% endtrans %}</a>
-                                <a href="{{ path('categories_list') }}"
+                                <a :class="subMenu == 'categories' ? 'bg-light' : ''" href="{{ path('categories_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}categories{% endtrans %}</a>
-                                <a href="{{ path('manufacter_list') }}"
+                                <a :class="subMenu == 'manufacters' ? 'bg-light' : ''" href="{{ path('manufacter_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}manufacters{% endtrans %}</a>
-                                <a href="{{ path('condition_product_list') }}"
+                                <a :class="subMenu == 'condition_product' ? 'bg-light' : ''" href="{{ path('condition_product_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}conditions{% endtrans %}</a>
-                                <a href="{{ path('user_list') }}"
+                                <a :class="subMenu == 'user_management' ? 'bg-light' : ''" href="{{ path('user_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}user_management{% endtrans %}</a>
-                                <a href="{{ path('discount_list') }}"
+                                <a :class="subMenu == 'discounts' ? 'bg-light' : ''" href="{{ path('discount_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}discounts{% endtrans %}</a>
-                                <a href="{{ path('tax_rule_list') }}"
+                                <a :class="subMenu == 'tax_rules' ? 'bg-light' : ''" href="{{ path('tax_rule_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}tax_rules{% endtrans %}</a>
-                                <a href="{{ path('attribute_list') }}"
+                                <a :class="subMenu == 'attributes' ? 'bg-light' : ''" href="{{ path('attribute_list') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                     {% trans from 'general' %}attributes{% endtrans %}</a>
                             </div>
-                            <a href="{{ path('setting') }}"
-                               class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
+                            <button @Click="firstMenu = firstMenu == 'tools'?'':'tools'" type="button"
+                                    class="bg-white text-hoveredtext hovered hover:bg-gray-50 hovered hover:text-warn group flex w-full items-center rounded-md py-2 pr-2 text-left text-sm font-medium "
+                                    aria-controls="sub-menu-1" aria-expanded="false">
+                                <!-- Expanded: "rotate-90 text-gray-400", Collapsed: "text-gray-300" -->
+                                <span>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                     :class="{'rotate-90': firstMenu == 'tools'}" class="w-6 h-6 transition ease-in">
+                                    <path   class="stroke-hovertext" stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                </svg>
+                                </span>
+                                Tools
+                            </button>
+                            <div x-show="firstMenu == 'tools'" class="space-y-1 " id="sub-menu-1">
+                                <a :class="subMenu == 'export' ? 'bg-light' : ''" href="{{ path('products_list') }}"
+                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm  font-medium text-hoveredtext  hover:bg-light hover:text-warn">
+                                    {% trans from 'general' %}export{% endtrans %}</a>
+                                <a :class="subMenu == 'import' ? 'bg-light' : ''" href="{{ path('import') }}"
+                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
+                                    {% trans from 'general' %}import{% endtrans %}</a>
+                            </div>
+
+                            <a :class="firstMenu == 'settings' ? 'bg-light' : ''" href="{{ path('setting') }}"
+                               class="group flex w-full items-center rounded-md py-2 pl-7 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
                                 {% trans from 'general' %}setting{% endtrans %}</a>
                         </div>
                     </nav>

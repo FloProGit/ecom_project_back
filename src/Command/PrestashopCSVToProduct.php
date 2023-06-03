@@ -95,8 +95,7 @@ class PrestashopCSVToProduct extends Command
     {
         if($path === null)
         {
-//        $file = $this->parameterBag->get('download_directory') . '/FileTest/files-products-csv-prestashop-presta-product-2570-fr.csv';
-        $file = $this->parameterBag->get('download_directory') . '/invoices (13).csv';
+        $file = $this->parameterBag->get('download_directory') . '/FileTest/files-products-csv-prestashop-presta-product-2570-fr.csv';
 
         }
         else{

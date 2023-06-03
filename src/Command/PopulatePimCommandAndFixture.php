@@ -6,9 +6,11 @@ use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -30,16 +32,19 @@ class PopulatePimCommandAndFixture extends Command
     private SymfonyStyle $io;
 
     private CategoryRepository $categoryRepository;
-
+    private LoggerInterface  $logger;
     public function __construct(
-
+        LoggerInterface $logger
     )
     {
         parent::__construct();
+        $this->logger = $logger;
+
     }
 
     protected function configure(): void
     {
+
         $this->setDescription('initialise Bdd and populate');
     }
 
@@ -50,6 +55,9 @@ class PopulatePimCommandAndFixture extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->logger->error('je suis dans la creation du back');
+        dd('patate');
+
         $this->executeDBCreation($output);
         $this->io->section('Start DB migration');
         $this->executeMigration($output);

@@ -43,6 +43,7 @@ final class DiscountController extends AbstractController
             ,
             'discount_forms_array' => $discountForms,
             'discount_forms_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'discounts'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'discount_list')]

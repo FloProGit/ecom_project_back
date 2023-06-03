@@ -14,7 +14,7 @@ final class ProductVariationNormaliserFromProductPrestaShop implements ProductNo
     public function NormalizeProduct(): array
     {
         return [
-            ProductKeyNormalize::ID => $this->data["﻿ID"]??null,
+            ProductKeyNormalize::ID => $this->data["ID"]??null,
             ProductKeyNormalize::EXT_REFERENCE => $this->data['bb_REFERENCE']??null,
             ProductKeyNormalize::NAME => $this->data['NAME']??null,
             ProductKeyNormalize::QUANTITY => $this->data['QUANTITY']??null,

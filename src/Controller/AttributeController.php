@@ -49,6 +49,7 @@ final class AttributeController extends AbstractController
             ,
             'attribute_forms_array' => $discountForms,
             'attribute_forms_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'attributes'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'attribute_list')]

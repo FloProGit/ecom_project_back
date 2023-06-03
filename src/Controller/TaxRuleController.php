@@ -47,7 +47,8 @@ final class TaxRuleController extends AbstractController
             ]
             ,
             'tax_rule_forms_array' => $taxRuleForms,
-            'tax_rule_forms_create' => $formularCreation
+            'tax_rule_forms_create' => $formularCreation,
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'tax_rules'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'tax_rule_list')]

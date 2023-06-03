@@ -66,6 +66,7 @@ class ProductEditController extends AbstractController
                     ['route' => 'products_list', 'data' => ['name' => 'Product']],
                     ['data' => ['name' => $product->getName()]]
                 ]
+                ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])
             ]);
     }
 
@@ -116,6 +117,7 @@ class ProductEditController extends AbstractController
                     ['data' => ['name' => $product->getName()]]
                 ],
                 'variation_form' => $variationForm->createView(),
+                'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'products'])
             ]);
     }
 }

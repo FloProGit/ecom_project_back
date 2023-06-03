@@ -42,6 +42,7 @@ class ConditionProductController extends AbstractController
             ,
             'conditions_forms_array' => $ConditonsForms,
             'conditions_forms_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'condition_product'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'condition_product_list')]

@@ -11,6 +11,7 @@ use App\Services\Factory\ProductVariationFactory;
 use App\Services\Infrastructure\MediaUrlDownloadService;
 use App\Services\Normalizer\Product\ProductVariationNormaliserFromPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,13 +37,14 @@ class PrestashopCSVToProductVariation extends Command
 
     private ParameterBagInterface $parameterBag;
     private MediaUrlDownloadService $mediaUrlDownloadService;
-
+    private LoggerInterface  $logger;
     public function __construct(
         EntityManagerInterface     $entityManager,
         string                     $fileDirectory,
         ProductVariationRepository $productVariationRepository,
         ParameterBagInterface      $parameterBag,
-        MediaUrlDownloadService $mediaUrlDownloadService
+        MediaUrlDownloadService $mediaUrlDownloadService,
+        LoggerInterface $logger
     )
     {
         parent::__construct();
@@ -51,6 +53,7 @@ class PrestashopCSVToProductVariation extends Command
         $this->productVariationRepository = $productVariationRepository;
         $this->parameterBag = $parameterBag;
         $this->mediaUrlDownloadService = $mediaUrlDownloadService;
+        $this->logger = $logger;
     }
 
     protected function configure(): void

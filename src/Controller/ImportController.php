@@ -65,7 +65,7 @@ final class ImportController extends AbstractController
             $file = $form->get('csv_file')->getData();
 
              $file->move(
-                 $this->getParameter('download_directory'),
+                 $this->getParameter('download_directory').DIRECTORY_SEPARATOR.'temp',
                  $file->getClientOriginalName()
              );
 
@@ -74,7 +74,6 @@ final class ImportController extends AbstractController
 
             $input = new ArrayInput([
                 'command' => 'app:create-product-from-prestashop-Product_csv',
-                // (optional) define the value of command arguments
                 'path' => $this->getParameter('download_directory'). DIRECTORY_SEPARATOR .$file->getClientOriginalName(),
 
             ]);

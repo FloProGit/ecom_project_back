@@ -180,7 +180,9 @@ import_file:
 api_login_check:
   path: /api/login_check
 
-
+api_get_products:
+  path: /api/products
+  controller: App\Controller\Api\ApiProductController::index
 
 
 

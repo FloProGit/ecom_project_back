@@ -180,11 +180,18 @@ import_file:
 api_login_check:
   path: /api/login_check
 
+api_register:
+  path: /api/register
+  controller: App\Controller\Api\RegisterController::index
+
+
 api_get_products:
   path: /api/products
-  controller: App\Controller\Api\ApiProductController::index
+  controller: App\Controller\Api\ApiProductController::allProduct
 
-
+api_get_product:
+  path: /api/product/{id}
+  controller: App\Controller\Api\ApiProductController::productById
 
 default:
   path: /

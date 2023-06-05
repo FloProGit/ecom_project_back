@@ -6,6 +6,7 @@ use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Product>
  *
@@ -61,13 +62,15 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
-//    public function findOneBySomeField($value): ?Product
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getProductBy(int $id):Array
+    {
+        //SQL "SELECT * FROM product p JOIN product_variation pv ON  p.id = pv.product_id WHERE p.id = 1"
+        $dql = 'SELECT p 
+        FROM App\Entity\Product p 
+        WHERE p.id = :id ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('id',$id);
+        return  $query->execute();
+    }
 }

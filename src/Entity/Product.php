@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -15,52 +16,67 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $ext_id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?float $width = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?float $height = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?float $depth = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?float $weight = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['front_product'])]
     private ?\DateTimeImmutable $updated_at = null;
 
-
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'Products')]
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'Products',fetch: "EAGER")]
+    #[Groups(['front_product'])]
     private Collection $categories;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductVariation::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductVariation::class,fetch: "EAGER")]
+    #[Groups(['front_product'])]
     private Collection $productVariations;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[Groups(['front_product'])]
+    #[ORM\ManyToOne(fetch: "EAGER",inversedBy: 'products')]
     private ?TaxRule $tax_rule = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $ext_reference = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?bool $has_variation = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['front_product'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $short_description = null;
 
 
@@ -274,12 +290,12 @@ class Product
         return $this;
     }
 
-    public function getTaxRuleId(): ?TaxRule
+    public function getTaxRule(): ?TaxRule
     {
         return $this->tax_rule;
     }
 
-    public function setTaxRuleId(?TaxRule $tax_rule): self
+    public function setTaxRule(?TaxRule $tax_rule): self
     {
         $this->tax_rule = $tax_rule;
 

@@ -6,6 +6,7 @@ use App\Repository\ConditionProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ConditionProductRepository::class)]
 class ConditionProduct
@@ -13,9 +14,11 @@ class ConditionProduct
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $current_condition = null;
 
     #[ORM\OneToMany(mappedBy: 'condition_product', targetEntity: ProductVariation::class)]

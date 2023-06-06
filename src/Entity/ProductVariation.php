@@ -88,9 +88,15 @@ class ProductVariation
     #[Groups(['front_product'])]
     private ?Attribute $attribute = null;
 
+    #[ORM\OneToMany(mappedBy: 'Product', targetEntity: OrderProduct::class)]
+    private Collection $orderProducts;
+
+
+
     public function __construct()
     {
         $this->mediaUrls = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,10 @@ class ProductVariation
     {
         return $this->manufacter;
     }
+    public function getManufacterId(): ?Manufacter
+    {
+        return $this->manufacter;
+    }
 
     public function setManufacter(?Manufacter $manufacter): self
     {
@@ -219,11 +229,15 @@ class ProductVariation
         return $this;
     }
 
-    public function getDiscount(): ?Discount
+    public function getDiscountId(): ?Discount
     {
         return $this->discount;
     }
 
+    public function getDiscount(): ?Discount
+    {
+        return $this->discount;
+    }
     public function setDiscountId(?Discount $discount): self
     {
         $this->discount = $discount;
@@ -309,7 +323,10 @@ class ProductVariation
     {
         return $this->condition_product;
     }
-
+    public function getConditionProductId(): ?ConditionProduct
+    {
+        return $this->condition_product;
+    }
     public function setConditionProductId(?ConditionProduct $condition_product): self
     {
         $this->condition_product = $condition_product;
@@ -340,4 +357,37 @@ class ProductVariation
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, OrderProduct>
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->add($orderProduct);
+            $orderProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getProduct() === $this) {
+                $orderProduct->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 }

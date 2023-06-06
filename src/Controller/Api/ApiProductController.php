@@ -28,14 +28,20 @@ final class ApiProductController extends AbstractController
          return $this->json($result,200,[]);
     }
 
-    public function productById (Request $request):JsonResponse
+    public function productById(Request $request):JsonResponse
     {
-
         $id = intval( $request->get('id'));
-        $result = $this->productRepository->getProductBy($id);
+        $result = $this->productRepository->getProductById($id);
 
         return $this->json($result,200,[],[AbstractNormalizer::GROUPS => ['front_product']]);
+    }
+    public function productsByIds(Request $request):JsonResponse
+    {
+        $ids =$request->query->getIterator()->getArrayCopy();
+        $result = $this->productRepository->getProductsByids($ids["products"]);
+//        $result = $this->productRepository->getProductBy($id);
 
 
+        return $this->json($result,200,[],[AbstractNormalizer::GROUPS => ['front_product']]);
     }
 }

@@ -62,7 +62,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
-    public function getProductBy(int $id):Array
+    public function getProductById(int $id):Array
     {
         //SQL "SELECT * FROM product p JOIN product_variation pv ON  p.id = pv.product_id WHERE p.id = 1"
         $dql = 'SELECT p 
@@ -71,6 +71,23 @@ class ProductRepository extends ServiceEntityRepository
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('id',$id);
+        return  $query->execute();
+    }
+
+    public function getProductsByids(array $ids):Array
+    {
+
+       $arrayInIds = array_map(function ($id){
+          return intval($id);
+    },$ids);
+
+        //SQL "SELECT * FROM product p JOIN product_variation pv ON  p.id = pv.product_id WHERE p.id = 1"
+        $dql = 'SELECT p 
+        FROM App\Entity\Product p 
+        WHERE p.id IN (:ids)';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('ids',$ids);
         return  $query->execute();
     }
 }

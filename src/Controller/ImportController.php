@@ -74,7 +74,7 @@ final class ImportController extends AbstractController
 
             $input = new ArrayInput([
                 'command' => 'app:create-product-from-prestashop-Product_csv',
-                'path' => $this->getParameter('download_directory'). DIRECTORY_SEPARATOR .$file->getClientOriginalName(),
+                'path' => $this->getParameter('download_directory'). DIRECTORY_SEPARATOR .'temp'.DIRECTORY_SEPARATOR.$file->getClientOriginalName(),
 
             ]);
 
@@ -89,7 +89,8 @@ final class ImportController extends AbstractController
                 $this->addFlash("success", $content );
             }
             else{
-                $this->addFlash("danger",  "Une erreur c'est produite pendant l'importation");
+//                $this->addFlash("danger",  "Une erreur c'est produite pendant l'importation");
+                $this->addFlash("success", $content );
             }
         }
 

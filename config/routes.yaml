@@ -177,6 +177,9 @@ import_file:
 #------------------------------------------------------------------------
 #------------------------------API---------------------------------------
 #------------------------------------------------------------------------
+
+
+#------------------------------AUTH------------------------------------
 api_login_check:
   path: /api/login_check
 
@@ -184,14 +187,23 @@ api_register:
   path: /api/register
   controller: App\Controller\Api\RegisterController::index
 
-
+#------------------------------Products------------------------------------
 api_get_products:
-  path: /api/products
+  path: /api/all-products
   controller: App\Controller\Api\ApiProductController::allProduct
 
 api_get_product:
   path: /api/product/{id}
   controller: App\Controller\Api\ApiProductController::productById
+
+api_get_products_by_ids:
+  path: /api/products
+  controller: App\Controller\Api\ApiProductController::productsByIds
+
+  #------------------------------ORDER------------------------------------
+api_create_order:
+  path: /api/create-order
+  controller: App\Controller\Api\ApiOrderController::createOrderFromCart
 
 default:
   path: /

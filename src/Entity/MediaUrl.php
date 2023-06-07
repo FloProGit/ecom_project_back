@@ -12,19 +12,19 @@ class MediaUrl
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_product'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 500)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_product'])]
     private ?string $url_link = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_product'])]
     private ?string $mime_type = null;
 
     #[ORM\Column]

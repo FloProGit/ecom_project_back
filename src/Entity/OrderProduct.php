@@ -11,35 +11,32 @@ class OrderProduct
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['front_orders'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Product')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Order $OrderID = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderProducts')]
+
+    #[ORM\ManyToOne(targetEntity: ProductVariation::class, fetch: "EAGER",inversedBy: 'orderProducts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['front_orders'])]
     private ?ProductVariation $Product = null;
 
     #[ORM\Column]
+    #[Groups(['front_orders'])]
     private ?int $quantity = null;
+
+    #[ORM\ManyToOne(inversedBy: 'OrderProduct')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Order $OrderID = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getOrderID(): ?Order
-    {
-        return $this->OrderID;
-    }
 
-    public function setOrderID(?Order $OrderID): self
-    {
-        $this->OrderID = $OrderID;
 
-        return $this;
-    }
+
 
     public function getProduct(): ?ProductVariation
     {
@@ -61,6 +58,18 @@ class OrderProduct
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getOrderID(): ?Order
+    {
+        return $this->OrderID;
+    }
+
+    public function setOrderID(?Order $OrderID): self
+    {
+        $this->OrderID = $OrderID;
 
         return $this;
     }

@@ -16,39 +16,39 @@ class ProductVariation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?string $ext_id = null;
 
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?int $quantity = null;
 
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?int $minimal_quantity = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?string $ean13 = null;
 
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?float $wholesale_price = null;
 
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?bool $on_sale = null;
 
     #[ORM\Column]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?float $price_tax_exclude = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
@@ -56,19 +56,19 @@ class ProductVariation
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?Manufacter $manufacter = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?Discount $discount = null;
 
     #[ORM\OneToMany(mappedBy: 'product_variation', targetEntity: MediaUrl::class)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private Collection $mediaUrls;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?string $ext_reference = null;
 
     #[ORM\Column]
@@ -78,14 +78,14 @@ class ProductVariation
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
-    #[Groups(['front_product'])]
+    #[Groups(['front_product','front_orders'])]
     private ?ConditionProduct $condition_product = null;
 
     #[ORM\Column]
     private ?bool $is_main = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productVariations')]
-    #[Groups(['front_product'])]
+    #[ORM\ManyToOne(fetch: "EAGER",inversedBy: 'productVariations')]
+    #[Groups(['front_product','front_orders'])]
     private ?Attribute $attribute = null;
 
     #[ORM\OneToMany(mappedBy: 'Product', targetEntity: OrderProduct::class)]
@@ -228,7 +228,12 @@ class ProductVariation
 
         return $this;
     }
+    public function setManufacterId(?Manufacter $manufacter): self
+    {
+        $this->manufacter = $manufacter;
 
+        return $this;
+    }
     public function getDiscountId(): ?Discount
     {
         return $this->discount;

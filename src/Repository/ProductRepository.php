@@ -90,4 +90,6 @@ class ProductRepository extends ServiceEntityRepository
         $query->setParameter('ids',$ids);
         return  $query->execute();
     }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\DTO\OrderProductDTO;
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,28 +40,26 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Order[] Returns an array of Order objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getOrderProductByUser(int $userId): array
+    {
+        $dql = ' SELECT 
+        o.order_ext_id,
+        o.id order_id,
+        o.created_at,
+        op.quantity, 
+        pv.name,
+        pv.id product_id,
+        mu.url_link
+        FROM App\Entity\Order o
+        JOIN App\Entity\OrderProduct op WITH o.id = op.OrderID
+        JOIN op.Product pv
+        JOIN pv.mediaUrls mu
+        WHERE o.user = :user_id AND mu.is_main = 1';
 
-//    public function findOneBySomeField($value): ?Order
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user_id', $userId);
+
+        return $query->getResult();
+    }
+
 }

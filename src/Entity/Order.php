@@ -6,6 +6,7 @@ use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -17,6 +18,7 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_orders'])]
     private ?string $order_ext_id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
@@ -24,16 +26,19 @@ class Order
     private ?User $user = null;
 
     #[ORM\Column]
+    #[Groups(['front_orders'])]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'OrderID', targetEntity: OrderProduct::class)]
-    private Collection $Product;
+    #[ORM\OneToMany(mappedBy: 'OrderID', targetEntity: OrderProduct::class, fetch: "EAGER")]
+    #[Groups(['front_orders'])]
+    private Collection $OrderProduct;
+
 
 
 
     public function __construct()
     {
-        $this->Product = new ArrayCollection();
+        $this->OrderProduct = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,31 +85,33 @@ class Order
     /**
      * @return Collection<int, OrderProduct>
      */
-    public function getProduct(): Collection
+    public function getOrderProduct(): Collection
     {
-        return $this->Product;
+        return $this->OrderProduct;
     }
 
-    public function addProduct(OrderProduct $product): self
+    public function addOrderProduct(OrderProduct $orderProduct): self
     {
-        if (!$this->Product->contains($product)) {
-            $this->Product->add($product);
-            $product->setOrderID($this);
+        if (!$this->OrderProduct->contains($orderProduct)) {
+            $this->OrderProduct->add($orderProduct);
+            $orderProduct->setOrderID($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(OrderProduct $product): self
+    public function removeOrderProduct(OrderProduct $orderProduct): self
     {
-        if ($this->Product->removeElement($product)) {
+        if ($this->OrderProduct->removeElement($orderProduct)) {
             // set the owning side to null (unless already changed)
-            if ($product->getOrderID() === $this) {
-                $product->setOrderID(null);
+            if ($orderProduct->getOrderID() === $this) {
+                $orderProduct->setOrderID(null);
             }
         }
 
         return $this;
     }
+
+
 
 }

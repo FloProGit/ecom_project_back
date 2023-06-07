@@ -59,10 +59,15 @@ final class ApiOrderController extends AbstractController
 
         $token = $this->JWTEncoder->decode($token);
         $User = $this->userRepository->findOneBy(['email'=>$token["username"]]);
+
+        //SQL EXEMPLE
+        //INSERT INTO `order` (user_id,order_ext_id,created_at) VALUES (1,"000000000000",NOW())
+        //INSERT INTO order_product (product_id,order_id_id,quantity) VALUES (1,24,5)
+
         foreach ($cart as $id => $value) {
             $order = new Order();
             $orderProduct = new OrderProduct();
-           $productV =  $this->productVariationRepository->find($id);
+            $productV =  $this->productVariationRepository->find($id);
             $date = new \DateTimeImmutable();
             $formatedDate = $date->format("YmdHis");
             $order->setCreatedAt($date);

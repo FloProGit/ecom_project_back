@@ -42,6 +42,23 @@ class OrderRepository extends ServiceEntityRepository
 
     public function getOrderProductByUser(int $userId): array
     {
+
+
+//       SQL = SELECT o.order_ext_id,
+//        o.id order_id,
+//        o.created_at,
+//        op.quantity,
+//        pv.name,
+//        pv.id product_id,
+//        mu.url_link
+//        FROM `order` o
+//        JOIN order_product op ON o.id = op.order_id_id
+//        JOIN product_variation pv ON pv.id = op.product_id
+//        JOIN media_url mu ON mu.product_variation_id = pv.id
+//        WHERE o.user_id = :user_id AND mu.is_main = 1
+
+//        op.order_id_id car dans l'entité il s'appelle OrderId et je ne voyais pas comment l'appeler autrement
+
         $dql = ' SELECT 
         o.order_ext_id,
         o.id order_id,

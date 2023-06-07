@@ -42,6 +42,16 @@ class ProductVariationRepository extends ServiceEntityRepository
 
     public function getVariationForListFromProductID(int $id)
     {
+//       SQL = 'SELECT
+//        pv.ext_reference ,
+//        pv.id ,
+//        pv.quantity ,
+//        p.id as product_id
+//         FROM product p
+//         JOIN product_variation pv ON  pv.product_id = p.id
+//         WHERE p.id = :p_id';
+
+
         $dql = 'SELECT 
         pv.ext_reference ,
         pv.id ,
@@ -52,31 +62,7 @@ class ProductVariationRepository extends ServiceEntityRepository
          WHERE p.id = :p_id';
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter("p_id",$id);
-//        dd($query->execute());
         return  $query->execute();
     }
-//    /**
-//     * @return ProductVariation[] Returns an array of ProductVariation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?ProductVariation
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -64,7 +64,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function getProductById(int $id):Array
     {
-        //SQL "SELECT * FROM product p JOIN product_variation pv ON  p.id = pv.product_id WHERE p.id = 1"
+        //SQL "SELECT * FROM product p  WHERE p.id = 1"
         $dql = 'SELECT p 
         FROM App\Entity\Product p 
         WHERE p.id = :id ';
@@ -81,7 +81,7 @@ class ProductRepository extends ServiceEntityRepository
           return intval($id);
     },$ids);
 
-        //SQL "SELECT * FROM product p JOIN product_variation pv ON  p.id = pv.product_id WHERE p.id = 1"
+        //SQL "SELECT * FROM product p  WHERE p.id IN :ids"
         $dql = 'SELECT p 
         FROM App\Entity\Product p 
         WHERE p.id IN (:ids)';

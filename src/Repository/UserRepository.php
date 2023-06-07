@@ -58,9 +58,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function getUser(string $userEmail): array
     {
-        $dql = ' SELECT u.name,u.email
+        //SQL 'SELECT u.name,u.email FROM user u WHERE u.email = :user_email'
+
+        $dql = 'SELECT u.name,u.email
         FROM App\Entity\User u
-        WHERE u.email = :user_email ';
+        WHERE u.email = :user_email';
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('user_email', $userEmail);
@@ -70,6 +72,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function updateUserName(string $userEmail,string $name)
     {
+        //SQL 'UPDATE user u SET u.name = :user_name  WHERE u.email = :user_email'
+
         $dql = ' UPDATE App\Entity\User u
         SET u.name = :user_name
         WHERE u.email = :user_email ';
@@ -83,6 +87,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function updateUserEmail(string $userEmail,string $newEmail)
     {
+        //SQL 'UPDATE user u SET u.email = :new_email  WHERE u.email = :user_email'
+
         $dql = ' UPDATE App\Entity\User u
         SET u.email = :new_email
         WHERE u.email = :user_email';
@@ -96,7 +102,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function updateUserPassword(string $userEmail,string $newPassword)
     {
-        $dql = ' UPDATE App\Entity\User u
+
+        //SQL 'UPDATE user u SET u.password = :user_password  WHERE u.email = :user_email'
+
+        $dql = 'UPDATE App\Entity\User u
         SET u.password = :new_password
         WHERE u.email = :user_email';
 
@@ -109,6 +118,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function deleteUser(string $userEmail)
     {
+        //SQL 'DELETE FROM user u  WHERE u.email = :user_email'
+
         $dql = ' DELETE  FROM App\Entity\User u
         WHERE u.email = :user_email';
 

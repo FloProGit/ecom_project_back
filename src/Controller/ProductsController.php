@@ -5,24 +5,17 @@ namespace App\Controller;
 
 
 use App\Entity\Category;
-use App\Entity\ConditionProduct;
 use App\Entity\MediaUrl;
 use App\Entity\Product;
 use App\Entity\ProductVariation;
 use App\Form\ProductType;
-use App\Form\ProductVariationType;
 use App\Repository\ProductRepository;
 use App\Services\Factory\MultiMediaUrlFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\CanDo;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductsController extends AbstractController
@@ -40,6 +33,7 @@ class ProductsController extends AbstractController
     {
         $this->productRepository = $productRepository;
         $this->entityManager = $entityManager;
+        $this->multiMediaUrlFactory = $multiMediaUrlFactory;
         $this->t =$t;
     }
 
@@ -171,7 +165,6 @@ class ProductsController extends AbstractController
                 $this->addFlash("success", "Produit modifié ");
 
             } catch (\Exception $e) {
-                dd($e->getMessage());
                 $this->addFlash("danger", "Oups! quelque chose c'est mal passé ");
             }
 

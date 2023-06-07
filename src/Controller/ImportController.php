@@ -6,8 +6,6 @@ namespace App\Controller;
 
 
 
-use App\Entity\Attribute;
-use App\Form\AttributeType;
 use App\Form\ImportType;
 use App\Repository\AttributeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Security\Http\Attribute\CanDo;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;

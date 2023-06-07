@@ -6,24 +6,18 @@ namespace App\Controller\Api;
 
 use App\Entity\Order;
 use App\Entity\OrderProduct;
-use App\Entity\ProductVariation;
 use App\Repository\OrderRepository;
 use App\Repository\ProductVariationRepository;
 use App\Repository\UserRepository;
 use App\Services\UserService;
 use Doctrine\ORM\EntityManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 final class ApiOrderController extends AbstractController
 {
     private OrderRepository $orderRepository;
     private ProductVariationRepository $productVariationRepository;
-    private JWTTokenManagerInterface $jwtManager;
     private JWTEncoderInterface $JWTEncoder;
 
     private EntityManagerInterface $entityManager;
@@ -31,14 +25,12 @@ final class ApiOrderController extends AbstractController
         OrderRepository            $orderRepository,
         ProductVariationRepository $productVariationRepository,
         UserRepository             $userRepository,
-        JWTTokenManagerInterface $jwtManager,
          JWTEncoderInterface $JWTEncoder,
         EntityManagerInterface $entityManager
     )
     {
         $this->orderRepository = $orderRepository;
         $this->productVariationRepository = $productVariationRepository;
-        $this->jwtManager = $jwtManager;
         $this->userRepository = $userRepository;
         $this->JWTEncoder = $JWTEncoder;
         $this->entityManager = $entityManager;
@@ -92,16 +84,8 @@ final class ApiOrderController extends AbstractController
 
         $token = $this->JWTEncoder->decode($token);
         $User = $this->userRepository->findOneBy(['email'=>$token["username"]]);
-//        $order = $this->orderRepository->findOneBy(['user' => $User->getId()]);
         $order = $this->orderRepository->getOrderProductByUser($User->getId());
 
-        //Autre solution créé un json a retourné avec seulement les infos que l'on a besoin
-       dd($order);
-
-//        $order = $this->orderRepository->getOrderProductByUser($User->getId());
-//        dd($this->json($order,200,[],[AbstractNormalizer::GROUPS => ['front_orders']])->getContent());
-//        dd(json_decode($this->json($order,200,[],[AbstractNormalizer::GROUPS => ['front_orders']])->getContent(),true));
         return $this->json($order,200,[]);
-
     }
 }

@@ -37,8 +37,6 @@ final class SettingController extends AbstractController
             }
         }
 
-//        dd($request->getLocale());
-
         return $this->render('Pages/Setting/setting.html.twig', [
             'breadcrumbs' => [
                 ['data' => ['name' => $this->t->trans('settings', domain: 'general')]],

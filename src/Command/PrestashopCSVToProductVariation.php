@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\MediaUrl;
 use App\Entity\Product;
 use App\Entity\Attribute;
 use App\Entity\ProductVariation;
@@ -29,7 +28,6 @@ use Symfony\Component\Serializer\Serializer;
 class PrestashopCSVToProductVariation extends Command
 {
     private EntityManagerInterface $entityManager;
-    private string $fileDirectory;
 
     private SymfonyStyle $io;
 
@@ -37,14 +35,12 @@ class PrestashopCSVToProductVariation extends Command
 
     private ParameterBagInterface $parameterBag;
     private MediaUrlDownloadService $mediaUrlDownloadService;
-    private LoggerInterface  $logger;
     public function __construct(
         EntityManagerInterface     $entityManager,
         string                     $fileDirectory,
         ProductVariationRepository $productVariationRepository,
         ParameterBagInterface      $parameterBag,
         MediaUrlDownloadService $mediaUrlDownloadService,
-        LoggerInterface $logger
     )
     {
         parent::__construct();
@@ -53,7 +49,6 @@ class PrestashopCSVToProductVariation extends Command
         $this->productVariationRepository = $productVariationRepository;
         $this->parameterBag = $parameterBag;
         $this->mediaUrlDownloadService = $mediaUrlDownloadService;
-        $this->logger = $logger;
     }
 
     protected function configure(): void

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Services\Normalizer\Product;
+namespace App\Services\Normalizer\ProductVariation;
 
 use App\Services\Normalizer\ProductNormalizerInterface;
 use App\Services\Normalizer\ProductKeyNormalize;

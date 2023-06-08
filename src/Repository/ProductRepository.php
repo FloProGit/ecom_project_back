@@ -47,7 +47,16 @@ class ProductRepository extends ServiceEntityRepository
     {
         //PROBLEME AVEC DQL LIMIT ET OFFSET ajout de MediaUrl.is_main en bdd pour limité la sortie a 1 image
 
-        $dql = 'SELECT p.id ,p.name , pv.ext_reference , med.url_link , man.ext_id , pv.quantity ,cp.current_condition , pv.is_main
+        $dql = 'SELECT
+         p.id ,
+         p.name ,
+          pv.ext_reference ,
+           med.url_link ,
+            man.ext_id ,
+             pv.quantity ,
+             cp.current_condition ,
+              pv.is_main,
+              pv.price_tax_exclude
          FROM App\Entity\MediaUrl med 
          JOIN med.product_variation pv
          JOIN pv.product p 
@@ -65,9 +74,10 @@ class ProductRepository extends ServiceEntityRepository
     public function getProductById(int $id):Array
     {
         //SQL "SELECT * FROM product p  WHERE p.id = 1"
-        $dql = 'SELECT p 
-        FROM App\Entity\Product p 
-        WHERE p.id = :id ';
+        $dql = 'SELECT pv
+        FROM App\Entity\ProductVariation pv
+        JOIN pv.mediaUrls mu
+        WHERE pv.id = :id ';
 
         $query = $this->getEntityManager()->createQuery($dql);
         $query->setParameter('id',$id);
@@ -82,8 +92,10 @@ class ProductRepository extends ServiceEntityRepository
     },$ids);
 
         //SQL "SELECT * FROM product p  WHERE p.id IN :ids"
-        $dql = 'SELECT p 
-        FROM App\Entity\Product p 
+        $dql = 'SELECT pv
+        FROM App\Entity\ProductVariation pv
+        JOIN pv.product p
+        JOIN pv.mediaUrls mu
         WHERE p.id IN (:ids)';
 
         $query = $this->getEntityManager()->createQuery($dql);

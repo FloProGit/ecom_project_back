@@ -56,7 +56,6 @@ class Product
     private Collection $categories;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductVariation::class,fetch: "EAGER")]
-    #[Groups(['front_product'])]
     private Collection $productVariations;
 
     #[Groups(['front_product'])]

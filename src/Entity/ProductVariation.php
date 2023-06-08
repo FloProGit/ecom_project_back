@@ -53,6 +53,7 @@ class ProductVariation
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['front_product'])]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
@@ -205,7 +206,10 @@ class ProductVariation
     {
         return $this->product;
     }
-
+    public function getProduct(): ?product
+    {
+        return $this->product;
+    }
     public function setProductId(?product $product): self
     {
         $this->product = $product;

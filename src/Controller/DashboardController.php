@@ -8,7 +8,6 @@ namespace App\Controller;
 
 
 
-use App\Services\Factory\ProductFactory;
 use App\Services\Infrastructure\MediaUrlDownloadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

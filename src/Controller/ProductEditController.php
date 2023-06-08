@@ -8,9 +8,9 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Form\ProductVariationType;
 use App\Repository\CategoryRepository;
-use App\Repository\ProductRepository;
 use App\Repository\ProductVariationRepository;
 use App\Repository\MediaUrlRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,23 +19,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ProductEditController extends AbstractController
 {
     private CategoryRepository $categoryRepository;
-    private ProductRepository $productRepository;
     private ProductVariationRepository $productVariationRepository;
     private MediaUrlRepository $mediaUrlRepository;
     private TranslatorInterface $t;
 
     public function __construct(
         CategoryRepository         $categoryRepository,
-        ProductRepository          $productRepository,
         ProductVariationRepository $productVariationRepository,
         MediaUrlRepository         $mediaUrlRepository,
+        EntityManagerInterface     $entityManager,
         TranslatorInterface        $t
     )
     {
         $this->categoryRepository = $categoryRepository;
-        $this->productRepository = $productRepository;
         $this->productVariationRepository = $productVariationRepository;
         $this->mediaUrlRepository = $mediaUrlRepository;
+        $this->entityManager = $entityManager;
         $this->t = $t;
     }
 
@@ -121,12 +120,4 @@ class ProductEditController extends AbstractController
             ]);
     }
 }
-//{
-//    "2570": "Mode Accessoires",
-//    "2573": "Vêtements et Chaussures",
-//    "2575": "Sous-vêtements",
-//    "2577": "Pyjamas et couvertures avec manches",
-//    "2580": "Autres vêtements",
-//    "2582": "Autres accessoires pour les chaussures",
-//    "2584": "Accessoires",
-//}
+

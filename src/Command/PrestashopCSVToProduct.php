@@ -183,7 +183,6 @@ class PrestashopCSVToProduct extends Command
                         $row['CONDITION']=$Condition;
 
 
-
                         //MediaUrl Create Entity From String  list of urls
                         $imgs = explode(",", $row['IMAGES_URL']);
                         $mediaUrls = $this->mediaUrlDownloadService->downloadImagesAndSaveMediaUrl($imgs,true);

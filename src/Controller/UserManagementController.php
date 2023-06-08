@@ -4,12 +4,7 @@
 namespace App\Controller;
 
 
-use App\Entity\Category;
-use App\Entity\MediaUrl;
-use App\Entity\Product;
-use App\Entity\ProductVariation;
 use App\Entity\User;
-use App\Form\ProductType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\CanDo;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserManagementController extends AbstractController

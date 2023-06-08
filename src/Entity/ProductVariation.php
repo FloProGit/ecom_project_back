@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpParser\Node\Expr\Array_;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductVariationRepository::class)]
 class ProductVariation
@@ -15,46 +16,60 @@ class ProductVariation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['front_product','front_orders'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product','front_orders'])]
     private ?string $ext_id = null;
 
     #[ORM\Column]
+    #[Groups(['front_product','front_orders'])]
     private ?int $quantity = null;
 
     #[ORM\Column]
+    #[Groups(['front_product','front_orders'])]
     private ?int $minimal_quantity = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product','front_orders'])]
     private ?string $ean13 = null;
 
     #[ORM\Column]
+    #[Groups(['front_product','front_orders'])]
     private ?float $wholesale_price = null;
 
     #[ORM\Column]
+    #[Groups(['front_product','front_orders'])]
     private ?bool $on_sale = null;
 
     #[ORM\Column]
+    #[Groups(['front_product','front_orders'])]
     private ?float $price_tax_exclude = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product','front_orders'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['front_product'])]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    #[Groups(['front_product','front_orders'])]
     private ?Manufacter $manufacter = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    #[Groups(['front_product','front_orders'])]
     private ?Discount $discount = null;
 
     #[ORM\OneToMany(mappedBy: 'product_variation', targetEntity: MediaUrl::class)]
+    #[Groups(['front_product','front_orders'])]
     private Collection $mediaUrls;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product','front_orders'])]
     private ?string $ext_reference = null;
 
     #[ORM\Column]
@@ -64,17 +79,25 @@ class ProductVariation
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    #[Groups(['front_product','front_orders'])]
     private ?ConditionProduct $condition_product = null;
 
     #[ORM\Column]
     private ?bool $is_main = null;
 
-    #[ORM\ManyToOne(inversedBy: 'productVariations')]
+    #[ORM\ManyToOne(fetch: "EAGER",inversedBy: 'productVariations')]
+    #[Groups(['front_product','front_orders'])]
     private ?Attribute $attribute = null;
+
+    #[ORM\OneToMany(mappedBy: 'Product', targetEntity: OrderProduct::class)]
+    private Collection $orderProducts;
+
+
 
     public function __construct()
     {
         $this->mediaUrls = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,7 +206,10 @@ class ProductVariation
     {
         return $this->product;
     }
-
+    public function getProduct(): ?product
+    {
+        return $this->product;
+    }
     public function setProductId(?product $product): self
     {
         $this->product = $product;
@@ -191,23 +217,36 @@ class ProductVariation
         return $this;
     }
 
+    public function getManufacter(): ?Manufacter
+    {
+        return $this->manufacter;
+    }
     public function getManufacterId(): ?Manufacter
     {
         return $this->manufacter;
     }
 
+    public function setManufacter(?Manufacter $manufacter): self
+    {
+        $this->manufacter = $manufacter;
+
+        return $this;
+    }
     public function setManufacterId(?Manufacter $manufacter): self
     {
         $this->manufacter = $manufacter;
 
         return $this;
     }
-
     public function getDiscountId(): ?Discount
     {
         return $this->discount;
     }
 
+    public function getDiscount(): ?Discount
+    {
+        return $this->discount;
+    }
     public function setDiscountId(?Discount $discount): self
     {
         $this->discount = $discount;
@@ -289,11 +328,14 @@ class ProductVariation
         return $this;
     }
 
+    public function getConditionProduct(): ?ConditionProduct
+    {
+        return $this->condition_product;
+    }
     public function getConditionProductId(): ?ConditionProduct
     {
         return $this->condition_product;
     }
-
     public function setConditionProductId(?ConditionProduct $condition_product): self
     {
         $this->condition_product = $condition_product;
@@ -324,4 +366,37 @@ class ProductVariation
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, OrderProduct>
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->add($orderProduct);
+            $orderProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->removeElement($orderProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getProduct() === $this) {
+                $orderProduct->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 }

@@ -6,6 +6,7 @@ use App\Repository\TaxRuleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TaxRuleRepository::class)]
 class TaxRule
@@ -16,9 +17,11 @@ class TaxRule
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $code_tax = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $name = null;
 
     #[ORM\Column]
@@ -26,6 +29,7 @@ class TaxRule
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
+
 
     #[ORM\OneToMany(mappedBy: 'tax_rule', targetEntity: Product::class)]
     private Collection $products;

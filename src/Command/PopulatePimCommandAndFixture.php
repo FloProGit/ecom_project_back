@@ -56,7 +56,6 @@ class PopulatePimCommandAndFixture extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->logger->error('je suis dans la creation du back');
-        dd('patate');
 
         $this->executeDBCreation($output);
         $this->io->section('Start DB migration');

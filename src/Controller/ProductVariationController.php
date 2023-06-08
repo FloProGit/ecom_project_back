@@ -4,8 +4,6 @@
 namespace App\Controller;
 
 
-use App\Entity\MediaUrl;
-use App\Entity\Product;
 use App\Entity\ProductVariation;
 use App\Form\ProductVariationType;
 use App\Repository\CategoryRepository;
@@ -22,28 +20,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductVariationController extends AbstractController
 {
-    private CategoryRepository $categoryRepository;
-    private ProductRepository $productRepository;
-    private ProductVariationRepository $productVariationRepository;
-    private MediaUrlRepository $mediaUrlRepository;
     private EntityManagerInterface $entityManager;
     private MultiMediaUrlFactory $multiMediaUrlFactory;
     private TranslatorInterface $t;
 
     public function __construct(
-        CategoryRepository         $categoryRepository,
-        ProductRepository          $productRepository,
-        ProductVariationRepository $productVariationRepository,
-        MediaUrlRepository         $mediaUrlRepository,
         EntityManagerInterface     $entityManager,
         MultiMediaUrlFactory       $multiMediaUrlFactory,
         TranslatorInterface        $t
     )
     {
-        $this->categoryRepository = $categoryRepository;
-        $this->productRepository = $productRepository;
-        $this->mediaUrlRepository = $mediaUrlRepository;
-        $this->productVariationRepository = $productVariationRepository;
         $this->entityManager = $entityManager;
         $this->multiMediaUrlFactory = $multiMediaUrlFactory;
         $this->t = $t;
@@ -64,8 +50,9 @@ class ProductVariationController extends AbstractController
                 $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
                 $this->entityManager->persist($productVariation);
                 $this->entityManager->flush();
+                $this->addFlash("success", "Produit variation modifié ");
             } catch (\Exception $e) {
-                dd($e);
+                $this->addFlash("danger", "Oups! quelque chose c'est mal passé ");
             }
         }
 
@@ -110,7 +97,7 @@ class ProductVariationController extends AbstractController
                 $newId = $productVariation->getId();
                 $this->addFlash("success", "Produit modifié ");
             } catch (\Exception $e) {
-                dd($e);
+
                 $this->addFlash("danger", "Oups! quelque chose c'est mal passé ");
             }
             return $this->redirectToRoute('product_variation_edit', ['id' => $newId]);

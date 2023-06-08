@@ -8,16 +8,9 @@ namespace App\Controller;
 
 
 
-use App\Entity\Category;
 use App\Entity\Manufacter;
-use App\Entity\MediaUrl;
-use App\Entity\Product;
-use App\Entity\ProductVariation;
 use App\Form\ManufacterType;
-use App\Form\ProductType;
-use App\Form\ProductVariationType;
 use App\Repository\ManufacterRepository;
-use App\Repository\ProductRepository;
 use App\Services\Infrastructure\ErrorFromHandlingTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

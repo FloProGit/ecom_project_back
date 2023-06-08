@@ -343,7 +343,7 @@ class ProductVariation
         return $this;
     }
 
-    public function isIsMain(): ?bool
+    public function getIsMain(): ?bool
     {
         return $this->is_main;
     }

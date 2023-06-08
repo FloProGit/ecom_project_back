@@ -75,6 +75,18 @@ class ProductsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $product = $form->getData();
+                $productVariation =$product->getProductVariations();
+
+                $newName = $product->getName();
+                for ($i = 0 ; $i < count($productVariation);$i++)//foreach not work for setter and  getter of $productVariation
+                {
+                    if($productVariation[$i]->getIsMain())
+                    {
+                        $newName = $productVariation[$i]->getName();
+                    }
+                }
+                $product->setName($newName);
+
                 if (!$product->isHasVariation()) {
                     $images = $form->get('productVariations')[0]->get('images')->getData();
                     $mediaUrls = $this->multiMediaUrlFactory->buildMediaUrls($images,$this->getParameter('images_directory') );

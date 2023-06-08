@@ -76,12 +76,9 @@
                                 Tools
                             </button>
                             <div x-show="firstMenu == 'tools'" class="space-y-1 " id="sub-menu-1">
-                                <a :class="subMenu == 'export' ? 'bg-light' : ''" href="{{ path('products_list') }}"
-                                   class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm  font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    {% trans from 'general' %}export{% endtrans %}</a>
                                 <a :class="subMenu == 'import' ? 'bg-light' : ''" href="{{ path('import') }}"
                                    class="group flex w-full items-center rounded-md py-2 pl-10 pr-2 text-sm font-medium text-hoveredtext  hover:bg-light hover:text-warn">
-                                    {% trans from 'general' %}import{% endtrans %}</a>
+                                    {% trans from 'general' %}Import{% endtrans %}</a>
                             </div>
 
                             <a :class="firstMenu == 'settings' ? 'bg-light' : ''" href="{{ path('setting') }}"

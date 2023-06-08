@@ -49,7 +49,7 @@
                     <div class="w-full">
                         <div class="flex ">
                             {% include  'Components/under_construction.html.twig' %}
-                            {{ form_label(product_form.tax_rule,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_label(product_form.tax_rule,'Tax Rule',{'label_attr': {'class': 'label-crud-form'}}) }}
                         </div>
                         {{ form_widget(product_form.tax_rule,{'attr': {'class': 'input-crud-form'}}) }}
                         <div class="text-red-700 mt-1">

@@ -5,9 +5,11 @@ namespace App\Controller;
 
 
 use App\Entity\Category;
+use App\Entity\Manufacter;
 use App\Entity\MediaUrl;
 use App\Entity\Product;
 use App\Entity\ProductVariation;
+use App\Entity\TaxRule;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Services\Factory\MultiMediaUrlFactory;
@@ -141,6 +143,12 @@ class ProductsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $product = $form->getData();
+                $requestProduct=$request->get('product');
+                $requestProductVariation=$requestProduct['productVariations'][0];
+                $manufacter = $requestProductVariation['manufacter'];
+                $manufacter = $this->entityManager->getRepository(Manufacter::class)->find($manufacter);
+                $taxRule = $requestProduct['tax_rule'];
+                $taxRule = $this->entityManager->getRepository(TaxRule::class)->find($taxRule);
                 $product->setHasVariation(false);
                 if (!$product->isHasVariation()) {
                     $images = $form->get('productVariations')[0]->get('images')->getData();
@@ -150,12 +158,13 @@ class ProductsController extends AbstractController
 
                 $product->setUpdatedAt(new \DateTimeImmutable('now'));
                 $newCategories = $this->entityManager->getRepository(Category::class)->getCategoriesByCodes($request->get('multi-selected-json'));
-
                 $product->updateCategories($newCategories);
                 $product->setCreatedAt(new \DateTimeImmutable());
+                $product->setTaxRule($taxRule);
                 $product->setUpdatedAt(new \DateTimeImmutable());
                 $productVariation->setCreatedAt(new \DateTimeImmutable());
                 $productVariation->setUpdatedAt(new \DateTimeImmutable());
+                $productVariation->setManufacterId($manufacter);
                 $productVariation->setIsMain(true);
 
                 $this->entityManager->persist($productVariation);

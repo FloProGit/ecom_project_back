@@ -31,7 +31,7 @@
 
                 <td class="whitespace-nowrap py-4 pl-4  pr-3 text-sm font-medium text-hoveredtext sm:pl-6">Publish</td>
                 <td class="whitespace-nowrap py-4 px-3 text-sm text-symplytext ">
-                    <img  width="64" src="{{ asset('/download/images/'~ product.url_link) }}" class=" rounded-lg">
+                    <img  width="64" src="{{ asset('/download/images/'~ product.url_link) }}" class=" rounded-lg" alt="image d'un produit">
                 </td>
                 <td class="whitespace-nowrap py-4 px-3 text-sm "><a class="linked-text" href="{{ path('product_edit', {id:  product.id})  }}">{{ product.name }}</a></td>
 
@@ -45,6 +45,6 @@
         {% endfor %}
         </tbody>
     </table>
-        {% include 'pagination.html.twig' %}
+{#        {% include 'pagination.html.twig' %}#}
     </div>
 {% endblock %}

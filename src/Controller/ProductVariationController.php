@@ -44,9 +44,11 @@ class ProductVariationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             try {
                 $productVariation = $form->getData();
-
+                $mediaUrls = $this->multiMediaUrlFactory->buildMediaUrls($form->get('images')->getData(), $this->getParameter('images_directory'));
+                $productVariation->addMultipleMediaUrl($mediaUrls);
                 $productVariation->setUpdatedAt(new \DateTimeImmutable('now'));
                 $this->entityManager->persist($productVariation);
                 $this->entityManager->flush();

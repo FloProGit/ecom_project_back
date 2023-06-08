@@ -8,7 +8,7 @@ use App\Entity\ProductVariation;
 use App\Repository\ProductVariationRepository;
 use App\Services\Factory\ProductVariationFactory;
 use App\Services\Infrastructure\MediaUrlDownloadService;
-use App\Services\Normalizer\Product\ProductVariationNormaliserFromPrestaShop;
+use App\Services\Normalizer\ProductVariation\ProductVariationNormaliserFromPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;

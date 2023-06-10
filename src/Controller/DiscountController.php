@@ -12,15 +12,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class DiscountController extends AbstractController
 {
     private DiscountRepository $discountRepository;
     private EntityManagerInterface $entityManager;
-    public function __construct(DiscountRepository $discountRepository,EntityManagerInterface $entityManager)
+    private TranslatorInterface $t;
+    public function __construct(DiscountRepository $discountRepository,EntityManagerInterface $entityManager, TranslatorInterface $t)
     {
         $this->discountRepository = $discountRepository;
         $this->entityManager = $entityManager;
+        $this->t = $t;
     }
 
     public function index()
@@ -35,11 +38,12 @@ final class DiscountController extends AbstractController
 
         return $this->render('Pages/Discount/discount.html.twig', [
             'discounts' => $result, 'breadcrumbs' => [
-                ['data' => ['name' => 'Discounts']]
+                ['data' => ['name' => $this->t->trans('discounts', domain: 'general')]]
             ]
             ,
             'discount_forms_array' => $discountForms,
             'discount_forms_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'discounts'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'discount_list')]

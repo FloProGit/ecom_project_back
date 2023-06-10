@@ -21,7 +21,10 @@ final class ConditionProductType extends AbstractType
                 'disabled' => true,
             ])
             ->add('current_condition' , TextType::class ,['required'=>true,'constraints'=> new LengthConstraint(2,255)])
-            ->add('submit' , SubmitType::class,['label' => 'Update'])
+            ->add('submit' , SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ])
         ;
     }
 

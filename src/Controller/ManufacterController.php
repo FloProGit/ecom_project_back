@@ -8,31 +8,27 @@ namespace App\Controller;
 
 
 
-use App\Entity\Category;
 use App\Entity\Manufacter;
-use App\Entity\MediaUrl;
-use App\Entity\Product;
-use App\Entity\ProductVariation;
 use App\Form\ManufacterType;
-use App\Form\ProductType;
-use App\Form\ProductVariationType;
 use App\Repository\ManufacterRepository;
-use App\Repository\ProductRepository;
 use App\Services\Infrastructure\ErrorFromHandlingTransformer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ManufacterController extends AbstractController
 {
     private ManufacterRepository $manufacterRepository;
     private EntityManagerInterface $entityManager;
-    public function __construct( ManufacterRepository $manufacterRepository, EntityManagerInterface $entityManager)
+    private TranslatorInterface $t;
+    public function __construct( ManufacterRepository $manufacterRepository, EntityManagerInterface $entityManager,TranslatorInterface $t)
     {
         $this->entityManager = $entityManager;
         $this->manufacterRepository = $manufacterRepository;
+        $this->t = $t;
     }
 
     public function index() : response
@@ -46,11 +42,12 @@ class ManufacterController extends AbstractController
         $formularCreation = $this->createForm(ManufacterType::class, new Manufacter())->createView();
         return $this->render('Pages/Manufacter/manufacter.html.twig', [
             'manufacters' => $result,'breadcrumbs'=>[
-                ['data' => ['name' => 'Manufacter']]
+                ['data' => ['name' => $this->t->trans('manufacters', domain: 'general')]]
             ]
             ,
             'manufacter_forms_array' => $manufactersForms,
             'manufacter_form_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'manufacters'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'manufacter_list')]
@@ -85,8 +82,10 @@ class ManufacterController extends AbstractController
                 $this->entityManager->persist($manufacterData);
                 $this->entityManager->flush();
                 $this->addFlash("success",  'Manufacter' .$manufacterData->getName().'Add');
+
             } catch (\Exception $e) {
-                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé ");
+
+                $this->addFlash("danger",  "Oups! quelque chose c'est mal passé");
             }
         }
         else{

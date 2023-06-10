@@ -15,16 +15,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class TaxRuleController extends AbstractController
 {
     private TaxRuleRepository $taxRuleRepository;
     private EntityManagerInterface $entityManager;
+    private  TranslatorInterface $t;
 
-    public function __construct(TaxRuleRepository $taxRuleRepository, EntityManagerInterface $entityManager)
+    public function __construct(TaxRuleRepository $taxRuleRepository, EntityManagerInterface $entityManager,TranslatorInterface $t)
     {
         $this->taxRuleRepository = $taxRuleRepository;
         $this->entityManager = $entityManager;
+        $this->t = $t;
     }
 
 
@@ -40,11 +43,12 @@ final class TaxRuleController extends AbstractController
 
         return $this->render('Pages/TaxRule/tax_rule.html.twig', [
             'breadcrumbs' => [
-                ['data' => ['name' => 'Tax rule']]
+                ['data' => ['name' => $this->t->trans('tax_rules', domain: 'general')]]
             ]
             ,
             'tax_rule_forms_array' => $taxRuleForms,
-            'tax_rule_forms_create' => $formularCreation
+            'tax_rule_forms_create' => $formularCreation,
+            'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'tax_rules'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'tax_rule_list')]

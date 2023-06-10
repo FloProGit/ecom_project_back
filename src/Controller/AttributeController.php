@@ -14,16 +14,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AttributeController extends AbstractController
 {
 
     private AttributeRepository $attributeRepository;
     private EntityManagerInterface $entityManager;
-    public function __construct(AttributeRepository $attributeRepository ,EntityManagerInterface $entityManager)
+    private TranslatorInterface $t;
+    public function __construct(
+        AttributeRepository $attributeRepository ,
+        EntityManagerInterface $entityManager,
+        TranslatorInterface $t)
     {
         $this->entityManager = $entityManager;
         $this->attributeRepository = $attributeRepository;
+        $this->t = $t;
     }
 
     public function index()
@@ -38,11 +44,12 @@ final class AttributeController extends AbstractController
 
         return $this->render('Pages/Attribute/attribute.html.twig', [
              'breadcrumbs' => [
-                ['data' => ['name' => 'Attribute']]
+                ['data' => ['name' => $this->t->trans('attributes', domain: 'general')]]
             ]
             ,
             'attribute_forms_array' => $discountForms,
             'attribute_forms_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'attributes'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'attribute_list')]

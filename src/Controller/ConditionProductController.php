@@ -12,16 +12,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\CanDo;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConditionProductController extends AbstractController
 {
     private ConditionProductRepository $conditionProductRepository;
     private EntityManagerInterface $entityManager;
-
-    public function __construct(ConditionProductRepository $conditionProductRepository, EntityManagerInterface $entityManager)
+    private TranslatorInterface $t;
+    public function __construct(ConditionProductRepository $conditionProductRepository, EntityManagerInterface $entityManager, TranslatorInterface $t)
     {
         $this->entityManager = $entityManager;
         $this->conditionProductRepository = $conditionProductRepository;
+        $this->t = $t;
     }
 
     public function index(): response
@@ -35,11 +37,12 @@ class ConditionProductController extends AbstractController
         $formularCreation = $this->createForm(ConditionProductType::class, new ConditionProduct())->createView();
         return $this->render('Pages/ConditionProduct/condition_product.html.twig', [
             'conditions' => $result, 'breadcrumbs' => [
-                ['data' => ['name' => 'ConditionProduct']]
+                ['data' => ['name' => $this->t->trans('conditions', domain: 'general')]]
             ]
             ,
             'conditions_forms_array' => $ConditonsForms,
             'conditions_forms_create' => $formularCreation
+            ,'navbardata' => json_encode(['fm'=> 'catalogue','sm'=>'condition_product'])
         ]);
     }
     #[CanDo(['ROLE_SUPER_ADMIN','ROLE_ADMIN'],'condition_product_list')]

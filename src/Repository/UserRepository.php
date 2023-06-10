@@ -56,28 +56,77 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getUser(string $userEmail): array
+    {
+        //SQL 'SELECT u.name,u.email FROM user u WHERE u.email = :user_email'
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $dql = 'SELECT u.name,u.email
+        FROM App\Entity\User u
+        WHERE u.email = :user_email';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user_email', $userEmail);
+
+        return $query->getResult();
+    }
+
+    public function updateUserName(string $userEmail,string $name)
+    {
+        //SQL 'UPDATE user u SET u.name = :user_name  WHERE u.email = :user_email'
+
+        $dql = ' UPDATE App\Entity\User u
+        SET u.name = :user_name
+        WHERE u.email = :user_email ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user_email', $userEmail);
+        $query->setParameter('user_name', $name);
+
+        return $query->getResult();
+    }
+
+    public function updateUserEmail(string $userEmail,string $newEmail)
+    {
+        //SQL 'UPDATE user u SET u.email = :new_email  WHERE u.email = :user_email'
+
+        $dql = ' UPDATE App\Entity\User u
+        SET u.email = :new_email
+        WHERE u.email = :user_email';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user_email', $userEmail);
+        $query->setParameter('new_email', $newEmail);
+
+        return $query->getResult();
+    }
+
+    public function updateUserPassword(string $userEmail,string $newPassword)
+    {
+
+        //SQL 'UPDATE user u SET u.password = :user_password  WHERE u.email = :user_email'
+
+        $dql = 'UPDATE App\Entity\User u
+        SET u.password = :new_password
+        WHERE u.email = :user_email';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user_email', $userEmail);
+        $query->setParameter('new_password', $newPassword);
+
+        return $query->getResult();
+    }
+
+    public function deleteUser(string $userEmail)
+    {
+        //SQL 'DELETE FROM user u  WHERE u.email = :user_email'
+
+        $dql = ' DELETE  FROM App\Entity\User u
+        WHERE u.email = :user_email';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user_email', $userEmail);
+
+        return $query->getResult();
+    }
+
 }

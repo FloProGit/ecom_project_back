@@ -14,7 +14,7 @@ final class ProductNormaliserFromPrestaShop implements ProductNormalizerInterfac
     public function NormalizeProduct(): array
     {
         return [
-            ProductKeyNormalize::ID => $this->data["﻿ID"],
+            ProductKeyNormalize::ID => $this->data["ID"],
             ProductKeyNormalize::WIDTH => $this->data['WIDTH'],
             ProductKeyNormalize::EXT_REFERENCE => $this->data['bb_REFERENCE'],
             ProductKeyNormalize::NAME => $this->data['NAME'],

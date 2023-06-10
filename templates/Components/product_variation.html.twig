@@ -6,7 +6,10 @@
     <div class="section-border">
         <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4" x-data="{ files: null }">
             <header>
+                <div class="flex ">
+                    {% include  'Components/under_construction.html.twig' %}
                 <h3 class="label-crud-block">Images</h3>
+                    </div>
             </header>
 
             <div class="mt-1 sm:col-span-2 sm:mt-0 relative">
@@ -35,7 +38,8 @@
             <div class="w-full flex overflow-auto">
                 {% for image in variation_form.vars.data.getMediaUrls().toArray() %}
                     <img src="{{ asset('/download/images/'~ image.urlLink) }}" width="128"
-                         class="border-2 border-gray-300 rounded-md" alt="">
+                         class="border-2 border-gray-300 rounded-md" alt="image d'une variation de produit"
+                    >
                 {% endfor %}
             </div>
 
@@ -66,9 +70,7 @@
             </div>
 
             <div class="w-full">
-
-                    {{ form_label(variation_form.discount_id,'Wholesale price',{'label_attr': {'class': 'label-crud-form'}}) }}
-
+                    {{ form_label(variation_form.discount_id,'Discount',{'label_attr': {'class': 'label-crud-form'}}) }}
                 {{ form_widget(variation_form.discount_id,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.discount_id) }}
@@ -145,20 +147,15 @@
                 </div>
             </div>
             <div class="w-full">
-                <div class="flex ">
-                    {% include  'Components/under_construction.html.twig'%}
+
                 {{ form_label(variation_form.manufacter,null,{'label_attr': {'class': 'label-crud-form'}}) }}
-                </div>
                 {{ form_widget(variation_form.manufacter,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.manufacter) }}
                 </div>
             </div>
             <div class="w-full">
-                <div class="flex ">
-                    {% include  'Components/under_construction.html.twig'%}
                 {{ form_label(variation_form.attribute,null,{'label_attr': {'class': 'label-crud-form'}}) }}
-                </div>
                 {{ form_widget(variation_form.attribute,{'attr': {'class': 'input-crud-form'}}) }}
                 <div class="text-red-700 mt-1">
                     {{ form_errors(variation_form.manufacter) }}

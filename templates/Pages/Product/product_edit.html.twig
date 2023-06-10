@@ -49,7 +49,7 @@
                     <div class="w-full">
                         <div class="flex ">
                             {% include  'Components/under_construction.html.twig' %}
-                            {{ form_label(product_form.tax_rule,null,{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_label(product_form.tax_rule,'Tax Rule',{'label_attr': {'class': 'label-crud-form'}}) }}
                         </div>
                         {{ form_widget(product_form.tax_rule,{'attr': {'class': 'input-crud-form'}}) }}
                         <div class="text-red-700 mt-1">
@@ -90,7 +90,6 @@
                 </div>
             </div>
         </div>
-
 
         {% if hasVaration %}
 
@@ -161,16 +160,16 @@
 
         </div>
 
-        <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-light lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
+        <footer class="fixed bottom-0 w-full left-0 right-0 z-10 h-[8rem] p-6 border-t border-light lg:left-auto lg:z-10 bg-white/70 lg:w-[calc(100vw_-_17rem)]">
             <div class="pt-5">
                 <div class="flex justify-end">
 
                     <div class="flex justify-end">
-                        {{ form_widget(product_form.submit,{'label': 'Save Product','attr':{'class':'primary-button update-button'  }}) }}
+                        {{ form_widget(product_form.submit,{'attr':{'class':'primary-button update-button'  }}) }}
                     </div>
                     <div class="flex justify-end">
                         <a class="primary-button delete-button ml-2"
-                           href="{{ path('product_delete',{'id' : app.request.attributes.get('id')}) }}">Delete</a>
+                           href="{{ path('product_delete',{'id' : app.request.attributes.get('id')}) }}">{% trans from 'button' %}delete{% endtrans %}</a>
                     </div>
                 </div>
 

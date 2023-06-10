@@ -6,6 +6,7 @@ use App\Repository\AttributeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AttributeRepository::class)]
 class Attribute
@@ -13,12 +14,15 @@ class Attribute
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $value = null;
 
     #[ORM\Column]

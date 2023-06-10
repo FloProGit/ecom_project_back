@@ -50,7 +50,10 @@ class ProductType extends AbstractType
                     'entry_type' => ProductVariationType::class,
                 ]);
             })
-            ->add('submit',SubmitType::class);
+            ->add('submit',SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ]);
         ;
     }
 

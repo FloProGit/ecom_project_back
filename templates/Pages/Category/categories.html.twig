@@ -1,5 +1,5 @@
 {% extends 'base_layout.html.twig' %}
-{% set title_page = 'Category' %}
+{% set title_page = 'category' %}
 
 
 {% block content %}
@@ -9,7 +9,7 @@
         {% endif %}
         <a href="{{ path('categories_create') }}"
            class="primary-button create-button">
-            Create {{ title_page|lower }} </a>
+            {% trans from 'button' %}create {% endtrans %} {% trans from 'linkword' %}a_f{% endtrans %} {{ title_page|trans({},'general')|lower}} </a>
     </div>
 
 

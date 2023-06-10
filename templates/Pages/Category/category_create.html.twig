@@ -1,0 +1,136 @@
+{% extends 'base_layout.html.twig' %}
+{% set title_page = 'categories' %}
+{% set description_page = 'categories des produits' %}
+
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('ShowProduct') }}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    {% if  breadcrumbs is defined %}
+        {% include 'Components/breadcrumb.html.twig' with {'breadcrumbs':breadcrumbs} %}
+    {% endif %}
+
+
+
+<div class="space-y-8  px-4 py-4  rounded-lg ">
+
+            <div id="information">
+                <div class="section-border">
+                    <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                        <header>
+                            <h3 class="text-lg font-medium mb-2 leading-6  text-hoveredtext">Information</h3>
+                        </header>
+                        <div class="w-full">
+                            {{ form_label(form.is_active,'Active',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.is_active,{ 'attr':{'class':'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600' }}) }}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.is_active)}}
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.name ,'Name',{'label_attr': {'class': 'label-crud-form'}})}}
+                            {{ form_widget(form.name ,{'attr': {'class': 'input-crud-form'}})}}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.name)}}
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.id_parent,'Id parent',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.id_parent,{'attr': {'class': 'input-crud-form'}} )}}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.id_parent)}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="other_details">
+                <div class="section-border">
+                    <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                        <header>
+                            <h3 class="text-lg font-medium mb-2 leading-6 text-hoveredtext">Other details</h3>
+                        </header>
+                        <div class="w-full">
+                            {{ form_label(form.url_rewritten,'Url',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.url_rewritten ,{'attr': {'class': 'input-crud-form'}})}}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.url_rewritten)}}
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.description,'description',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.description,{'attr': {'class': 'input-crud-form'}}) }}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.description)}}
+                            </div>
+                         </div>
+                        <div class="w-full">
+                            {{ form_label(form.root_category,'Root category',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.root_category,{'attr': {'class': 'input-crud-form'}}) }}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.root_category)}}
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.image_url,'image_url',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.image_url,{'attr': {'class': 'input-crud-form'}}) }}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.image_url)}}
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.code,'code',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.code,{'attr': {'class': 'input-crud-form'}}) }}
+                            <div class="text-error mt-1">
+                                {{ form_errors(form.code)}}
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div id="meta_data" >
+                <div class="section-border">
+                    <div class="flex-col bg-white rounded-md space-y-4 px-4 py-4">
+                        <header>
+                            <h3 class="text-lg font-medium mb-2 leading-6 text-hoveredtext">Meta data</h3>
+                        </header>
+                        <div class="w-full">
+                            {{ form_label(form.meta_title,'Meta title',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.meta_title ,{'attr': {'class': 'input-crud-form'}})}}
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.meta_description,'Meta description',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.meta_description,{'attr': {'class': 'input-crud-form'}})  }}
+                        </div>
+                        <div class="w-full">
+                            {{ form_label(form.meta_keyword,'Meta keyword',{'label_attr': {'class': 'label-crud-form'}}) }}
+                            {{ form_widget(form.meta_keyword ,{'attr': {'class': 'input-crud-form'}})}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-[5rem]">
+
+            </div>
+            <footer class="fixed bottom-0 w-full left-0 right-0 z-40 h-[8rem] p-6 border-t border-gray-100 lg:left-auto bg-white/70 lg:w-[calc(100vw_-_17rem)]">
+                <div class="pt-5">
+                    <div class="flex justify-end">
+                        {{ form_widget(form.submit,{'label':'create','attr':{'class':'primary-button update-button'  }}) }}
+                    </div>
+                </div>
+            </footer>
+            {{ form_end(form) }}
+    </div>
+
+
+{% endblock %}
+
+

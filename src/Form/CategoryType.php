@@ -64,7 +64,10 @@ class CategoryType extends AbstractType
             ->add('code', NumberType::class, ['required' => true])
             ->add('url_rewritten', TextType::class,
                 ['required' => true, 'constraints' => [new LengthConstraint(5, 255)]])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

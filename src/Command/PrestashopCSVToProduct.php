@@ -13,11 +13,11 @@ use App\Services\Factory\ProductFactory;
 use App\Services\Factory\ProductVariationFactory;
 use App\Services\Infrastructure\MediaUrlDownloadService;
 use App\Services\Normalizer\Product\ProductNormaliserFromPrestaShop;
-use App\Services\Normalizer\Product\ProductVariationNormaliserFromPrestaShop;
-use App\Services\Normalizer\Product\ProductVariationNormaliserFromProductPrestaShop;
+use App\Services\Normalizer\ProductVariation\ProductVariationNormaliserFromProductPrestaShop;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-
+use Psr\Log\LoggerInterface;
 #[AsCommand(
     name: 'app:create-product-from-prestashop-Product_csv',
     description: 'load csv from file',
@@ -41,13 +41,15 @@ class PrestashopCSVToProduct extends Command
     private MediaUrlDownloadService $mediaUrlDownloadService;
 
     private ParameterBagInterface $parameterBag;
+    private LoggerInterface  $logger;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         string                 $fileDirectory,
         ProductRepository      $productRepository,
         ParameterBagInterface $parameterBag,
-        MediaUrlDownloadService $mediaUrlDownloadService
+        MediaUrlDownloadService $mediaUrlDownloadService,
+        LoggerInterface $logger
     )
     {
         parent::__construct();
@@ -56,11 +58,12 @@ class PrestashopCSVToProduct extends Command
         $this->productRepository = $productRepository;
         $this->mediaUrlDownloadService = $mediaUrlDownloadService;
         $this->parameterBag = $parameterBag;
+        $this->logger = $logger;
     }
 
     protected function configure(): void
     {
-
+        $this->addArgument('path', null, 'path :');
         $this->setDescription('load csv from file');
 //            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
 //            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
@@ -75,15 +78,28 @@ class PrestashopCSVToProduct extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        try {
+            $this->CreateProduct($output,$input->getArgument('path'));
 
-        $this->CreateProduct();
+            return Command::SUCCESS;
+        }
+        catch (\Exception $e)
+        {
+            return Command::FAILURE;
+        }
 
-        return Command::SUCCESS;
     }
 
-    private function getDataFromFile(): array
+    private function getDataFromFile(string $path = null): array
     {
+        if($path === null)
+        {
         $file = $this->parameterBag->get('download_directory') . '/FileTest/files-products-csv-prestashop-presta-product-2570-fr.csv';
+
+        }
+        else{
+            $file =$path;
+        }
 
         $fileExtention = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -98,18 +114,23 @@ class PrestashopCSVToProduct extends Command
         /** @var  string $fileString */
         $fileString = file_get_contents($file);
 
+
         $data = $serializer->decode($fileString, $fileExtention, [CsvEncoder::DELIMITER_KEY => ';']);
         return $data;
     }
 
 
-    private function CreateProduct()
+    private function CreateProduct(OutputInterface $output,string $path = null)
     {
-        $Conditions = $this->entityManager->getRepository(ConditionProduct::class)->findAll();
+
+
+
+
+        $qConditions = $this->entityManager->getRepository(ConditionProduct::class)->findAll();
         $Conditions = array_map(function(ConditionProduct $condition){
             return $condition->getCurrentCondition();
-        },$Conditions);
-        $this->io->section('Creation des Product a partir du fichier');
+        },$qConditions);
+
 
         $manufacters = $this->entityManager->getRepository(Manufacter::class)->findAll();
         $manufacters = array_map(function(Manufacter $manufacter){
@@ -118,12 +139,13 @@ class PrestashopCSVToProduct extends Command
 
 
         $productCreated = 0;
-        foreach ($this->getDataFromFile() as $row) {
+        foreach ($this->getDataFromFile($path) as $row) {
 
-//            "﻿ID" = " ID"  in prestashop csv IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (array_key_exists("﻿ID", $row)) {
+//            "﻿ID" = " ID"  in prestashop csv IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! be carefull with encodage of csv need to be [UTF-8] use notepad ++ o other to reEncode
+
+            if (array_key_exists("ID", $row)) {
                 $product = $this->productRepository->findOneBy([
-                    'ext_id' => $row["﻿ID"]
+                    'ext_id' => $row["ID"]
                 ]);
 
                 //if product exist do not make duplication
@@ -146,7 +168,6 @@ class PrestashopCSVToProduct extends Command
                         $row['MANUFACTER'] = $manufacter;
 
 
-
                         //Check if Condition exist if not create new one
                         if(!in_array($row['CONDITION'],$Conditions,true))
                         {
@@ -155,13 +176,16 @@ class PrestashopCSVToProduct extends Command
                             $this->entityManager->persist($Condition);
                             $Conditions[] = $row['CONDITION'];
                         }
+                        else{
+                            $Condition =  $this->entityManager->getRepository(ConditionProduct::class)->findby(['current_condition'=>$row['CONDITION']])[0];
+                        }
                         $row['CONDITION']=$Condition;
-
 
 
                         //MediaUrl Create Entity From String  list of urls
                         $imgs = explode(",", $row['IMAGES_URL']);
                         $mediaUrls = $this->mediaUrlDownloadService->downloadImagesAndSaveMediaUrl($imgs,true);
+
                         $row['IMAGES_URL']=$mediaUrls;
                         if(empty($row['IMAGES_URL']))
                         {
@@ -178,18 +202,25 @@ class PrestashopCSVToProduct extends Command
 
                         $this->entityManager->persist($productVariation);
                         $this->entityManager->persist($product);
-
                         $this->entityManager->flush();
                         $productCreated++;
                     }
                     catch (\Exception $e) {
-                        $this->io->section($e->getMessage());
+
+                        $this->logger->error($e->getMessage());
                     }
                 }
+
             }
+            else
+            {
+                $this->logger->error("je n ai pas trouvé ID");
+            }
+
         }
 
-        $this->io->success('success '.$productCreated.' product create');
+        $this->io->write('produits créés =>' .$productCreated);
+
     }
 
     private function generateRandomString(int $length = 10): string

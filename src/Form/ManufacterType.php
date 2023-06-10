@@ -38,7 +38,8 @@ class ManufacterType extends AbstractType
                     ],
             ])
             ->add('submit' , SubmitType::class,[
-                'label' => 'Update'
+                'translation_domain' => 'button',
+                'label' => 'update'
             ])
         ;
     }

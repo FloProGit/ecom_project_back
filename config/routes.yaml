@@ -160,12 +160,80 @@ condition_product_delete:
   path: /admin/condition-product-delete/{id}
   controller: App\Controller\ConditionProductController::deleteConditionProduct
 
+#------------------------------Settings------------------------------------
+setting:
+  path: /admin/setting
+  controller: App\Controller\Setting\SettingController::index
+#------------------------------Import------------------------------------
+import:
+  path: /admin/import
+  controller: App\Controller\ImportController::index
+
+import_file:
+  path: /admin/import-file
+  controller: App\Controller\ImportController::importDataFromFile
+
+
+#------------------------------------------------------------------------
+#------------------------------API---------------------------------------
+#------------------------------------------------------------------------
+
+
+#------------------------------AUTH------------------------------------
+api_login_check:
+  path: /api/login_check
+
+api_register:
+  path: /api/register
+  controller: App\Controller\Api\RegisterController::index
+
+#------------------------------Products------------------------------------
+api_get_products:
+  path: /api/all-products
+  controller: App\Controller\Api\ApiProductController::allProduct
+
+api_get_product:
+  path: /api/product/{id}
+  controller: App\Controller\Api\ApiProductController::productById
+
+api_get_products_by_ids:
+  path: /api/products
+  controller: App\Controller\Api\ApiProductController::productsByIds
+
+  #------------------------------ORDER------------------------------------
+api_create_order:
+  path: /api/create-order
+  controller: App\Controller\Api\ApiOrderController::createOrderFromCart
+
+api_get_orders_by_user:
+  path: /api/get-orders
+  controller: App\Controller\Api\ApiOrderController::getOrders
+#------------------------------User------------------------------------
+api_update_password_user:
+  path: /api/update-password-user
+  controller: App\Controller\Api\ApiUserController::updatePasswordUserByToken
+
+api_update_email_user:
+  path: /api/update-email-user
+  controller: App\Controller\Api\ApiUserController::updateEmailUserByToken
+
+api_update_name_user:
+  path: /api/update-name-user
+  controller: App\Controller\Api\ApiUserController::updateNameUserByToken
+
+api_get_user:
+  path: /api/get-user
+  controller: App\Controller\Api\ApiUserController::getUserByToken
+
+api_delete_user:
+  path: /api/delete-user
+  controller: App\Controller\Api\ApiUserController::deleteUserByToken
+
 default:
   path: /
   controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
   defaults:
     path: /admin
     permanent: true
-
 
 

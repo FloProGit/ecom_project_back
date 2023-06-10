@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -17,33 +18,43 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?bool $is_active = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $id_parent = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $parent = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $root_category = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['front_product'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['front_product'])]
     private ?string $meta_title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['front_product'])]
     private ?string $meta_keyword = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['front_product'])]
     private ?string $meta_description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['front_product'])]
     private ?string $image_url = null;
 
     #[ORM\Column]
@@ -53,12 +64,14 @@ class Category
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
+    #[Groups(['front_product'])]
     private ?int $code = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'categories')]
     private Collection $Products;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['front_product'])]
     private ?string $url_rewritten = null;
 
     public function __construct()

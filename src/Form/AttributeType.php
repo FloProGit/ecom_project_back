@@ -22,7 +22,10 @@ class AttributeType extends AbstractType
             ])
             ->add('name' ,TextType::class,['required'=>true,'constraints' => [new LengthConstraint(5, 255)]])
             ->add('value',TextType::class,['required'=>true])
-            ->add('submit',SubmitType::class)
+            ->add('submit',SubmitType::class,[
+                'translation_domain' => 'button',
+                'label' => 'update'
+            ])
         ;
     }
 

@@ -6,6 +6,7 @@ use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Product>
  *
@@ -46,7 +47,16 @@ class ProductRepository extends ServiceEntityRepository
     {
         //PROBLEME AVEC DQL LIMIT ET OFFSET ajout de MediaUrl.is_main en bdd pour limité la sortie a 1 image
 
-        $dql = 'SELECT p.id ,p.name , pv.ext_reference , med.url_link , man.ext_id , pv.quantity ,cp.current_condition , pv.is_main
+        $dql = 'SELECT
+         p.id ,
+         p.name ,
+          pv.ext_reference ,
+           med.url_link ,
+            man.ext_id ,
+             pv.quantity ,
+             cp.current_condition ,
+              pv.is_main,
+              pv.price_tax_exclude
          FROM App\Entity\MediaUrl med 
          JOIN med.product_variation pv
          JOIN pv.product p 
@@ -61,13 +71,37 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
-//    public function findOneBySomeField($value): ?Product
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getProductById(int $id):Array
+    {
+        //SQL "SELECT * FROM product p  WHERE p.id = 1"
+        $dql = 'SELECT pv
+        FROM App\Entity\ProductVariation pv
+        JOIN pv.mediaUrls mu
+        WHERE pv.id = :id ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('id',$id);
+        return  $query->execute();
+    }
+
+    public function getProductsByids(array $ids):Array
+    {
+
+       $arrayInIds = array_map(function ($id){
+          return intval($id);
+    },$ids);
+
+        //SQL "SELECT * FROM product p  WHERE p.id IN :ids"
+        $dql = 'SELECT pv
+        FROM App\Entity\ProductVariation pv
+        JOIN pv.product p
+        JOIN pv.mediaUrls mu
+        WHERE p.id IN (:ids)';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('ids',$ids);
+        return  $query->execute();
+    }
+
+
 }
